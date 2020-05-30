@@ -1,0 +1,21 @@
+#!/bin/bash
+n=0
+for x in `cat input.txt`
+ do
+  m[$n]=$x
+  n=$[ $n + 1 ]
+ done
+echo number is $n
+for((i=0;i<$n;i++))
+ do
+  for((j=1;j<$n;j++))
+  do
+   if [[ ${m[$j]} -lt ${m[$[ $j - 1 ]]} ]]
+    then
+     t=${m[$j]}
+     m[$j]=${m[$[ $j - 1 ]]}
+     m[$[ $j - 1 ]]=$t
+   fi
+  done
+ done
+for x in ${m[*]} ; do echo $x ; done

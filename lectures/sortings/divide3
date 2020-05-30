@@ -1,0 +1,1 @@
+awk '{s=$0; gsub("[0-9]*  ","\n",s); print s}' Huuugefile.c 
