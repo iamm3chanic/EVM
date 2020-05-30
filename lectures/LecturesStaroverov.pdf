@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=windows-1251">
-<link rel="shortcut icon" href="https://vk.com/images/icons/favicons/fav_logo.ico?6"><link rel="stylesheet" type="text/css" href="%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D1%8D%D0%B2%D0%BC_files/common.css"><link rel="stylesheet" type="text/css" href="%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D1%8D%D0%B2%D0%BC_files/base.css"><link rel="stylesheet" type="text/css" href="%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D1%8D%D0%B2%D0%BC_files/fonts_utf.css"><link rel="stylesheet" type="text/css" href="%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D1%8D%D0%B2%D0%BC_files/fonts_cnt.css"><meta name="robots" content="noindex,nofollow"><title>Лекции по эвм.pdf</title>
+<link rel="shortcut icon" href="https://vk.com/images/icons/favicons/fav_logo.ico?6"><link rel="stylesheet" type="text/css" href="%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D1%8D%D0%B2%D0%BC_files/common.css"><link rel="stylesheet" type="text/css" href="%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D1%8D%D0%B2%D0%BC_files/base.css"><link rel="stylesheet" type="text/css" href="%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D1%8D%D0%B2%D0%BC_files/fonts_utf.css"><link rel="stylesheet" type="text/css" href="%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D1%8D%D0%B2%D0%BC_files/fonts_cnt.css"><meta name="robots" content="noindex,nofollow"><title>Г‹ГҐГЄГ¶ГЁГЁ ГЇГ® ГЅГўГ¬.pdf</title>
 <style>
 html, body {
   padding: 0px;
@@ -102,9 +102,9 @@ function imgZoom(obj) {
 <div class="docs_panel_wrap">
   <div class="docs_panel">
     <div class="clear_fix" style="padding: 10px 20px;">
-      <button class="flat_button fl_r" onclick="return saveDoc();">Сохранить документ на диск</button>
+      <button class="flat_button fl_r" onclick="return saveDoc();">Г‘Г®ГµГ°Г Г­ГЁГІГј Г¤Г®ГЄГіГ¬ГҐГ­ГІ Г­Г  Г¤ГЁГ±ГЄ</button>
       <div class="docs_info fl_r"></div>
-      <a class="docs_name fl_l" onclick="return saveDoc();"><b>Лекции по эвм.pdf</b></a>&nbsp;
+      <a class="docs_name fl_l" onclick="return saveDoc();"><b>Г‹ГҐГЄГ¶ГЁГЁ ГЇГ® ГЅГўГ¬.pdf</b></a>&nbsp;
     </div>
   </div>
 </div><iframe id="iframe" class="iframe" src="%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D1%8D%D0%B2%D0%BC_files/Lektsii_po_evm_002.pdf" width="100%" height="100%"></iframe>
