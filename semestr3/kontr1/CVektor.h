@@ -1,3 +1,4 @@
+
 /*
  * CVector.h
  * 8. Определить класс CVector для работы с вектором вещественных
@@ -8,8 +9,10 @@
  *      Created on: 08.09.2020
  *      Author: Anfisa
  */
+ #pragma once
 #include <iostream>
 #include <math.h>
+#include <string.h>
 #define DIMENSION 2
 using namespace std;
 //--------------------------------------------------------------
@@ -19,21 +22,22 @@ class CVektor
 {
 private:
     int n;                 //Размер вектора
-    float* ptrArr;     //Указатель на массив элементов
+    float ptrArr[DIMENSION];     //Указатель на массив элементов
 public:
+    CVektor (const CVektor&)= default;
     CVektor()         
-    {
-        //n = 3;
-        ptrArr = new float [DIMENSION];
+    { 
+        n = DIMENSION;
+        memset (ptrArr, 'x', DIMENSION);
+       // ptrArr = float [DIMENSION];
     }
     CVektor(int num)
     {
-        n = DIMENSION;
-        ptrArr = new float [DIMENSION];
-        cout << "!!! Конструктор отработал !!!" << endl;
+        n = num;
+        memset (ptrArr, 0, DIMENSION);
+       // ptrArr = float [num];
+       // cout << "!!! Конструктор отработал !!!" << endl;
     }
-    ~CVektor()
-    { delete [] ptrArr; cout << "!!! Деструктор отработал !!!" << endl;}
     void GetVektor()        //Задать вектор
     {
         //cout << "Введите размерность вектора: "; cin >> n;
@@ -43,70 +47,92 @@ public:
             cin >> *(ptrArr + i);
         }
     }
-    float ArrModul()        //Вычислить модуль
-    {
-        float modul = 0;
-        for (int i=0; i < n; i++ )
-            modul += *(ptrArr + i) *  *(ptrArr + i);
-        return sqrt (modul);
-    }
     void ShowVektor()       //Показать вектор
     {
+    //cout << n << endl;
+    if(n<=DIMENSION)
+    {
         cout << "Вектор {";
-        for (int i=0; i < DIMENSION; i++)
+        for (int i=0; i < n; i++)
         { 
-         if(i<DIMENSION-1)
+         if(i<n-1)
             cout << *(ptrArr + i) << ", ";
-         else
+         else //if(i == n-1)
             cout << *(ptrArr + i);
         }    
         cout << "}\n";
- 
+     }
+     else
+        cout << "Вектор имеет слишком большую размерность!\n";
     }
-    CVektor operator= (CVektor v)
+    CVektor& operator=(const CVektor& v)
     {
+         n=v.n;
         for (int i=0; i < n; i++ )
-            *(ptrArr + i) = *(v.ptrArr + i);
+            { (ptrArr[i]) = (v.ptrArr[i]); }
         return *this;
     }
-
-    friend float Skalar   (CVektor* , CVektor*);  //Склярное произведение
- 
-    friend CVektor Kommutativ(CVektor* , CVektor* );//Сложение векторов
-    friend CVektor Netativ   (CVektor* , CVektor* );//ВЫчитание векторов
-};
-
-CVektor Kommutativ(CVektor* vector1, CVektor* vector2)
-{
-    CVektor temp;
-    
-    *(temp.ptrArr)=0;
-    for (int i=0; i < vector1->n; i++ )
-      *(temp.ptrArr + i) = *((vector1)->ptrArr + i) + *((vector2)->ptrArr + i);
-      cout << "Сумма - ";
-      temp.ShowVektor();
+    CVektor operator+(const CVektor &v) 
+    {
+     CVektor r;
+     if(n==v.n)
+     {
+     r.n=v.n;
+     for (int i=0; i < r.n; i++ ) {
+        r.ptrArr[i]= v.ptrArr[i]+ptrArr[i];
+        }
+     return r;
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
    
-    //(temp.ptrArr[i]) = (vector1->ptrArr[i]) +  (vector2->ptrArr[i]);
-    return temp;
-}
-CVektor Netativ(CVektor* vector1, CVektor* vector2)
-{
-    CVektor temp;
-    
-    *(temp.ptrArr)=0;
-    for (int i=0; i < DIMENSION; i++ )
-        *(temp.ptrArr + i) = *((vector1)->ptrArr + i) - *(vector2->ptrArr + i);
-        cout << "Разность - ";
-        temp.ShowVektor();
-    return temp;
-}
-float Skalar (CVektor* vector1, CVektor* vector2)
-{
-    static float temp;
-    temp = 0;
-    for (int i=0; i < (*vector1).n; i++ )
-        temp += *(vector1->ptrArr + i) * *(vector2->ptrArr + i);
-    return temp;
-}
+    //return r;
+    }
+    }
+    CVektor operator-(const CVektor &v) 
+    {
+     CVektor r;
+     if(n==v.n)
+     {
+     r.n=v.n;
+     for (int i=0; i < r.n; i++ ) {
+        r.ptrArr[i]= ptrArr[i]- v.ptrArr[i];
+        }
+     return r;
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+    }
+    float operator *(const CVektor &v)
+    {
+      float r;
+     //n=v.n;
+     if(n==v.n)
+     {
+     for (int i=0; i < v.n; i++ ) {
+        r += v.ptrArr[i]*ptrArr[i];
+        }
+     return r;
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+   
+    }
+    }
+
+    friend float Skalar   (const CVektor& , const CVektor&);  //Склярное произведение
+    friend CVektor Kommutativ(const CVektor& , const CVektor& );//Сложение векторов
+    friend CVektor Netativ   (const CVektor& , const CVektor& );//Вычитание векторов
+    friend int NReader();       
+    friend ostream &operator <<(ostream &cout, const CVektor& v);                
+};  
 
 
+int NReader();  
