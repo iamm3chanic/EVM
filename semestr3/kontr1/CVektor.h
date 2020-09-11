@@ -28,13 +28,13 @@ public:
     CVektor()         
     { 
         n = DIMENSION;
-        memset (ptrArr, 'x', DIMENSION);
+        memset (ptrArr, 'x', n);
        // ptrArr = float [DIMENSION];
     }
     CVektor(int num)
     {
         n = num;
-        memset (ptrArr, 0, DIMENSION);
+        memset (ptrArr, 0, n);
        // ptrArr = float [num];
        // cout << "!!! Конструктор отработал !!!" << endl;
     }
@@ -131,7 +131,8 @@ public:
     friend CVektor Kommutativ(const CVektor& , const CVektor& );//Сложение векторов
     friend CVektor Netativ   (const CVektor& , const CVektor& );//Вычитание векторов
     friend int NReader();       
-    friend ostream &operator <<(ostream &cout, const CVektor& v);                
+    friend ostream &operator <<(ostream &cout, const CVektor& v);  
+    friend istream &operator >>(istream &cin, const CVektor& v);               
 };  
 
 

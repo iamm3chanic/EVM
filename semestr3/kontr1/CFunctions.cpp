@@ -1,6 +1,6 @@
 #include<iostream>
 #include"CVektor.h"
-
+using namespace std;
 
 CVektor Kommutativ(const CVektor& vector1, const CVektor& vector2)
 {
@@ -66,7 +66,33 @@ float Skalar (const CVektor& vector1, const CVektor& vector2)
     }
 }
 ostream &operator <<(ostream &cout, const CVektor& v) 
-{for(int i = 0; i<v.n; i++) cout<<v.ptrArr[i]; return cout;}
+{
+ if(v.n<=DIMENSION)
+    {
+        cout << "Вектор {";
+        for (int i=0; i < v.n; i++)
+        { 
+         if(i<v.n-1)
+            cout << v.ptrArr[i]  << ", ";
+         else //if(i == v.n-1)
+            cout << v.ptrArr[i]; 
+        }    
+        cout << "}\n";
+     }
+     else
+        cout << "Вектор имеет слишком большую размерность!\n";
+
+return cout;
+}
+istream &operator >>(istream &cin , const CVektor &v) 
+{
+ for (int i=0; i < v.n; i++ )
+        {
+            cout << "Введите элемент вектора № " << i << ": ";
+            cin >> v.ptrArr[i]; 
+        }
+return cin;
+}
 int NReader()
     {
       int n;

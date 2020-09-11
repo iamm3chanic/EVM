@@ -182,8 +182,8 @@ int main()
     u.ShowVektor(); 
     Skalar(v1, v2);
     sc= (v1)*(v2);
+   // cout << "Скалярное произведение  = " << (v1)*(v2) <<  endl;
     cout << "Скалярное произведение  = " << sc <<  endl;
- 
     } catch(int err) {cout << "error=" <<err<<endl;}
      try {
     cout << "test9\n";
