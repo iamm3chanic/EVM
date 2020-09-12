@@ -1,1 +1,3 @@
-prog
+Main.o
+CFunctions.o
+m
