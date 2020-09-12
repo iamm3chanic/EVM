@@ -7,7 +7,7 @@
  * жения, вычитания, скалярного умножения.
  * В отдельном файле должен быть написан тест на данный класс.
  *      Created on: 08.09.2020
- *      Author: Anfisa
+ *      Author: iamm3chanic
  */
  #pragma once
 #include <iostream>
