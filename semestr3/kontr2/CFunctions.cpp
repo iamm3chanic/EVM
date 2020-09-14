@@ -1,8 +1,98 @@
-
+/*
+ * CFunctions.cpp
+ * 8 . Определить класс CVector для работы с вектором вещественных
+ * исел. Длина вектора задается в конструкторе класса. В классе долж-
+ * ны быть определены необходимые конструкторы, деструктор, операторы
+ * присваивания, сложения, вычитания, скалярного умножения.
+ * В отдельном файле должен быть написан тест на данный класс.
+ *      Created on: 14.09.2020
+ *      Author: iamm3chanic
+ */
 #include<iostream>
 #include"CVektor.h"
 
+//////////////////CLASS METHODS///////////////////////////
+void CVektor::GetVektor()        //Задать вектор
+    {
+        //cout << "Введите размерность вектора: "; cin >> n;
+        for (int i=0; i < n; i++ )
+        {
+            cout << "Введите элемент вектора № " << i << ": ";
+            cin >> ptrArr[i];
+        }
+    }
+void CVektor::ShowVektor()       //Показать вектор
+    {
+        cout << "Вектор {";
+        for (int i=0; i < n; i++)
+        {  
+         if(i<n-1)
+            cout << ptrArr[i] << ", ";
+         else
+            cout << ptrArr[i];
+        }    
+        cout << "}\n";
+    }
+CVektor& CVektor::operator=(const CVektor& v)
+    {
+         n=v.n;
+        for (int i=0; i < n; i++ )
+            { (ptrArr[i]) = (v.ptrArr[i]); }
+        return *this;
+    }
+CVektor CVektor::operator+(const CVektor &v) 
+    {
+     CVektor r;
+     if(n==v.n)
+     {
+     r.n=v.n;
+     for (int i=0; i < r.n; i++ ) {
+        r.ptrArr[i]= v.ptrArr[i]+ptrArr[i];
+        }
+     return r;
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+    }
+CVektor CVektor::operator-(const CVektor &v) 
+    {
+     CVektor r;
+     if(n==v.n)
+     {
+     r.n=v.n;
+     for (int i=0; i < r.n; i++ ) {
+        r.ptrArr[i]= ptrArr[i]- v.ptrArr[i];
+        }
+     return r;
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+    }
+float CVektor::operator *(const CVektor &v)
+    {
+      float r=0;
+     //n=v.n;
+     if(n==v.n)
+     {
+     for (int i=0; i < v.n; i++ ) {
+        r += v.ptrArr[i]*ptrArr[i];
+        }
+     return r;
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+    }
 
+//////////////////FRIEND FUNCTIONS////////////////////////
 CVektor Kommutativ( CVektor& vector1, CVektor& vector2)
 {
     CVektor temp;
