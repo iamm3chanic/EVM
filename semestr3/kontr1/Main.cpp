@@ -1,230 +1,158 @@
-/* 
+/*
  * Main.cpp
- * 8. Определить класс CVector для работы с вектором вещественных
- * чисел. Длина вектора задается с помощью оператора #define. В классе
- * должны быть определены необходимые конструкторы, операторы сло-
- * жения, вычитания, скалярного умножения.
+ * 8 . Определить класс CVector для работы с вектором вещественных
+ * исел. Длина вектора задается в конструкторе класса. В классе долж-
+ * ны быть определены необходимые конструкторы, деструктор, операторы
+ * присваивания, сложения, вычитания, скалярного умножения.
  * В отдельном файле должен быть написан тест на данный класс.
- *      Created on: 08.09.2020
+ *      Created on: 14.09.2020
  *      Author: iamm3chanic
  */
 #include <iostream>
 #include "CVektor.h"
 
 using namespace std;
+int NReader()
+    {
+      int n;
+      cout << "Введите размерность: ";
+      cin >> n;
+      return n;
+    } 
+
 int main()
 {
-  /* try {
-     cout << "test1\n";
-    CVektor v1(DIMENSION), v2(DIMENSION), sum(DIMENSION), dif(DIMENSION); 
+ try {
+  cout << "test1. all functions, fix dimension\n";
+    int n;
+    CVektor v1, v2, sum, dif;
+    n = NReader();
+   //n=2;
+   // cout << n << endl;
+    v1.setN(n);
+    v2.setN(n);
+    sum.setN(n);
+    dif.setN(n);
+   // CVektor v1(n), v2(n), sum(n), dif(n);
+    cout << "Вектор 1 : ";
     v1.GetVektor();
+    cout << "Вектор 2 : ";
     v2.GetVektor();
-    cout << "Скалярное произведение: " << Skalar(v1, v2) << endl;
+ 
     v1.ShowVektor();
     v2.ShowVektor();
   
-    Kommutativ(v1, v2);
-    Netativ(v1, v2);
-
-    } catch(int err) {cout << "error=" <<err<<endl;}
-   try {
-    cout << "test2\n";
-    CVektor v1(DIMENSION), v2(DIMENSION), sum(), dif(); 
-    v1.GetVektor();
-    v2.GetVektor();
-    cout << "Скалярное произведение: " << Skalar(v1, v2) << endl;
-    v1.ShowVektor();
-    v2.ShowVektor();
-  
+    Skalar(v1, v2);
     Kommutativ(v1, v2);
     Netativ(v1, v2);
 
     } catch(int err) {cout << "error=" <<err<<endl;}
     try {
-    cout << "test3\n";
+    cout << "test2. operators cin, cout\n";
     int n;
-    n=NReader();
-    CVektor v1(n), v2(n), sum(n), dif(n); 
-    v1.GetVektor();
-    v2.GetVektor();
-    cout << "Скалярное произведение: " << Skalar(v1, v2) << endl;
-    v1.ShowVektor();
-    v2.ShowVektor();
+    CVektor v1, v2, sum, dif;
+    n = NReader();
+   //n=2;
+   // cout << n << endl;
+    v1.setN(n);
+    v2.setN(n);
+    sum.setN(n);
+    dif.setN(n);
+   // CVektor v1(n), v2(n), sum(n), dif(n);
+    cout << "Вектор 1 : ";
+    //v1.GetVektor();
+    cin >> v1;
+    cout << "Вектор 2 : ";
+    //v2.GetVektor();
+    cin >> v2;
+ 
+    //v1.ShowVektor();
+    cout << v1;
+    //v2.ShowVektor();
+    cout << v2;
   
+    Skalar(v1, v2);
     Kommutativ(v1, v2);
     Netativ(v1, v2);
 
-    } catch(int err) {cout << "error=" <<err<<endl;}*/
-    /*try {
-    cout << "test4\n";
-    int n1,n2;
-    cout << "Вектор 1 - : ";
-    n1=NReader();
-    cout << "Вектор 2 - : ";
-    n2=NReader();
-    CVektor v1(n1), v2(n2); 
-    cout << "Вектор 1 - : \n";
-    v1.GetVektor();
-    cout << "Вектор 2 - : \n"; 
-    v2.GetVektor();            
-   
-    v1.ShowVektor();
-    v2.ShowVektor();
-  
-    Kommutativ(v1, v2);
-    Netativ(v1, v2);
-    Skalar(v1, v2);
-    
-    } catch(int err) {cout << "error=" <<err<<endl;}*/
-    /*try {
-    cout << "test5\n";
-    int n2;
-    //cout << "Вектор 1 - : ";
-    //n1=NReader();
-    cout << "Вектор 2 - : ";
-    n2=NReader();
-    CVektor v1, v2(n2); 
-    cout << "Вектор 1 - : \n";
-   //  cout << v1.getN();
-    v1.GetVektor();
-    cout << "Вектор 2 - : \n";
-    v2.GetVektor();
-   
-    v1.ShowVektor();
-    v2.ShowVektor();
-  
-    Kommutativ(v1, v2);
-    Netativ(v1, v2);
-    Skalar(v1, v2);
-    
-    } catch(int err) {cout << "error=" <<err<<endl;}*/
-    /*try {
-    cout << "test6\n";
+    } catch(int err) {cout << "error=" <<err<<endl;}
+    try {
+    cout << "test3. operators +,-,*\n";
+    int n;
+    CVektor v1, v2, sum, dif;
+    n = NReader();
+   //n=2;
+   // cout << n << endl;
+    v1.setN(n);
+    v2.setN(n);
+    sum.setN(n);
+    dif.setN(n);
+    cout << "Вектор 1 : ";
+    cin >> v1;
+    cout << "Вектор 2 : ";
+    cin >> v2;
  
-    //n2=NReader();
-    CVektor v1, v2, w, u; 
-    float sc;
-    v1=CVektor();
-    v2=CVektor();
-    cout << "Вектор 1 - : \n";
-   //  cout << v1.getN();
-    v1.GetVektor();
-    cout << "Вектор 2 - : \n";
-    v2.GetVektor();
-   
-    v1.ShowVektor();
-    v2.ShowVektor();
-  
-   // Kommutativ(v1, v2);
-    w=(v1+v2);
-    cout << "Сумма     = ";  
-    w.ShowVektor();
-    //Netativ(&v1, &v2);
-    u=(v1-v2);
-    cout << "Разность  = "; 
-    u.ShowVektor(); 
-    //Skalar(v1, v2);
-    sc= (v1)*(v2);
-    cout << "Скалярное произведение  = " << sc <<  endl;
-  
-    } catch(int err) {cout << "error=" <<err<<endl;}*/
-    /* try {
-    cout << "test7\n";
-    int n2;
-    //cout << "Вектор 1 - : ";
-    //n1=NReader();
-    cout << "Вектор 2 - : ";
-    n2=NReader();
-    CVektor v1, v2, w, u; 
-    float sc;
-    v1=CVektor();
-    v2=CVektor(n2);
-    cout << "Вектор 1 - : \n";
-   //  cout << v1.getN();
-    v1.GetVektor();
-    cout << "Вектор 2 - : \n";
-    v2.GetVektor();
-   
-    v1.ShowVektor();
-    v2.ShowVektor();
-  
-   // Kommutativ(v1, v2);
-    w=(v1+v2);
-    cout << "Сумма     = ";  
-    w.ShowVektor();
-    //Netativ(&v1, &v2);
-    u=(v1-v2);
-    cout << "Разность  = "; 
-    u.ShowVektor(); 
-    //Skalar(v1, v2);
-    sc= (v1)*(v2);
-    cout << "Скалярное произведение  = " << sc <<  endl;
+    cout << v1;
+    cout << v2;
     
-    } catch(int err) {cout << "error=" <<err<<endl;}*/
-     try {
-    cout << "test8\n";
-    int n1,n2;    
-    float sc;
-    CVektor v1, v2, w, u; 
-    
-    cout << "Вектор 1 - : ";    
-    n1=NReader();
-    v1=CVektor(n1);
-    cout << "Вектор 1 - : \n";
+    sum=v1+v2;
+    dif=v1-v2;
+    cout << "Скалярное произведение = " << v1*v2 << endl;
+    cout << "Сумма    = " << sum ;
+    cout << "Разность = " << dif ;
+
+    } catch(int err) {cout << "error=" <<err<<endl;}
+    try {
+    cout << "test4. functions&operators in different dimensions\n";
+    int n1,n2;
+    CVektor v1, v2, sum, dif;
+    cout << "Вектор 1 : ";
+    n1 = NReader();
+    v1.setN(n1);
     v1.GetVektor();
-    cout << "Вектор 2 - : ";   
-    n2=NReader();
-    v2=CVektor(n2);   
-    cout << "Вектор 2 - : \n";
-    v2.GetVektor();
-   
-    v1.ShowVektor();
+    
+    cout << "Вектор 2 : ";
+    n2 = NReader();
+    v2.setN(n2);
+    cin >> v2;
+   // sum.setN(n1);
+   // dif.setN(n1);
+ 
+    cout << v1;
     v2.ShowVektor();
-  
-    Kommutativ(v1, v2);
-    w=(v1+v2);
-    cout << "Сумма     = ";  
-    w.ShowVektor();
-    Netativ(v1, v2);
-    u=(v1-v2);
-    cout << "Разность  = "; 
-    u.ShowVektor(); 
+    
+    sum=v1+v2;
+    dif=v1-v2;
+    cout << "Скалярное произведение = " << v1*v2 << endl;
+    cout << "Сумма    = " << sum ;
+    cout << "Разность = " << dif ;
     Skalar(v1, v2);
-    sc= (v1)*(v2);
-   // cout << "Скалярное произведение  = " << (v1)*(v2) <<  endl;
-    cout << "Скалярное произведение  = " << sc <<  endl;
+    Kommutativ(v1, v2);
+    Netativ(v1, v2);
     } catch(int err) {cout << "error=" <<err<<endl;}
-     try {
-    cout << "test9\n";
-    int n1,n2;    
-    float sc;
-    CVektor v1, v2, w, u; 
+    try {
+    cout << "test5. operators in different dimensions\n";
+    int n1,n2;
+    CVektor v1, v2, sum, dif;
+    cout << "Вектор 1 : ";
+    n1 = NReader();
+    v1.setN(n1);
+    cin >> v1;
     
-    cout << "Вектор 1 - : ";
-    n1=NReader();
-    v1=CVektor(n1);
-    cout << "Вектор 1 - : \n";
-    v1.GetVektor();
-    cout << "Вектор 2 - : ";   
-    n2=NReader();
-    v2=CVektor(n2);   
-    cout << "Вектор 2 - : \n";
-    v2.GetVektor();
-   
-    v1.ShowVektor();
-    v2.ShowVektor();
-  
-   // Kommutativ(v1, v2);
-    w=(v1+v2);
-    cout << "Сумма     = ";  
-    w.ShowVektor();
-    //Netativ(v1, v2);
-    u=(v1-v2);
-    cout << "Разность  = "; 
-    u.ShowVektor(); 
-    //Skalar(v1, v2);
-    sc= (v1)*(v2);
-    cout << "Скалярное произведение  = " << sc <<  endl;
-    return 0;
+    cout << "Вектор 2 : ";
+    n2 = NReader();
+    v2.setN(n2);
+    cin >> v2;
+ 
+    cout << v1;
+    cout << v2;
+    
+    sum=v1+v2;
+    dif=v1-v2;
+    cout << "Скалярное произведение = " << v1*v2 << endl;
+    cout << "Сумма    = " << sum ;
+    cout << "Разность = " << dif ;
+
     } catch(int err) {cout << "error=" <<err<<endl;}
+        return 0;
 }
