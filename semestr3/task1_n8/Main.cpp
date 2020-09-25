@@ -14,6 +14,9 @@ int main()
   cout << "\ntest1. Add arrays\n";
    // int n,m;
    CDynamic dyn=CDynamic(3);
+   Arr a;
+    //cin >> a;
+    //cout << a; //works super!
     cin >> dyn;
     cout << dyn;
     //CList1<float[5]> list;

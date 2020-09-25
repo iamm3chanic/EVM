@@ -78,12 +78,3 @@ class CDynamic
     friend istream &operator>>(istream& /*&cin*/, CDynamic& );
   };
   
-  /*CDynamic operator+(const CDynamic &v);
-    CDynamic operator-(const CDynamic &v);
-    double operator *(const CDynamic &v);
-
-    friend double Skalar   (CDynamic& , CDynamic&);  //Склярное произведение
-
-    friend CDynamic Kommutativ(const CDynamic& , const CDynamic& );//Сложение векторов
-    friend CDynamic Netativ   (const CDynamic& , const CDynamic& );//Вычитание векторов
-    friend int NReader();*/

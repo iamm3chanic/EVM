@@ -9,6 +9,8 @@
 #include "CDynamic.h"
 using namespace std;
 //////////////////CLASS METHODS///////////////////////////
+
+/////CDynamic
 void CDynamic::AddArr(Arr a)        
     {
      double arr[]={1,2,3};
@@ -48,7 +50,42 @@ CDynamic& CDynamic::operator=(const CDynamic& v)
         {Clean(); CopyOnly(v);}
         return *this;
     }*/
+    
+////////////CTmpArr
+CTmpArr::operator double()
+{if(i>=0&&i<v->n)return v->v[i];return 0;}
 
+CTmpArr &CTmpArr::operator=(const double &b)
+{
+if(i>=0)
+{
+if(i>=v->n)
+{int n2=(v->n+1)*2; double *w=new double[n2]; memset(w,0,sizeof(double)*n2); 
+memcpy(w,v->v,v->n*sizeof(double)); 
+delete[] v->v; v->v=w; v->n=n2;
+}
+if(v->nreal<i+1) {v->nreal=i+1;} v->v[i]=b;
+}
+return *this;
+}
+
+////////////CTmpList ПЕРЕДЕЛАТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+CTmpList::operator double()
+{if(i>=0&&i<v->n)return v->v[i];return 0;}
+
+CTmpList &CTmpList::operator=(const double &b)
+{
+if(i>=0)
+{
+if(i>=v->n)
+{int n2=(v->n+1)*2; double *w=new double[n2]; memset(w,0,sizeof(double)*n2); 
+memcpy(w,v->v,v->n*sizeof(double)); 
+delete[] v->v; v->v=w; v->n=n2;
+}
+if(v->nreal<i+1) {v->nreal=i+1;} v->v[i]=b;
+}
+return *this;
+}
 //////////////////FRIEND FUNCTIONS////////////////////////
 
 ostream &operator<<(ostream& cout, CDynamic &v) 
@@ -77,8 +114,20 @@ istream &operator>>(istream& cin , CDynamic &v)
 return cin;
 }
 
-ostream& operator<<(ostream& cout, Arr& a){for(int i=0;i<5;i++){cout<<a[i]<<" ";}return cout;} 
-istream& operator>>(istream& cin, Arr& a){a[0]=0;return cin;}
+ostream& operator<<(ostream& cout, Arr& a)
+{for(int i=0;i<5;i++){cout<<a[i]<<" ";} cout<<endl; return cout;} 
+
+
+istream& operator>>(istream& cin, Arr& a)
+{
+double p;
+for(int i=0;i<5;i++)
+ {
+        cout << "Введите элемент массива Arr № " << (i+1) << ": ";
+        cin >> p; a[i]=p;     //v.arrList[i];
+ }
+ return cin;
+}
 /*void SortUp(CDynamic& dyn)
 {
 if(dyn.getList().IsEmpty())){cout << "empty list\n"}
