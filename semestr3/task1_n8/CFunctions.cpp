@@ -69,23 +69,29 @@ if(v->nreal<i+1) {v->nreal=i+1;} v->v[i]=b;
 return *this;
 }
 
-////////////CTmpList ПЕРЕДЕЛАТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-CTmpList::operator double()
-{if(i>=0&&i<v->n)return v->v[i];return 0;}
+////////////CTmpList ПЕРЕДЕЛАТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!CListNode<T> t,*cur
+/*CTmpList::operator Arr()
+{if(i>=0&&i<n)return v->GetCur();return NULL;}
 
-CTmpList &CTmpList::operator=(const double &b)
+CTmpList &CTmpList::operator=( Arr &v)
 {
+int n=v.GetN();
+//Arr a; 
+//a.setArr(b.getArr());
+//a[0]=b.v[0];
 if(i>=0)
 {
-if(i>=v->n)
-{int n2=(v->n+1)*2; double *w=new double[n2]; memset(w,0,sizeof(double)*n2); 
-memcpy(w,v->v,v->n*sizeof(double)); 
-delete[] v->v; v->v=w; v->n=n2;
+if(i>=n)
+{int n2=n+5; Arr *w=new Arr[n2]; memset(w,0,sizeof(Arr)*n2)
+double array[]={1,2,3,4,5};
+w->setArr(array); 
+memcpy(w,v.getArr(), v.GetN()*sizeof(Arr));
+//////////Clean();  ///////////////
 }
-if(v->nreal<i+1) {v->nreal=i+1;} v->v[i]=b;
-}
+//if(v->nreal<i+1) {v->nreal=i+1;} v->v[i]=b;
+}//
 return *this;
-}
+}*/
 //////////////////FRIEND FUNCTIONS////////////////////////
 
 ostream &operator<<(ostream& cout, CDynamic &v) 
@@ -104,12 +110,22 @@ return cout;
 }
 istream &operator>>(istream& cin , CDynamic &v) 
 {
- for (int i=0,p; i < v.getM()*5; i++ ) 
+int i,j;
+double input; double tmp[5];
+Arr tmpArr;
+ for (i=0; i < v.getM()*5; i++ ) 
         {
-            cout << "Введите элемент массива № " << (i+1) << ": ";
-            cin >> p;      //v.arrList[i];
-            //cout<<v.arrList[i/5]<<endl;
-            v.arrList[i/5][(i%5)]=p;
+            for (j=0; j < 5; j++ )
+            {cout << "Введите элемент массива № " << (i+1) << ": ";
+            cin >> input; 
+            tmp[j]=input;}
+            v.arrList.GoToBegin();   
+             for (j=0; j < i; j++ )          
+            v.arrList.GoToNext();
+           // for (k=0; k < i; k++ ) 
+            tmpArr.setArr(tmp);
+            v.arrList.AddAfter(tmpArr);
+          //  v.arrList[i/5][(i%5)]=p; //DEAL????????
         }
 return cin;
 }

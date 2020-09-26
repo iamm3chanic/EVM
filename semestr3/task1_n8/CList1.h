@@ -29,18 +29,20 @@ CTmpArr &operator=(const double &b);
 class Arr
 {
 private:
-  int n,nreal;double *v; 
+  int n=5,nreal=0;double *v; 
   //double arr[5];
 public:
   Arr(){SetZero();}
   Arr(const Arr&b){CopyOnly(b);}
   ~Arr(){Clean();}
+  int GetN(){return n;}
   Arr &operator=(const Arr&b){if(this!=&b){Clean();CopyOnly(b);}return *this;} 
   void Clean(){delete[] v; SetZero();} 
   void SetZero(){v=NULL;n=0;nreal=0;}
   void CopyOnly(const Arr &b){if(this!=&b){memcpy(v=new double[n=b.n],b.v, b.n*sizeof(double));nreal=b.nreal;}} 
   CTmpArr operator[](int i){CTmpArr t(this,i);return t;} 
  // double& operator[](int index) {return arr[index];}
+  double* getArr() {return v;}
   void setArr(double* array)  { //edit
             int i;
             for (i=0;i<5;i++)
@@ -52,21 +54,6 @@ public:
   friend class CTmpArr;
 };
 
-/*class CVector {int n,nreal;int *v; 
-public:
-CVector(){SetZero();}
-CVector(const CVector&b){CopyOnly(b);}
-~CVector(){Clean();}
-CVector &operator=(const CVector&b){if(this!=&b){Clean();CopyOnly(b);}return *this;} 
-void Clean(){delete[] v; SetZero();} 
-void SetZero(){v=NULL;n=0;nreal=0;}
-void CopyOnly(const CVector &b){if(this!=&b){memcpy(v=new int[n=b.n],b.v, b.n*sizeof(int));nreal=b.nreal;}} 
-CTmp operator[](int i){CTmp t(this,i);return t;} 
-friend class CTmp;
-CVector &operator,(const int x){operator[](nreal)=x;cout<<"nreal="<<nreal<<endl;return *this;}
-};*/
-
-
 
 
  template<class T> class CListNode 
@@ -76,24 +63,35 @@ CListNode<T> *next;
 T v;
 CListNode(){next=NULL;}
 };
+
+
+
 //==========================================
 template<class T> class CList1;
-class CTmpList
+/*class CTmpList
 {
-Arr *v;int i; 
+CList1<Arr> *v;int i; 
 public:
-CTmpList(T *v,int i){this->v=v;this->i=i;} 
-operator double();
-CTmpList &operator=(const double &b);
-};
+CTmpList(CList1<Arr> *v,int i){this->v=v;this->i=i;} 
+//void Clean(){v->Clean();}
+operator Arr();
+CTmpList &operator=( Arr &b);
+};*/
 //==========================================
+
+
+
+
+
  template<class T> class CList1
 {
-CListNode<T> t,*cur; CListNode<Arr> a,*acur;
+CListNode<T> t,*cur; CListNode<Arr> a,*acur; 
 public:
-CTmpList operator[](int i){CTmpList l(this,i);return l;} 
+
+//CTmpList operator[](int i){CTmpList l(this,i);return l;} 
   
 CList1(){cur=&t;}
+CList1(int num){for(int i;i<num;i++){GoToNext();}; cur=&t;}
 ~CList1(){Clean();}
 int IsEmpty(){return t.next==NULL;}
 void Clean(){GoToBegin(); while(!IsEmpty())DelNext();}
@@ -105,13 +103,13 @@ int GetLength(){int r=0; GoToBegin(); for (r=0;(GoToNext()==0);r++) {}; return r
 
 int GoToNext(){if(cur->next==NULL)return -1; cur=cur->next; return 0;}
 void AddAfter(const T&x){CListNode<T> *p=new CListNode<T>; p->v=x; p->next=cur->next; cur->next=p; }
-//T& operator[](const int& i) { for (int r=0;r<i;r++) if(GoToNext()) throw -1;  return GetCur();}
+T& operator[](const int& i) { for (int r=0;r<i;r++) if(GoToNext()) throw -1;  return GetCur();}
 //Arr& operator[](const int& i) { for (int r=0;r<i;r++) if(GoToNext()) throw -1;  return GetCur();}
 void Show(){ CList1<Arr> a; for(int i=0; i<GetLength();i++) cout<<a[i]<<" ";}
 
 template <class> friend ostream &operator<<(ostream& cout, CList1<T>& );
 template <class> friend istream &operator>>(istream& /*&cin*/, CList1<T>& );
-
+ friend class CTmpList;
 };
 template <class T> ostream &operator<<(ostream& cout, CList1<T>& t) {t.Show(); return cout;}
 template <class T> istream &operator>>(istream& cin, CList1<T>& t) { return cin; }

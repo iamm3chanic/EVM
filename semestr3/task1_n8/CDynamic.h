@@ -30,6 +30,7 @@
  *      Author: queen
  */
 #pragma once
+#define FIVE 5
 #include <iostream>
 #include <math.h>
 #include <string.h>
@@ -44,13 +45,14 @@ using namespace std;
 class CDynamic
  {
    private:
-    int n=5;                 //Размер начального массива
+    int n=FIVE;                 //Размер начального массива
     int m=1;             //Количество массивов всего
+    int n_real=0;
     CList1<Arr> arrList;
    public:
     CDynamic (const CDynamic&v) {CopyOnly(v);}
     CDynamic()      { SetZero(); }
-    CDynamic(int num)   { m = num/5 +1; }
+    CDynamic(int num)   { m = num/5 +1; n_real=(m-1)*5+(num%5); arrList= CList1<Arr>(m);}
     ~CDynamic()    { /*Clean();*/ }
 
     CDynamic ( CDynamic && ) = default; 	//move constructor
