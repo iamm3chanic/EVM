@@ -12,9 +12,15 @@ int main()
 {
  
   cout << "\ntest1. Add arrays\n";
-   // int n,m;
-   CDynamic dyn=CDynamic(3);
+   int nreal;
+  // CDynamic dyn=CDynamic(3);
    Arr a;
+   CDynamic dyn;
+   cout << "Введите размер массива: " ;
+   cin >> nreal;
+   dyn.setLength(nreal);
+   
+   //dyn.setLength(1);
     //cin >> a;
     //cout << a; //works super!
     cin >> dyn;

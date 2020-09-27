@@ -23,6 +23,10 @@ void CDynamic::CopyOnly(const CDynamic &v)
      //{memcpy(&arrList, &v.arrList, v.m*sizeof(double)); 
      arrList=v.arrList;
     }
+void CDynamic::SetCheat(double *a)
+    {
+     cheatArr.setArr(a);
+    }
 void CDynamic::InputTo(int pos, double d)      
     {
       pos=0;d=0;
@@ -97,9 +101,9 @@ return *this;
 ostream &operator<<(ostream& cout, CDynamic &v) 
 {
    cout << "Массив {";
-     for (int i=0; i < v.getM()*5; i++)
+     for (int i=0; i < v.getM(); i++)
      { 
-     if(i<v.getM()*5-1)
+     if(i<v.getM()-1)
        cout << v.getList()  << ", ";
      else 
         cout << v.getList() ; //[i]?
@@ -110,13 +114,23 @@ return cout;
 }
 istream &operator>>(istream& cin , CDynamic &v) 
 {
-int i,j;
-double input; double tmp[5];
-Arr tmpArr;
- for (i=0; i < v.getM()*5; i++ ) 
+int i; double tmp[100]; double t;
+   for (i=0; i < v.getLength(); i++ ) 
         {
-            for (j=0; j < 5; j++ )
-            {cout << "Введите элемент массива № " << (i+1) << ": ";
+         cin >> t;
+         tmp[i]=t;
+        }
+        v.SetCheat(tmp);
+/*int i,j;
+double input; double tmp[5];
+Arr tmpArr=Arr();
+
+ for (i=0; i < v.getM(); i++ ) 
+        {
+        
+        //cin >> v.arrList;
+           for (j=0; j < 5; j++ )
+            {cout << "Введите элемент списка № " << (i+1) << " массива  №" << (j+1) <<": ";
             cin >> input; 
             tmp[j]=input;}
             v.arrList.GoToBegin();   
@@ -126,7 +140,7 @@ Arr tmpArr;
             tmpArr.setArr(tmp);
             v.arrList.AddAfter(tmpArr);
           //  v.arrList[i/5][(i%5)]=p; //DEAL????????
-        }
+        }*/
 return cin;
 }
 
@@ -144,6 +158,23 @@ for(int i=0;i<5;i++)
  }
  return cin;
 }
+
+/*istream& operator>>(istream& cin, double *a)
+{
+double p;
+for(int i=0;i<5;i++)
+ {
+        cout << "Введите элемент массива Arr № " << (i+1) << ": ";
+        cin >> p; a[i]=p;     //v.arrList[i];
+ }
+ return cin;
+}*/
+
+istream &operator>>(istream& cin, CList1<Arr>& a)
+{ Arr b; cout<<"here";
+for(int i=0; i<a.GetLength();i++) 
+{cout<<"here"; cin >> b; a[i]=b;}
+return cin; }
 /*void SortUp(CDynamic& dyn)
 {
 if(dyn.getList().IsEmpty())){cout << "empty list\n"}

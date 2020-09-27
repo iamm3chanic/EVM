@@ -44,9 +44,9 @@ public:
  // double& operator[](int index) {return arr[index];}
   double* getArr() {return v;}
   void setArr(double* array)  { //edit
-            int i;
+            int i;           
             for (i=0;i<5;i++)
-            {v[i]=array[i];}
+            {v= array;}
             //???????
             }
   friend ostream& operator<<(ostream& cout, Arr& a);
@@ -91,7 +91,7 @@ public:
 //CTmpList operator[](int i){CTmpList l(this,i);return l;} 
   
 CList1(){cur=&t;}
-CList1(int num){for(int i;i<num;i++){GoToNext();}; cur=&t;}
+CList1(int num){for(int i=0;i<num;i++){GoToNext();}; cur=&t;}
 ~CList1(){Clean();}
 int IsEmpty(){return t.next==NULL;}
 void Clean(){GoToBegin(); while(!IsEmpty())DelNext();}
@@ -108,8 +108,14 @@ T& operator[](const int& i) { for (int r=0;r<i;r++) if(GoToNext()) throw -1;  re
 void Show(){ CList1<Arr> a; for(int i=0; i<GetLength();i++) cout<<a[i]<<" ";}
 
 template <class> friend ostream &operator<<(ostream& cout, CList1<T>& );
-template <class> friend istream &operator>>(istream& /*&cin*/, CList1<T>& );
- friend class CTmpList;
+/*template <class> friend istream &operator>>(istream& , CList1<T>& );*/
+friend istream &operator>>(istream& cin, CList1<Arr>& a);
+friend class CTmpList;
 };
 template <class T> ostream &operator<<(ostream& cout, CList1<T>& t) {t.Show(); return cout;}
-template <class T> istream &operator>>(istream& cin, CList1<T>& t) { return cin; }
+/*template <class T> istream &operator>>(istream& cin, CList1<T>& l) 
+{ Arr a; 
+for(int i=0; i<l.GetLength();i++) 
+{cout<<"here"; cin >> a; l[i]=a;}
+return cin; }*/
+

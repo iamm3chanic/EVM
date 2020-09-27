@@ -49,6 +49,7 @@ class CDynamic
     int m=1;             //Количество массивов всего
     int n_real=0;
     CList1<Arr> arrList;
+    Arr cheatArr;
    public:
     CDynamic (const CDynamic&v) {CopyOnly(v);}
     CDynamic()      { SetZero(); }
@@ -58,14 +59,17 @@ class CDynamic
     CDynamic ( CDynamic && ) = default; 	//move constructor
     //CVektor&  operator= ( CVektor&& );  //move assignment
     
-    int getM() { return m; }                      //getter
-    void setLength(int length) { m = length/5 +1; /*arrList.Setlength(m);*/}   //setter
+    int getM() { return m; }                    
+    int getLength() { return n_real; }  
+    void setLength(int length) { m = length/5 +1; n_real=length; for(int i=0;i<m;i++)arrList.GoToNext();}   //setter
     //CList1<Arr> &getList() { return arrList; }
     CList1<Arr> &getList() { return arrList; }
-    void SetZero(){arrList.Clean();n=0;m=0;}
-    void Clean() {arrList.Clean(); SetZero();}
+    
+    void SetZero(){arrList.Clean(); cheatArr.Clean();  n=0;m=0;}
+    void Clean() {/*arrList.Clean(); cheatArr.Clean();*/ SetZero();}
     void CopyOnly(const CDynamic &v);
     
+    void SetCheat(double *a);
     void AddArr(Arr a);
     void InputTo(int k, double d);
     void SetDyn(CList1<Arr> l);
