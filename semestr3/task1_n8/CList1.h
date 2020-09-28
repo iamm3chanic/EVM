@@ -29,7 +29,7 @@ CTmpArr &operator=(const double &b);
 class Arr
 {
 private:
-  int n=5,nreal=0;double *v; 
+  int n=5,nreal=0;double*v; 
   //double arr[5];
 public:
   Arr(){SetZero();}
@@ -44,9 +44,11 @@ public:
  // double& operator[](int index) {return arr[index];}
   double* getArr() {return v;}
   void setArr(double* array)  { //edit
-            int i;           
-            for (i=0;i<5;i++)
-            {v= array;}
+           int i=0;           
+           // for (i=0;i<5;i++)
+            v = array;
+            
+            cout << "arr[i]=" << array[i]<< "; v[i]=" << v[i]<< endl;
             //???????
             }
   friend ostream& operator<<(ostream& cout, Arr& a);
@@ -67,7 +69,7 @@ CListNode(){next=NULL;}
 
 
 //==========================================
-template<class T> class CList1;
+//template<class T> class CList1;
 /*class CTmpList
 {
 CList1<Arr> *v;int i; 

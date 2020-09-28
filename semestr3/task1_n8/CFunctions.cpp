@@ -22,10 +22,14 @@ void CDynamic::CopyOnly(const CDynamic &v)
      if(this!=&v)
      //{memcpy(&arrList, &v.arrList, v.m*sizeof(double)); 
      arrList=v.arrList;
+     cheatArr=v.cheatArr;
+     //cout << "arr[i]=" << cheatArr[0]<<  endl;
     }
 void CDynamic::SetCheat(double *a)
     {
+     //cheatArr.setN(a.length);
      cheatArr.setArr(a);
+      cout << cheatArr[0] <<"  in setcheat\n";
     }
 void CDynamic::InputTo(int pos, double d)      
     {
@@ -97,17 +101,39 @@ memcpy(w,v.getArr(), v.GetN()*sizeof(Arr));
 return *this;
 }*/
 //////////////////FRIEND FUNCTIONS////////////////////////
+ostream& operator<<(ostream& cout, Arr& a)
+{for(int i=0;i<5;i++){cout<<a[i]<<" ";} cout<<endl; return cout;} 
+
+
+istream& operator>>(istream& cin, Arr& a)
+{
+double p;
+for(int i=0;i<5;i++)
+ {
+        cout << "Введите элемент массива Arr № " << (i+1) << ": ";
+        cin >> p; a[i]=p;     
+ }
+ return cin;
+}
 
 ostream &operator<<(ostream& cout, CDynamic &v) 
 {
    cout << "Массив {";
-     for (int i=0; i < v.getM(); i++)
+
+   for (int i=0; i < v.getLength(); i++)
+    { 
+     if(i<v.getLength()-1)
+       cout << v.getCheat()[i]  << ", ";
+     else 
+        cout << v.getCheat().getArr()[i] ; //[i]?
+     }
+    /* for (int i=0; i < v.getM(); i++)
      { 
-     if(i<v.getM()-1)
+     if(i<v.getM())
        cout << v.getList()  << ", ";
      else 
         cout << v.getList() ; //[i]?
-     }    
+     }    */
    cout << "}\n";
 
 return cout;
@@ -117,10 +143,13 @@ istream &operator>>(istream& cin , CDynamic &v)
 int i; double tmp[100]; double t;
    for (i=0; i < v.getLength(); i++ ) 
         {
+        cout << "Введите элемент списка № " << (i+1) << ": ";
          cin >> t;
          tmp[i]=t;
         }
         v.SetCheat(tmp);
+        cout << tmp[0] <<"  in cin dyn\n";
+        cout << v.getCheat().getArr()[0] << "  in cin dyn\n";
 /*int i,j;
 double input; double tmp[5];
 Arr tmpArr=Arr();
@@ -144,20 +173,6 @@ Arr tmpArr=Arr();
 return cin;
 }
 
-ostream& operator<<(ostream& cout, Arr& a)
-{for(int i=0;i<5;i++){cout<<a[i]<<" ";} cout<<endl; return cout;} 
-
-
-istream& operator>>(istream& cin, Arr& a)
-{
-double p;
-for(int i=0;i<5;i++)
- {
-        cout << "Введите элемент массива Arr № " << (i+1) << ": ";
-        cin >> p; a[i]=p;     //v.arrList[i];
- }
- return cin;
-}
 
 /*istream& operator>>(istream& cin, double *a)
 {

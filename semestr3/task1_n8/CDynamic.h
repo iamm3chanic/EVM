@@ -54,18 +54,19 @@ class CDynamic
     CDynamic (const CDynamic&v) {CopyOnly(v);}
     CDynamic()      { SetZero(); }
     CDynamic(int num)   { m = num/5 +1; n_real=(m-1)*5+(num%5); arrList= CList1<Arr>(m);}
-    ~CDynamic()    { /*Clean();*/ }
+    ~CDynamic()    { Clean(); }
 
     CDynamic ( CDynamic && ) = default; 	//move constructor
     //CVektor&  operator= ( CVektor&& );  //move assignment
     
     int getM() { return m; }                    
-    int getLength() { return n_real; }  
+    int getLength() { return n_real; } 
+    Arr getCheat() { return cheatArr; } 
     void setLength(int length) { m = length/5 +1; n_real=length; for(int i=0;i<m;i++)arrList.GoToNext();}   //setter
     //CList1<Arr> &getList() { return arrList; }
     CList1<Arr> &getList() { return arrList; }
     
-    void SetZero(){arrList.Clean(); cheatArr.Clean();  n=0;m=0;}
+    void SetZero(){ cheatArr.SetZero();  n=0;m=0;}
     void Clean() {/*arrList.Clean(); cheatArr.Clean();*/ SetZero();}
     void CopyOnly(const CDynamic &v);
     
