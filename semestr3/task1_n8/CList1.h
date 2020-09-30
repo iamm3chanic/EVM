@@ -33,8 +33,10 @@ private:
   //double arr[5];
 public:
   Arr(){SetZero();}
+  Arr(int num) {n=num; v = new double[num];}
   Arr(const Arr&b){CopyOnly(b);}
   ~Arr(){Clean();}
+  void SetN(int num) {n=num; /*v = new double[num];*/}
   int GetN(){return n;}
   Arr &operator=(const Arr&b){if(this!=&b){Clean();CopyOnly(b);}return *this;} 
   void Clean(){delete[] v; SetZero();} 
@@ -48,7 +50,7 @@ public:
            // for (i=0;i<5;i++)
             v = array;
             
-            cout << "arr[i]=" << array[i]<< "; v[i]=" << v[i]<< endl;
+            cout << "arr[0]=" << array[i]<< "; v[0]=" << v[i]<< endl;
             //???????
             }
   friend ostream& operator<<(ostream& cout, Arr& a);

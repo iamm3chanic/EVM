@@ -41,7 +41,9 @@ using namespace std;
 //--------------------------------------------------------------
 //----------- Определение класса -------------------------------
 //--------------------------------------------------------------
-
+/*
+Реализация.
+Для небольших массивов <5 и сортировки использовать чит. При записи записывать и в чит и в лист*/
 class CDynamic
  {
    private:
@@ -57,12 +59,12 @@ class CDynamic
     ~CDynamic()    { Clean(); }
 
     CDynamic ( CDynamic && ) = default; 	//move constructor
-    //CVektor&  operator= ( CVektor&& );  //move assignment
+    //CDynamic&  operator= ( CVektor&& );  //move assignment
     
     int getM() { return m; }                    
     int getLength() { return n_real; } 
-    Arr getCheat() { return cheatArr; } 
-    void setLength(int length) { m = length/5 +1; n_real=length; for(int i=0;i<m;i++)arrList.GoToNext();}   //setter
+    Arr* getCheat() { return &cheatArr; } //why pointer?..
+    void setLength(int length) { m = length/5 +1; n_real=length; for(int i=0;i<m;i++)arrList.GoToNext(); cheatArr.SetN(length);}   //setter
     //CList1<Arr> &getList() { return arrList; }
     CList1<Arr> &getList() { return arrList; }
     

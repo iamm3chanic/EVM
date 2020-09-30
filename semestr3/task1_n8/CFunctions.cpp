@@ -29,7 +29,7 @@ void CDynamic::SetCheat(double *a)
     {
      //cheatArr.setN(a.length);
      cheatArr.setArr(a);
-      cout << cheatArr[0] <<"  in setcheat\n";
+     // cout << cheatArr[1] <<"  in setcheat\n";
     }
 void CDynamic::InputTo(int pos, double d)      
     {
@@ -122,10 +122,12 @@ ostream &operator<<(ostream& cout, CDynamic &v)
 
    for (int i=0; i < v.getLength(); i++)
     { 
+
      if(i<v.getLength()-1)
-       cout << v.getCheat()[i]  << ", ";
-     else 
-        cout << v.getCheat().getArr()[i] ; //[i]?
+      // cout << v.getCheat()[i]  << ", ";
+      cout << v.getCheat()->getArr()[i] << ", ";
+     else //if(i==v.getLength()-1)
+      cout << v.getCheat()->getArr()[i] ; //[i]?
      }
     /* for (int i=0; i < v.getM(); i++)
      { 
@@ -148,8 +150,8 @@ int i; double tmp[100]; double t;
          tmp[i]=t;
         }
         v.SetCheat(tmp);
-        cout << tmp[0] <<"  in cin dyn\n";
-        cout << v.getCheat().getArr()[0] << "  in cin dyn\n";
+        //cout << tmp[0] <<"  in cin dyn\n";
+        //cout << v.getCheat().getArr()[1] << "  in cin dyn\n";
 /*int i,j;
 double input; double tmp[5];
 Arr tmpArr=Arr();
