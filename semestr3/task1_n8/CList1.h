@@ -41,7 +41,7 @@ public:
   Arr &operator=(const Arr&b){if(this!=&b){Clean();CopyOnly(b);}return *this;} 
   void Clean(){delete[] v; SetZero();} 
   void SetZero(){v=NULL;n=0;nreal=0;}
-  void CopyOnly(const Arr &b){if(this!=&b){SetZero();nreal=b.nreal;n=b.n;memcpy(v=new double[n],b.v, b.n*sizeof(double));}} 
+  void CopyOnly(const Arr &b);
   CTmpArr operator[](int i){CTmpArr t(this,i);return t;} 
  // double& operator[](int index) {return arr[index];}
   double* &getArr() {return v;}
