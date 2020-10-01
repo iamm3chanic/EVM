@@ -10,11 +10,34 @@
 using namespace std;
 //////////////////CLASS METHODS///////////////////////////
 
-/////CDynamic
+///////////////Arr
+void Arr::setArr(double*array)  { //edit
+memcpy(v, array, GetN()*sizeof(double));
+          /* int i=0;          for (i=0;i<GetN();i++)  v[i] = array[i];*/          
+            //cout << "arr[0]=" << array[0]<< "; v[0]=" << v[0]<< endl;
+            } 
+void Arr::InputTo(int pos, double d)  {
+        for(int i=pos;i<5;i++) {v[i]=v[i-1];}
+        v[pos-1]=d;
+        }      
+////////////CDynamic
 void CDynamic::AddArr(Arr a)        
     {
-     double arr[]={1,2,3};
-     a.setArr(arr); //for test
+    double* tmp;
+    tmp=new double[n_real+a.GetN()];
+    for(int i=0;i<getM();i++)
+    { arrList.GoToNext();}
+     arrList.AddAfter(a);
+     tmp=cheatArr.getArr();
+    for(int i=0;i<n_real;i++) {tmp[i]=cheatArr.getArr()[i];}
+    for(int i=1;i<=a.GetN();i++) {tmp[n_real+i]=a[i];}
+    setLength(n_real+a.GetN());
+    //cout << n_real+a.GetN();
+    cheatArr.setArr(tmp);
+    cout << "this is cheat:"<<cheatArr;
+    
+    
+     // delete [] tmp;
     }
 void CDynamic::CopyOnly(const CDynamic &v)    
     {
@@ -25,7 +48,7 @@ void CDynamic::CopyOnly(const CDynamic &v)
      cheatArr=v.cheatArr;
      //cout << "arr[i]=" << cheatArr[0]<<  endl;
     }
-void CDynamic::SetCheat(double *a)
+void CDynamic::SetCheat(double* a)
     {
      //cheatArr.setN(a.length);
      cheatArr.setArr(a);
@@ -33,17 +56,22 @@ void CDynamic::SetCheat(double *a)
     }
 void CDynamic::InputTo(int pos, double d)      
     {
-      pos=0;d=0;
-      pos++; d++;
-       /* cout << "Вектор {";
-        for (int i=0; i < n; i++)
-        {  
-         if(i<n-1)
-            cout << arrList[i] << ", ";
-         else
-            cout << arrList[i];
-        }    
-        cout << "}\n";*/
+      //for cheat
+      for(int i=pos;i<n_real;i++) {cheatArr[i]=cheatArr[i-1];}
+      cheatArr[pos-1]=d;
+      //for list
+      Arr a;
+      arrList.GoToBegin();
+      for(int i=0; i<pos/5; i++) {arrList.GoToNext();}
+      //memcpy(a, arrList.GetCur(), sizeof(Arr)); 
+      a= arrList.GetCur();
+      a.InputTo(pos%5, d);
+      arrList.SetCur(a);
+    }
+void CDynamic::InputInto(int pos, double d)      
+    {
+      for(int i=pos;i<n_real;i++) {cheatArr[i]=cheatArr[i-1];}
+      cheatArr[pos-1]=d;
     }
 CDynamic& CDynamic::operator=(const CDynamic& v)
     {
@@ -58,7 +86,7 @@ CDynamic& CDynamic::operator=(const CDynamic& v)
         {Clean(); CopyOnly(v);}
         return *this;
     }*/
-    
+  
 ////////////CTmpArr
 CTmpArr::operator double()
 {if(i>=0&&i<v->n)return v->v[i];return 0;}
@@ -68,7 +96,7 @@ CTmpArr &CTmpArr::operator=(const double &b)
 if(i>=0)
 {
 if(i>=v->n)
-{int n2=(v->n+1)*2; double *w=new double[n2]; memset(w,0,sizeof(double)*n2); 
+{int n2=(i+1)*2; double *w=new double[n2]; memset(w,0,sizeof(double)*n2); 
 memcpy(w,v->v,v->n*sizeof(double)); 
 delete[] v->v; v->v=w; v->n=n2;
 }
@@ -77,38 +105,15 @@ if(v->nreal<i+1) {v->nreal=i+1;} v->v[i]=b;
 return *this;
 }
 
-////////////CTmpList ПЕРЕДЕЛАТЬ!!!!!!!!!!!!!!!!!!!!!!!!!!!!CListNode<T> t,*cur
-/*CTmpList::operator Arr()
-{if(i>=0&&i<n)return v->GetCur();return NULL;}
-
-CTmpList &CTmpList::operator=( Arr &v)
-{
-int n=v.GetN();
-//Arr a; 
-//a.setArr(b.getArr());
-//a[0]=b.v[0];
-if(i>=0)
-{
-if(i>=n)
-{int n2=n+5; Arr *w=new Arr[n2]; memset(w,0,sizeof(Arr)*n2)
-double array[]={1,2,3,4,5};
-w->setArr(array); 
-memcpy(w,v.getArr(), v.GetN()*sizeof(Arr));
-//////////Clean();  ///////////////
-}
-//if(v->nreal<i+1) {v->nreal=i+1;} v->v[i]=b;
-}//
-return *this;
-}*/
 //////////////////FRIEND FUNCTIONS////////////////////////
-ostream& operator<<(ostream& cout, Arr& a)
-{for(int i=0;i<5;i++){cout<<a[i]<<" ";} cout<<endl; return cout;} 
+ostream& operator<<(ostream& cout, Arr a)
+{for(int i=0;i<a.GetN();i++){cout<<a[i]<<" ";} cout<<endl; return cout;} 
 
 
 istream& operator>>(istream& cin, Arr& a)
 {
 double p;
-for(int i=0;i<5;i++)
+for(int i=0;i<a.GetN();i++)
  {
         cout << "Введите элемент массива Arr № " << (i+1) << ": ";
         cin >> p; a[i]=p;     
@@ -119,30 +124,31 @@ for(int i=0;i<5;i++)
 ostream &operator<<(ostream& cout, CDynamic &v) 
 {
    cout << "Массив {";
-
-   for (int i=0; i < v.getLength(); i++)
+    for (int i=0; i < v.getLength(); i++)
     { 
 
      if(i<v.getLength()-1)
-      // cout << v.getCheat()[i]  << ", ";
-      cout << v.getCheat()->getArr()[i] << ", ";
-     else //if(i==v.getLength()-1)
-      cout << v.getCheat()->getArr()[i] ; //[i]?
-     }
-    /* for (int i=0; i < v.getM(); i++)
-     { 
-     if(i<v.getM())
-       cout << v.getList()  << ", ";
+     // cout << v.getCheat()[i] << ", ";
+      cout << v.getCheat().getArr()[i] << ", ";
      else 
-        cout << v.getList() ; //[i]?
-     }    */
+      cout << v.getCheat()[i] ; //[i]?
+     }
+  /* for (int i=0; i < v.getLength(); i++)
+    { 
+
+     if(i<v.getLength()-1)
+      cout << v.getCheat()[i]  << ", ";
+     // cout << v.getCheat().getArr()[i] << ", ";
+     else 
+      cout << v.getCheat()[i] ; //[i]?
+     }*/
    cout << "}\n";
 
 return cout;
 }
 istream &operator>>(istream& cin , CDynamic &v) 
 {
-int i; double tmp[100]; double t;
+int i,j,k; double tmp[100], cur[5]; double t;
    for (i=0; i < v.getLength(); i++ ) 
         {
         cout << "Введите элемент списка № " << (i+1) << ": ";
@@ -150,28 +156,29 @@ int i; double tmp[100]; double t;
          tmp[i]=t;
         }
         v.SetCheat(tmp);
-        //cout << tmp[0] <<"  in cin dyn\n";
-        //cout << v.getCheat().getArr()[1] << "  in cin dyn\n";
-/*int i,j;
-double input; double tmp[5];
-Arr tmpArr=Arr();
+    //Теперь сделаем, как просили, а не через cheatArr:
 
- for (i=0; i < v.getM(); i++ ) 
+  Arr tmpArr;
+  int m_tmp=v.getM();
+  v.arrList.Clean();
+  for (i=0,k=0; i < m_tmp; i++ ) 
         {
-        
-        //cin >> v.arrList;
-           for (j=0; j < 5; j++ )
-            {cout << "Введите элемент списка № " << (i+1) << " массива  №" << (j+1) <<": ";
-            cin >> input; 
-            tmp[j]=input;}
+           for (j=0; j < 4; j++,k++ )
+            //{cout << "Введите элемент списка № " << (i+1) << " массива  №" << (j+1) <<": ";
+            //cin >> input; 
+            {cur[j]=
+           // v.getCheat()->getArr()[k];}
+            v.getCheat().getArr()[k];}
+            //!!!!breaks!!!!cout << v.getCheat()->getArr()[k] <<endl;
+            //cout << v.getCheat().getArr()[k] <<endl;
             v.arrList.GoToBegin();   
              for (j=0; j < i; j++ )          
             v.arrList.GoToNext();
            // for (k=0; k < i; k++ ) 
-            tmpArr.setArr(tmp);
+            tmpArr.setArr(cur);
             v.arrList.AddAfter(tmpArr);
           //  v.arrList[i/5][(i%5)]=p; //DEAL????????
-        }*/
+        }
 return cin;
 }
 
@@ -185,25 +192,42 @@ for(int i=0;i<5;i++)
         cin >> p; a[i]=p;     //v.arrList[i];
  }
  return cin;
-}*/
+}
 
 istream &operator>>(istream& cin, CList1<Arr>& a)
 { Arr b; cout<<"here";
 for(int i=0; i<a.GetLength();i++) 
 {cout<<"here"; cin >> b; a[i]=b;}
-return cin; }
-/*void SortUp(CDynamic& dyn)
+return cin; }*/
+void SortUp(CDynamic& dyn)
 {
-if(dyn.getList().IsEmpty())){cout << "empty list\n"}
+if(dyn.getList().IsEmpty()){cout << "empty list\n";}
 
-}
-void SortDown(CDynamic& dyn)
+int i=dyn.getLength(); // Длина неотсортированной части массива
+int f; //flag
+double t;
+double *m=new double[dyn.getLength()];  //=dyn.getCheat().getArr();
+memset(m,0, dyn.getLength()*sizeof(double)); 
+memcpy(m, dyn.getCheat().getArr(), dyn.getLength()*sizeof(double));
+for(int k=0;k<dyn.getLength();k++)
+{cout<<m[k]<<" ";} cout<<"\n";
+do {
+f=0; //Предположим, что массив является отсортированным
+for (int k=0;k<i-1;k++)
+if (m[k]>m[k+1])
 {
-if(dyn.getList().IsEmpty()){cout << "empty list\n"}
-
+t=m[k]; m[k]=m[k+1]; m[k+1]=t; // Обмен
+f=1; // Массив был неотсортированным
 }
+i--;
+} while (f && i>1);
+//output
+for(int k=0;k<dyn.getLength();k++)
+{cout<<m[k]<<" ";} cout<<"\n";
+}
+
 int Check(CDynamic& dyn)
 {
 if(dyn.getList().IsEmpty()){return 0;}
 else return -1;
-}*/
+}

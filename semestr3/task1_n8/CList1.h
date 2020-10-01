@@ -29,31 +29,25 @@ CTmpArr &operator=(const double &b);
 class Arr
 {
 private:
-  int n=5,nreal=0;double*v; 
-  //double arr[5];
+  int n,nreal;double *v; 
 public:
   Arr(){SetZero();}
-  Arr(int num) {n=num; v = new double[num];}
+  Arr(int num) {n=num; nreal=0; v = new double[num]; memset(v,0, num*sizeof(double) );}
   Arr(const Arr&b){CopyOnly(b);}
   ~Arr(){Clean();}
-  void SetN(int num) {n=num; /*v = new double[num];*/}
+  void SetN(int num) {Clean(); n=num; v = new double[num]; memset(v,0, num*sizeof(double) );}
   int GetN(){return n;}
+  void InputTo(int pos, double d);
   Arr &operator=(const Arr&b){if(this!=&b){Clean();CopyOnly(b);}return *this;} 
   void Clean(){delete[] v; SetZero();} 
   void SetZero(){v=NULL;n=0;nreal=0;}
-  void CopyOnly(const Arr &b){if(this!=&b){memcpy(v=new double[n=b.n],b.v, b.n*sizeof(double));nreal=b.nreal;}} 
+  void CopyOnly(const Arr &b){if(this!=&b){SetZero();nreal=b.nreal;n=b.n;memcpy(v=new double[n],b.v, b.n*sizeof(double));}} 
   CTmpArr operator[](int i){CTmpArr t(this,i);return t;} 
  // double& operator[](int index) {return arr[index];}
-  double* getArr() {return v;}
-  void setArr(double* array)  { //edit
-           int i=0;           
-           // for (i=0;i<5;i++)
-            v = array;
-            
-            cout << "arr[0]=" << array[i]<< "; v[0]=" << v[i]<< endl;
-            //???????
-            }
-  friend ostream& operator<<(ostream& cout, Arr& a);
+  double* &getArr() {return v;}
+  void setArr(double*array) ;
+  
+  friend ostream& operator<<(ostream& cout, Arr a);
   friend istream& operator>>(istream& cin, Arr& a);
   friend class CTmpArr;
 };
@@ -101,8 +95,9 @@ int IsEmpty(){return t.next==NULL;}
 void Clean(){GoToBegin(); while(!IsEmpty())DelNext();}
 int DelNext(){if(cur->next==NULL)return -1; CListNode<T> *save=cur->next; cur->next=cur->next->next; delete save; return 0;} 
 void GoToBegin(){cur=&t;}
-//T& GetCur(){if(cur==&t)throw -1; return cur->v;}
-Arr& GetCur(){if(acur==&t)throw -1; return acur->v;}
+T& GetCur(){if(cur==&t)throw -1; return cur->v;}
+//Arr& GetCur(){if(acur==&t)throw -1; return acur->v;}
+void SetCur(Arr a){acur->v=a;}
 int GetLength(){int r=0; GoToBegin(); for (r=0;(GoToNext()==0);r++) {}; return r;}
 
 int GoToNext(){if(cur->next==NULL)return -1; cur=cur->next; return 0;}
