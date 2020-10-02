@@ -9,16 +9,18 @@ http://lectures.stargeo.ru/tasks-2019/Progs/29/29.bmp
 https://prog-cpp.ru/data-ols/
 
 3.    В каком случае допустимо использование #include "mysuperlib.h"? В каком случае допустимо использование #include <mysuperlib.h>?  
-https://arduinoplus.ru/include-v-cpp/
+https://arduinoplus.ru/include-v-cpp/  
 https://ru.stackoverflow.com/questions/149/%D0%92-%D1%87%D0%B5%D0%BC-%D1%80%D0%B0%D0%B7%D0%BB%D0%B8%D1%87%D0%B8%D0%B5-%D0%BC%D0%B5%D0%B6%D0%B4%D1%83-%D0%B4%D0%B2%D1%83%D0%BC%D1%8F-%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D0%BC%D0%B8-%D0%B4%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%B8%D0%B2%D1%8B-include-%D0%B2-%D0%BA%D0%B0%D0%B2%D1%8B%D1%87%D0%BA%D0%B0%D1%85-%D0%B8-%D0%B2-%D1%81%D0%BA%D0%BE%D0%B1%D0%BA%D0%B0%D1%85
 
 4.    Дано вещественное число x . Пользуясь только операцией умножения и присваивания, получить в переменные y и z значения x в степени 5 и x в степени 13 соответственно за пять умножений.  
 https://www.cyberforum.ru/pascal/thread951542.html
 
 5.    Двунаправленные списки. Описание типов, необходимых для реализации (два типа). Определение одной из функции списка.   
+https://learnc.info/adt/double_linked_list.html  
 https://www.intuit.ru/studies/courses/648/504/lecture/11456?page=3
 
-6.    Дек. Различные реализации. Описания типов для различных реализаций. Реализация одной из функций дека.   
+6.    Дек. Различные реализации. Описания типов для различных реализаций. Реализация одной из функций дека.  
+http://lectures.stargeo.ru/tasks-2019/Progs/28/28.bmp  
 https://cpp.mazurok.com/tag/%D0%B4%D0%B5%D0%BA/
 
 7.    Деревья поиска. Определение. Основные операции. Описание типов, необходимых для реализации (два типа). Реализация функции поиска элемента без рекурсии.   
