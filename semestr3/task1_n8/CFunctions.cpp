@@ -13,48 +13,68 @@ using namespace std;
 
 ///////////////Arr
 void Arr::setArr(double*array)  { 
+    //но мы не знаем GetN()!!!!!!
       memcpy(v, array, GetN()*sizeof(double));
       } 
       
 void Arr::InputTo(int pos, double d)  {
-       for(int i=pos;i<5;i++) {v[i]=v[i-1];}
         v[pos-1]=d;
        }    
        
 void Arr::CopyOnly(const Arr &b) {
        if(this!=&b)
-	{SetZero();nreal=b.nreal;n=b.n;memcpy(v=new double[n],b.v, b.n*sizeof(double));}
+	{SetZero();nreal=b.nreal;n=b.n;
+	memcpy(v=new double[n],b.v, b.n*sizeof(double));}
        } 
          
 ////////////CDynamic
-void CDynamic::AddArr(Arr a)        
-    {
+void CDynamic::AddToEnd(double d)
+   {
    //for cheat
-    double* tmp;
-    tmp=new double[n_real+a.GetN()];
-    for(int i=0;i<getM();i++)
-    { arrList.GoToNext();}
-     arrList.AddAfter(a);
-     tmp=cheatArr.getArr();
-    for(int i=0;i<n_real;i++) {tmp[i]=cheatArr.getArr()[i];}
-    for(int i=1;i<=a.GetN();i++) {tmp[n_real+i]=a[i];}
-    setLength(n_real+a.GetN());
-    cheatArr.setArr(tmp); //cout << "this is cheat:"<<cheatArr;
-   //for list
-      /*arrList.GoToBegin();
-      for(; arrList.GetCur().getArr()!=NULL; ) {arrList.GoToNext();}
-      arrList.AddAfter(a);*/
-    }
+   int y=getLength()+1;
+    double *t=new double[getLength()+1];
+    for(int i=0;i<getLength();i++)
+    {t[i]=cheatArr.getArr()[i];}
+    //t[getLength()]=d;
+    t[y-1]=d;
+    cheatArr.SetN(y);
+    cheatArr.setArr(t);
+    //for list
+    /*Arr a;
+      arrList.GoToEnd();
+      //a= arrList.GetCur();
+      a.setArr( arrList.GetCur().getArr() );  
+     // memcpy(&a, &arrList.GetCur(), sizeof(Arr)); 
+      if (a.GetN()<5) a.InputTo(4,d);
+      else {Arr b; b[0]=d; arrList.CList2<Arr>::AddToEnd(b);}*/
+   }
+
+double CDynamic::GetNumByIndex(int index) 
+    {
+     return cheatArr.getArr()[index];   
+    }   
     
+void CDynamic::DelNumByIndex(int index)
+    {
+    int y=getLength()-1;
+    double *t=new double[getLength()-1];
+    for(int i=0;i<index;i++)
+    {t[i]=cheatArr.getArr()[i];}
+    for(int i=index;i<y;i++)
+    {t[i]=cheatArr.getArr()[i+1];}
+    //t[getLength()]=d;
+    cheatArr.SetN(y);
+    cheatArr.setArr(t);
+    }
 void CDynamic::CopyOnly(const CDynamic &v)    
     {
-     CList1<Arr> arrList;
+     CList2<Arr> arrList;
      if(this!=&v)
-     //{memcpy(&arrList, &v.arrList, v.m*sizeof(double)); 
-     arrList=v.arrList;
+     //{memcpy(&arrList, &v.arrList, v.m*sizeof(Arr); 
+     //arrList=CList2<Arr>::CopyOnly(v.arrList);
      cheatArr=v.cheatArr;
     }
-    
+   
 void CDynamic::SetCheat(double* a)
     {
      cheatArr.setArr(a);
@@ -63,28 +83,32 @@ void CDynamic::SetCheat(double* a)
 void CDynamic::InputTo(int pos, double d)      
     {
       //for cheat
-      for(int i=pos;i<n_real;i++) {cheatArr[i]=cheatArr[i-1];}
+      //for(int i=pos;i<n_real;i++) {cheatArr[i]=cheatArr[i+1];}
       cheatArr[pos-1]=d;
       //for list
       Arr a;
-      arrList.GoToBegin();
-      for(int i=0; i<pos/5; i++) {arrList.GoToNext();}
-      a= arrList.GetCur();   //memcpy(a, arrList.GetCur(), sizeof(Arr)); 
+      for(int i=0;i<pos/5;i++) {arrList.GoToNext();}
+      a.setArr( arrList.GetCur().getArr() );   //memcpy(a, arrList.GetCur(), sizeof(Arr)); 
       a.InputTo(pos%5, d);
-      arrList.SetCur(a);
+      arrList.AddToPos(a,(pos/5));
     }
     
 void CDynamic::InputInto(int pos, double d)      
     {
-      for(int i=pos;i<n_real;i++) {cheatArr[i]=cheatArr[i-1];}
-      cheatArr[pos-1]=d;
+     int y=getLength()+1;
+    double *t=new double[getLength()+1];
+    for(int i=0;i<pos-1;i++)
+    {t[i]=cheatArr.getArr()[i];}
+    t[pos-1]=d;
+    for(int i=pos;i<y-1;i++)
+    {t[i]=cheatArr.getArr()[i-1];}
+   //cout<<t[y-1]<<"hre";   
+    cheatArr.SetN(y+1);
+    cheatArr.setArr(t);
+      //for(int i=pos;i<n_real;i++) {cheatArr[i]=cheatArr[i-1];}
+      //cheatArr[pos-1]=d;
     }
-    
-void CDynamic::InputAfter(int pos, double d)      
-    {
-      for(int i=pos;i<n_real;i++) {cheatArr[i]=cheatArr[i-1];}
-      cheatArr[pos-1]=d;
-    }
+
     
 CDynamic& CDynamic::operator=(const CDynamic& v)
     {
@@ -248,3 +272,4 @@ cout<<v.getCheat().getArr()[mid]<<endl;
     }
     return -(1 + left);
 } 
+

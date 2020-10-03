@@ -14,11 +14,11 @@
  * +создать массив заданной начальной длины;
  * +добавить элемент в конец массива (удлиннить массив);
  * +вставить элемент так, чтобы он имел указанный индекс (удлиннить массив);
- * получить указатель (или ссылку) элемента с заданным индексом для прямого доступа к значению;
- * удалить элемент по указанному индексу (сократить массив);
+ * +получить указатель (или ссылку) элемента с заданным индексом для прямого доступа к значению;
+ * +удалить элемент по указанному индексу (сократить массив);
  * +получить количество элементов в массиве;
  * +установить новую длину массива;
- * искать заданное значение (с заданным допуском) в массиве;
+ * +искать заданное значение (с заданным допуском) в массиве;
  * +сортировать массив по возрастанию или убыванию.
  *
  *  Формальное определение интерфейса не задается и должно быть разработано студентом.
@@ -28,7 +28,7 @@
  * В качестве метода сортировки используется алгоритм просеивания (модифицированный 
  * пузырек).
  *      Created on: 01.10.2020
- *      Author: queen
+ *      Author: Anfisa
  */
 #pragma once
 #include <iostream>
@@ -47,7 +47,7 @@ class CDynamic
     int n;             //Размер начального массива
     int m;             //Количество массивов всего
     int n_real;
-    CList1<Arr> arrList;
+    CList2<Arr> arrList;
     Arr cheatArr;
    public:
     CDynamic (const CDynamic&v) {CopyOnly(v);}
@@ -59,28 +59,29 @@ class CDynamic
     
     int getM() { return m; }                    
     int getLength() { return n_real; } 
-    Arr &getCheat() { return cheatArr; }
-    void setLength(int length) { m = length/5 +1; n_real=length; for(int i=0;i<m;i++)arrList.GoToNext();  cheatArr.SetN(length);}   //setter
-    //CList1<Arr> &getList() { return arrList; }
-    CList1<Arr> &getList() { return arrList; }
+    Arr& getCheat() { return cheatArr; }
+    void setLength(int length) { m = length/5 +1; n_real=length; for(int i=0;i<m;i++)arrList.GoToNext();  cheatArr.SetN(length);}   
+    
+    CList2<Arr> &getList() { return arrList; }
     
     void SetZero(){ cheatArr.SetZero();  n=0;m=0;}
     void Clean() {arrList.Clean(); cheatArr.Clean(); SetZero();}
     void CopyOnly(const CDynamic &v);
     
     void SetCheat(double* a);
-    void AddArr(Arr a);
+    void AddToEnd(double d);  //!!
     void InputTo(int k, double d);
-    void InputInto(int k, double d);
-    void InputAfter(int k, double d);
-    void SetDyn(CList1<Arr> l);
+    void InputInto(int k, double d); //!!
+    void SetDyn(CList2<Arr> l);
     void AutoSet();
-    CDynamic& operator=(const CDynamic& v);
+    void DelNumByIndex(int index);  //!!
+    double GetNumByIndex(int index);  //!!
+    CDynamic& operator=(const CDynamic& v);  //!!
     
     friend void SortUp(CDynamic& dyn);
     friend int BinSearch(CDynamic& dyn, int leftBound, int rightBound);
     friend int Check(CDynamic& dyn);
     friend ostream &operator<<(ostream& cout, CDynamic &v);
-    friend istream &operator>>(istream& /*&cin*/, CDynamic& );
+    friend istream &operator>>(istream& cin, CDynamic &v );
   };
   
