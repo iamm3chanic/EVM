@@ -1,7 +1,7 @@
 #pragma once
 using namespace std;
 /*
-L2 список
+L2 список и класс Arr
 */
 class Arr;
 class CTmpArr
@@ -88,48 +88,6 @@ public:
 		iterator begin(){return iterator(first);}
 		iterator end(){return iterator(NULL);}
 
-		//void Sort();
 	};
 
-
-template<class T> void CList2<T>::AddToPos(const T&x, int pos){
-	CList2Node<T>* tmp=cur;
-	GoToPos(pos);
-	AddBefore(x);
-	cur=tmp;
-
-}
-template<class T> bool CList2<T>::DelCur(){
-	if(IsEmpty()) return false;
-	if(cur->prev) cur->prev->next=cur->next; else first=cur->next;
-	if(cur->next) cur->next->prev=cur->prev; else last=cur->prev;
-	if(cur->prev) cur=cur->prev; else cur=cur->next;
-	return true;
-}
-
-template<class T> void CList2<T>::AddAfter(const T &x){
-	CList2Node<T> *n=new CList2Node<T>(); n->v=x;
-	if(IsEmpty()){cur=first=last=n;}
-	else{
-		n->next=cur->next;
-		n->prev=cur;
-		cur->next=n;
-		if(n->next)
-			n->next->prev=n;
-		else last=n;
-	}
-}
-
-template<class T> void CList2<T>::AddBefore(const T &x){
-	CList2Node<T> *n=new CList2Node<T>(); n->v=x;
-	if(IsEmpty()){cur=first=last=n;}
-	else{
-		n->prev=cur->prev;
-		n->next=cur;
-		cur->prev=n;
-		if(n->prev)
-			n->prev->next=n;
-		else first=n;
-	}
-}
 

@@ -5,4 +5,4 @@ CFunctions.o: CFunctions.cpp CDynamic.h CList2.h Makefile
 Main.o: Main.cpp CDynamic.h CList2.h Makefile
 	wg++ -c -g -std=c++11 Main.cpp
 clean:
-	rm m CFunctions.o Main.o
+	rm m CFunctions.o Main.o vgcore*

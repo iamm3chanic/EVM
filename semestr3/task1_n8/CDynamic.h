@@ -35,7 +35,7 @@
 #include <math.h>
 #include <string.h>
 #include <cstdlib>
-#include "CList1.h"
+#include "CList2.h"
 //#define FIVE_ 5
 using namespace std;
 //--------------------------------------------------------------
@@ -54,8 +54,7 @@ class CDynamic
     CDynamic()      { SetZero(); }
     CDynamic(int num)   { m = num/5 +1; n_real=num; for(int i=0;i<m;i++)arrList.GoToNext(); cheatArr.SetN(num);}
     ~CDynamic()    { Clean(); }
-    CDynamic ( CDynamic && ) = default; 	//move constructor
-    //CDynamic&  operator= ( CVektor&& );  //move assignment
+    CDynamic(CDynamic&& r) {n=r.n;m=r.m;n_real=r.n_real; arrList.CopyOnly(r.arrList); cheatArr=r.cheatArr; r.SetZero(); } 	//move constructor
     
     int getM() { return m; }                    
     int getLength() { return n_real; } 
@@ -64,7 +63,7 @@ class CDynamic
     
     CList2<Arr> &getList() { return arrList; }
     
-    void SetZero(){ cheatArr.SetZero();  n=0;m=0;}
+    void SetZero(){ arrList.SetZero(); cheatArr.SetZero();  n=0;m=0;n_real=0;}
     void Clean() {arrList.Clean(); cheatArr.Clean(); SetZero();}
     void CopyOnly(const CDynamic &v);
     

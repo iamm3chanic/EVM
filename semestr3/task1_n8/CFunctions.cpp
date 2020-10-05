@@ -6,7 +6,7 @@
 #include<string.h>
 #include <ctime>
 #include <cstdlib>
-#include "CList1.h"
+#include "CList2.h"
 #include "CDynamic.h"
 using namespace std;
 //////////////////CLASS METHODS///////////////////////////
@@ -28,6 +28,7 @@ void Arr::CopyOnly(const Arr &b) {
        } 
          
 ////////////CDynamic
+
 void CDynamic::AddToEnd(double d)
    {
    //for cheat
@@ -88,6 +89,7 @@ void CDynamic::InputTo(int pos, double d)
       //for list
       Arr a;
       for(int i=0;i<pos/5;i++) {arrList.GoToNext();}
+      a.SetN(5);
       a.setArr( arrList.GetCur().getArr() );   //memcpy(a, arrList.GetCur(), sizeof(Arr)); 
       a.InputTo(pos%5, d);
       arrList.AddToPos(a,(pos/5));
@@ -131,7 +133,47 @@ void CDynamic::AutoSet()
       cout << "Random array: " << endl;
       cout << getCheat();
     } 
-    
+////////////CList2
+template<class T> void CList2<T>::AddToPos(const T&x, int pos){
+	CList2Node<T>* tmp=cur;
+	GoToPos(pos);
+	AddBefore(x);
+	cur=tmp;
+
+}
+template<class T> bool CList2<T>::DelCur(){
+	if(IsEmpty()) return false;
+	if(cur->prev) cur->prev->next=cur->next; else first=cur->next;
+	if(cur->next) cur->next->prev=cur->prev; else last=cur->prev;
+	if(cur->prev) cur=cur->prev; else cur=cur->next;
+	return true;
+}
+
+template<class T> void CList2<T>::AddAfter(const T &x){
+	CList2Node<T> *n=new CList2Node<T>(); n->v=x;
+	if(IsEmpty()){cur=first=last=n;}
+	else{
+		n->next=cur->next;
+		n->prev=cur;
+		cur->next=n;
+		if(n->next)
+			n->next->prev=n;
+		else last=n;
+	}
+}
+
+template<class T> void CList2<T>::AddBefore(const T &x){
+	CList2Node<T> *n=new CList2Node<T>(); n->v=x;
+	if(IsEmpty()){cur=first=last=n;}
+	else{
+		n->prev=cur->prev;
+		n->next=cur;
+		cur->prev=n;
+		if(n->prev)
+			n->prev->next=n;
+		else first=n;
+	}
+}   
 ////////////CTmpArr
 CTmpArr::operator double()
 {if(i>=0&&i<v->n)return v->v[i];return 0;}
