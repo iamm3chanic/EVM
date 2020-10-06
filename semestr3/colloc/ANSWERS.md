@@ -15,7 +15,9 @@ https://ru.stackoverflow.com/questions/149/%D0%92-%D1%87%D0%B5%D0%BC-%D1%80%D0%B
 4.    Дано вещественное число x . Пользуясь только операцией умножения и присваивания, получить в переменные y и z значения x в степени 5 и x в степени 13 соответственно за пять умножений.  
 https://www.cyberforum.ru/pascal/thread951542.html
 
-5.    Двунаправленные списки. Описание типов, необходимых для реализации (два типа). Определение одной из функции списка.   
+5.    Двунаправленные списки. Описание типов, необходимых для реализации (два типа). Определение одной из функции списка.  
+опишем два класса (две структуры) и например функцию AddAter(const T&x)  
+http://lectures.stargeo.ru/video/List2.bmp  
 https://learnc.info/adt/double_linked_list.html  
 https://www.intuit.ru/studies/courses/648/504/lecture/11456?page=3
 
@@ -24,6 +26,7 @@ http://lectures.stargeo.ru/tasks-2019/Progs/28/28.bmp
 https://cpp.mazurok.com/tag/%D0%B4%D0%B5%D0%BA/
 
 7.    Деревья поиска. Определение. Основные операции. Описание типов, необходимых для реализации (два типа). Реализация функции поиска элемента без рекурсии.   
+http://lectures.stargeo.ru/alg22/algorithms.htm#_Toc9059875  
 https://habr.com/ru/post/267855/  
 http://espressocode.top/inorder-tree-traversal-without-recursion/
 
@@ -37,6 +40,7 @@ http://cppstudio.com/post/5396/
 char
 
 11.    Идеально-сбалансированные деревья. Определение. Построение. Какие операции можно выполнять? Связь с идеально-сбалансированными’ деревьями.  
+http://lectures.stargeo.ru/themes/AVL.htm  
 https://www.intuit.ru/studies/courses/648/504/lecture/11469?page=2
 
 12.    Какая комбинация знаков соответствует операции декрементирования?  
@@ -298,6 +302,8 @@ printf("My text is: \"my text\"\n");
 https://ru.stackoverflow.com/questions/275741/include-%D0%B2-%D0%B7%D0%B0%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D0%BE%D1%87%D0%BD%D1%8B%D1%85-%D1%84%D0%B0%D0%B9%D0%BB%D0%B0%D1%85
 
 82.    Однонаправленные списки. Описание типов, необходимых для реализации (два типа). Определение одной из функций списка.  
+опишем два класса (две структуры) и например функцию AddAter(const T&x)  
+http://lectures.stargeo.ru/video/List1.bmp  
 https://learnc.info/adt/linked_list.html  
 https://www.cyberforum.ru/cpp-beginners/thread2446035.html
 
