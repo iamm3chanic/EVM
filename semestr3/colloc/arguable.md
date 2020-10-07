@@ -11,3 +11,6 @@ https://habr.com/ru/post/114211/
 86.    Операция ? : . Рекурсивное использование данного оператора.  
 https://purecodecpp.com/archives/554  
 https://inf5.ru/cpp_lections/lection_5.htm
+
+105. Что может являться прототипом функции func?: а) func(x); б) void func(double); в) double func(double x); г) int fun(double x);
+а. Но вообще зависит от аргументов. статья https://cpp.com.ru/shildt_spr_po_c/06/0608.html
