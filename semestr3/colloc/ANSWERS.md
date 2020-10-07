@@ -329,12 +329,13 @@ https://inf5.ru/cpp_lections/lection_5.htm
 
 88.    Основные скалярные типы (различные целые, вещественные). Формат представления констант (различных целых, различных вещественных, символьных, строковых).  
 https://prog-cpp.ru/c-data-types/  
+https://rtfm.co.ua/books-translations/kurs-c-s-nulya/kurs-c-s-nulya-chast-5-konstanty/  
 https://cpp.com.ru/shildt_spr_po_c/02/0209.html
 
 89.    Очередь. Различные реализации. Описания типов для различных реализаций. Реализация одной из функций очереди.  
 https://prog-cpp.ru/data-queue/
 
-90.    Почему при выполнении функции printf(“1”) на экране может ничего не появиться. Как исправить эту ситуацию?
+90.    Почему при выполнении функции printf(“1”) на экране может ничего не появиться. Как исправить эту ситуацию?  
 в си надо указать формат и подключить stdio  
 http://citforum.ru/security/articles/printf/
 
@@ -359,12 +360,14 @@ https://askdev.ru/q/pravilnyy-specifikator-formata-dlya-double-v-printf-3240/
 https://cpp.com.ru/shildt_spr_po_c/13/scanf.html
 
 97.    Стек. Различные реализации. Описания типов для различных реализаций. Реализация одной из функции стека.  
+http://lectures.stargeo.ru/alg22/algorithms.htm#_Toc9059851  
 https://learnc.info/adt/stack.html
 
 98.    Строки в языке С, принципы организации, основные функции (strlen, strcat, strcpy, strdup,strcmp, strstr, strchr)  
 https://lektsii.org/9-33975.html
 
 99.    Указатели и массивы. Использование. Указать что общего, что различного и в каких случаях их использование дает различный результат.  
+под массив придется выделять память  
 https://cpp.com.ru/kr_cbook/ch5kr.html
 
 100.    Функции и прототипы, оператор return. Объяснить логику компилятора, не позволяющего без описания определять функции перед использованием.  
