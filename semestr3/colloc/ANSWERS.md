@@ -346,6 +346,7 @@ http://lectures.stargeo.ru/alg22/algorithms.htm#_Toc9059807
 https://learnc.info/c/binary_files.html
 
 93.    Работа с текстовыми файлами. Правила использования функции fgets(). Считывание строк неограниченной длины с помощью функции fgets().  
+https://www.cyberforum.ru/cpp-beginners/thread389914.html  
 https://learnc.info/c/text_files.html  
 http://www.cplusplus.com/reference/cstdio/fgets/
 
