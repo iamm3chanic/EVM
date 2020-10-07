@@ -24,11 +24,13 @@ public:
   ~Arr(){Clean();}
   void SetN(int num) {Clean(); n=num; v = new double[num]; memset(v,0, num*sizeof(double) );}
   int GetN(){return n;}
+  int GetNreal(){return nreal;}
   void InputTo(int pos, double d);
   Arr &operator=(const Arr&b){if(this!=&b){Clean();CopyOnly(b);}return *this;} 
   void Clean(){delete[] v; SetZero();} 
   void SetZero(){v=NULL;n=0;nreal=0;}
   void CopyOnly(const Arr &b);
+  void DelPos(int pos);
   CTmpArr operator[](int i){CTmpArr t(this,i);return t;} 
  // double& operator[](int index) {return arr[index];}
   double* &getArr() {return v;}
@@ -87,6 +89,8 @@ public:
 		bool DelCur();
 		iterator begin(){return iterator(first);}
 		iterator end(){return iterator(NULL);}
+		
+		CList2 &operator=(const CList2&b){if(this!=&b){Clean();CopyOnly(b);}return *this;} 
 
 	};
 

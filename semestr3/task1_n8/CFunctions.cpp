@@ -13,18 +13,21 @@ using namespace std;
 
 ///////////////Arr
 void Arr::setArr(double*array)  { 
-    //но мы не знаем GetN()!!!!!!
+    //но мы не знаем GetN()!!!!!! Надо сначала засетать его.
       memcpy(v, array, GetN()*sizeof(double));
       } 
       
 void Arr::InputTo(int pos, double d)  {
         v[pos-1]=d;
        }    
-       
+ 
+void Arr::DelPos(int pos) {
+     v[pos]=0;
+     }      
 void Arr::CopyOnly(const Arr &b) {
        if(this!=&b)
-	{SetZero();nreal=b.nreal;n=b.n;
-	memcpy(v=new double[n],b.v, b.n*sizeof(double));}
+	{/*SetZero();*/ nreal=b.nreal;n=b.n;
+	memcpy(v=new double[b.n],b.v, b.n*sizeof(double));}
        } 
          
 ////////////CDynamic
@@ -38,42 +41,61 @@ void CDynamic::AddToEnd(double d)
     {t[i]=cheatArr.getArr()[i];}
     //t[getLength()]=d;
     t[y-1]=d;
+    setLength(y);
     cheatArr.SetN(y);
     cheatArr.setArr(t);
     //for list
-    /*Arr a;
+    Arr a;
       arrList.GoToEnd();
-      //a= arrList.GetCur();
-      a.setArr( arrList.GetCur().getArr() );  
-     // memcpy(&a, &arrList.GetCur(), sizeof(Arr)); 
+      a= arrList.GetCur();
+      //a.SetN(5);
+      //a.setArr( arrList.GetCur().getArr() );  
+      //memcpy(&a, &arrList.GetCur(), 1); 
       if (a.GetN()<5) a.InputTo(4,d);
-      else {Arr b; b[0]=d; arrList.CList2<Arr>::AddToEnd(b);}*/
+      else {Arr b; b[0]=d; arrList.CList2<Arr>::AddToEnd(b);}
    }
 
 double CDynamic::GetNumByIndex(int index) 
     {
+    //for cheat
      return cheatArr.getArr()[index];   
+    //for list
+    Arr a;
+      for(int i=0;i<index/5;i++) {arrList.GoToNext();}
+      
+      a= arrList.GetCur();
+      return a[index%5];
     }   
     
 void CDynamic::DelNumByIndex(int index)
     {
+    //for cheat
     int y=getLength()-1;
     double *t=new double[getLength()-1];
     for(int i=0;i<index;i++)
     {t[i]=cheatArr.getArr()[i];}
     for(int i=index;i<y;i++)
     {t[i]=cheatArr.getArr()[i+1];}
-    //t[getLength()]=d;
     cheatArr.SetN(y);
     cheatArr.setArr(t);
+    //for list
+    Arr a;
+      for(int i=0;i<index/5;i++) {arrList.GoToNext();}
+      //a.SetN(5);
+      //a.setArr( arrList.GetCur().getArr() );   //memcpy(a, arrList.GetCur(), sizeof(Arr));
+      a= arrList.GetCur(); 
+      a.DelPos(index%5);
+      arrList.AddToPos(a,(index/5));
     }
 void CDynamic::CopyOnly(const CDynamic &v)    
     {
      CList2<Arr> arrList;
      if(this!=&v)
      //{memcpy(&arrList, &v.arrList, v.m*sizeof(Arr); 
-     //arrList=CList2<Arr>::CopyOnly(v.arrList);
-     cheatArr=v.cheatArr;
+    { Clean();
+    n=v.n; m=v.m;n_real=v.n_real;
+     arrList=(v.arrList);
+     cheatArr=v.cheatArr;}
     }
    
 void CDynamic::SetCheat(double* a)
@@ -84,7 +106,7 @@ void CDynamic::SetCheat(double* a)
 void CDynamic::InputTo(int pos, double d)      
     {
       //for cheat
-      //for(int i=pos;i<n_real;i++) {cheatArr[i]=cheatArr[i+1];}
+      
       cheatArr[pos-1]=d;
       //for list
       Arr a;
@@ -97,18 +119,27 @@ void CDynamic::InputTo(int pos, double d)
     
 void CDynamic::InputInto(int pos, double d)      
     {
+    //for cheat
      int y=getLength()+1;
     double *t=new double[getLength()+1];
     for(int i=0;i<pos-1;i++)
     {t[i]=cheatArr.getArr()[i];}
     t[pos-1]=d;
     for(int i=pos;i<y-1;i++)
-    {t[i]=cheatArr.getArr()[i-1];}
-   //cout<<t[y-1]<<"hre";   
-    cheatArr.SetN(y+1);
+    {t[i]=cheatArr.getArr()[i-1];}  
+    setLength(y);
+    //cheatArr.SetN(y);
     cheatArr.setArr(t);
-      //for(int i=pos;i<n_real;i++) {cheatArr[i]=cheatArr[i-1];}
-      //cheatArr[pos-1]=d;
+     //for list 
+     Arr a;
+      for(int i=0;i<pos/5;i++) {arrList.GoToNext();}
+      a= arrList.GetCur();
+      //a.SetN(5);
+      //a.setArr( arrList.GetCur().getArr() );  
+      //memcpy(&a, &arrList.GetCur(), 1); 
+      
+      a.InputTo(pos%5, d);
+      arrList.AddToPos(a,(pos/5));
     }
 
     
@@ -123,6 +154,7 @@ double rand_d(double b, double e){ return b + (rand() % static_cast<unsigned int
      
 void CDynamic::AutoSet()     
     {
+    //for cheat
      srand( time(0) ); // автоматическая рандомизация
      int ran=1 + rand() % 100;
      double *tmp=new double[ran];
@@ -132,6 +164,23 @@ void CDynamic::AutoSet()
       SetCheat(tmp);
       cout << "Random array: " << endl;
       cout << getCheat();
+     //for list 
+      Arr tmpArr=Arr(5); double cur[5]; int j,i,k;
+  int m_tmp=getM();
+  arrList.Clean();
+  for (i=0,k=0; i < m_tmp; i++ ) 
+        {
+           for (j=0; j < 4; j++,k++ )
+            {cur[j]= cheatArr.getArr()[k];}
+            //cout << v.cheatArr.getArr()[1];
+            arrList.GoToBegin();   
+             for (j=0; j < i; j++ )          
+            arrList.GoToNext();
+           
+            tmpArr.SetN(5);
+            tmpArr.setArr(cur);
+            arrList.AddAfter(tmpArr);
+        }    
     } 
 ////////////CList2
 template<class T> void CList2<T>::AddToPos(const T&x, int pos){
@@ -143,9 +192,9 @@ template<class T> void CList2<T>::AddToPos(const T&x, int pos){
 }
 template<class T> bool CList2<T>::DelCur(){
 	if(IsEmpty()) return false;
-	if(cur->prev) cur->prev->next=cur->next; else first=cur->next;
-	if(cur->next) cur->next->prev=cur->prev; else last=cur->prev;
-	if(cur->prev) cur=cur->prev; else cur=cur->next;
+	if(cur->prev) {cur->v.Clean();cur->prev->next=cur->next;} else first=cur->next;
+	if(cur->next) {cur->v.Clean();cur->next->prev=cur->prev;} else last=cur->prev;
+	if(cur->prev) {cur->v.Clean();cur=cur->prev;} else cur=cur->next;
 	return true;
 }
 
@@ -229,7 +278,7 @@ return cout;
 
 istream &operator>>(istream& cin , CDynamic &v) 
 {
-int i,j,k; double tmp[100], cur[5]; double t;
+int i,j,k; double tmp[100]; double t;
    //for cheat
    for (i=0; i < v.getLength(); i++ ) 
         {
@@ -239,18 +288,19 @@ int i,j,k; double tmp[100], cur[5]; double t;
         }
         v.SetCheat(tmp);
     //for list
-  Arr tmpArr;
+  Arr tmpArr=Arr(5); double cur[5];
   int m_tmp=v.getM();
   v.arrList.Clean();
   for (i=0,k=0; i < m_tmp; i++ ) 
         {
            for (j=0; j < 4; j++,k++ )
-            {cur[j]= v.getCheat().getArr()[k];}
-            //!!!!breaks!!!!//cout << v.getCheat()->getArr()[k] <<endl;
+            {cur[j]= v.cheatArr.getArr()[k];}
+            //cout << v.cheatArr.getArr()[1];
             v.arrList.GoToBegin();   
              for (j=0; j < i; j++ )          
             v.arrList.GoToNext();
-           // for (k=0; k < i; k++ ) 
+           
+            tmpArr.SetN(5);
             tmpArr.setArr(cur);
             v.arrList.AddAfter(tmpArr);
         }
@@ -302,9 +352,8 @@ int BinSearch(CDynamic &v, int leftBound, int rightBound)
     while (!(left >= right))
     {
         mid = left + (right - left) / 2;
-
-cout<<v.getCheat().getArr()[mid]<<endl;
-        if ((v.getCheat().getArr()[mid] > leftBound)&&(v.getCheat().getArr()[mid] < rightBound))
+//cout<<v.getCheat().getArr()[mid]<<endl;
+        if ((v.getCheat().getArr()[mid] >= leftBound)&&(v.getCheat().getArr()[mid] <= rightBound))
             {cout<<"\nFOUND!\nindex: "<<mid<<"\nvalue: "<<v.getCheat().getArr()[mid]<<endl;return mid;}
 
         if (v.getCheat().getArr()[mid] > rightBound)

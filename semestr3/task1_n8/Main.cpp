@@ -100,7 +100,13 @@ try{
 }
 void test6()
 {
-
+try{
+  cout << "\ntest6. operator=\n";
+   CDynamic dyn,g;
+   dyn.AutoSet();
+   g=dyn;
+  cout << g;
+    } catch(int err) {cout << "error=" <<err<<endl;}
 }
 void test7()
 {
@@ -181,7 +187,7 @@ int main()
  cout << "\ntest3. Method InputTo(int k, double d)\nЗамена.\n";
  cout << "\ntest4. Method InputInto(int k, double d)\nДобавление.\n";
  cout << "\ntest5. SortUp\n";
- 
+ cout << "\ntest6. operator=\n";
  cout << "\ntest7. AutoSet + Sort\n";
  cout << "\ntest8. AutoSet + Sort + BinSearch\n";
  cout << "\ntest9. GetNumByIndex(int index) \n";

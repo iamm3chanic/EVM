@@ -68,14 +68,14 @@ class CDynamic
     void CopyOnly(const CDynamic &v);
     
     void SetCheat(double* a);
-    void AddToEnd(double d);  //!!
+    void AddToEnd(double d);  
     void InputTo(int k, double d);
-    void InputInto(int k, double d); //!!
+    void InputInto(int k, double d); 
     void SetDyn(CList2<Arr> l);
     void AutoSet();
-    void DelNumByIndex(int index);  //!!
-    double GetNumByIndex(int index);  //!!
-    CDynamic& operator=(const CDynamic& v);  //!!
+    void DelNumByIndex(int index); 
+    double GetNumByIndex(int index);  
+    CDynamic& operator=(const CDynamic& v);  
     
     friend void SortUp(CDynamic& dyn);
     friend int BinSearch(CDynamic& dyn, int leftBound, int rightBound);
