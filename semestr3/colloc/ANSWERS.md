@@ -308,6 +308,7 @@ https://learnc.info/adt/linked_list.html
 https://www.cyberforum.ru/cpp-beginners/thread2446035.html
 
 83.    Операторы перехода (break, continue, goto). Описать случаи, когда использование оператора goto является дурным тоном и когда оно необходимо.  
+выйти из нескольких циклов сразу (или выйти из цикла и пропустить операцию) - необходимо, дурной тон - когда можно заменить на for.  
 http://cppprosto.blogspot.com/2017/09/break-continue-return-goto.html  
 https://habr.com/ru/post/114211/
 
