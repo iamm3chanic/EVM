@@ -44,6 +44,7 @@ void CDynamic::AddToEnd(double d)
     setLength(y);
     cheatArr.SetN(y);
     cheatArr.setArr(t);
+    delete[] t;
     //for list
     Arr a;
       arrList.GoToEnd();
@@ -78,6 +79,7 @@ void CDynamic::DelNumByIndex(int index)
     {t[i]=cheatArr.getArr()[i+1];}
     cheatArr.SetN(y);
     cheatArr.setArr(t);
+    delete[] t;
     //for list
     Arr a;
       for(int i=0;i<index/5;i++) {arrList.GoToNext();}
@@ -120,17 +122,19 @@ void CDynamic::InputTo(int pos, double d)
 void CDynamic::InputInto(int pos, double d)      
     {
     //for cheat
+    if(pos>=getLength()) {cout<<"too huge position!\n"; return ;}
      int y=getLength()+1;
     double *t=new double[getLength()+1];
     for(int i=0;i<pos-1;i++)
     {t[i]=cheatArr.getArr()[i];}
     t[pos-1]=d;
-    for(int i=pos;i<y-1;i++)
+    for(int i=pos;i<y;i++)
     {t[i]=cheatArr.getArr()[i-1];}  
     setLength(y);
     //cheatArr.SetN(y);
     cheatArr.setArr(t);
      //for list 
+     delete[] t;
      Arr a;
       for(int i=0;i<pos/5;i++) {arrList.GoToNext();}
       a= arrList.GetCur();
@@ -170,8 +174,8 @@ void CDynamic::AutoSet()
   arrList.Clean();
   for (i=0,k=0; i < m_tmp; i++ ) 
         {
-           for (j=0; j < 4; j++,k++ )
-            {cur[j]= cheatArr.getArr()[k];}
+           for (j=0; (j < 4) && (k<cheatArr.GetN()); j++,k++ )
+            {cur[j]= cheatArr.getArr()[k];} //for test
             //cout << v.cheatArr.getArr()[1];
             arrList.GoToBegin();   
              for (j=0; j < i; j++ )          
@@ -180,7 +184,8 @@ void CDynamic::AutoSet()
             tmpArr.SetN(5);
             tmpArr.setArr(cur);
             arrList.AddAfter(tmpArr);
-        }    
+        }  
+        delete [] tmp;  
     } 
 ////////////CList2
 template<class T> void CList2<T>::AddToPos(const T&x, int pos){
@@ -192,9 +197,11 @@ template<class T> void CList2<T>::AddToPos(const T&x, int pos){
 }
 template<class T> bool CList2<T>::DelCur(){
 	if(IsEmpty()) return false;
+	auto *x=cur;
 	if(cur->prev) {cur->v.Clean();cur->prev->next=cur->next;} else first=cur->next;
 	if(cur->next) {cur->v.Clean();cur->next->prev=cur->prev;} else last=cur->prev;
 	if(cur->prev) {cur->v.Clean();cur=cur->prev;} else cur=cur->next;
+	delete x;
 	return true;
 }
 
@@ -270,6 +277,7 @@ ostream &operator<<(ostream& cout, CDynamic &v)
       cout << v.getCheat().getArr()[i] << ", "; // cout << v.getCheat()[i] ; 
      else 
       cout << v.getCheat()[i] ; 
+      
      }
    cout << "}\n";
 
@@ -293,7 +301,7 @@ int i,j,k; double tmp[100]; double t;
   v.arrList.Clean();
   for (i=0,k=0; i < m_tmp; i++ ) 
         {
-           for (j=0; j < 4; j++,k++ )
+           for (j=0; (j < 4) && (k<v.cheatArr.GetN()); j++,k++ )
             {cur[j]= v.cheatArr.getArr()[k];}
             //cout << v.cheatArr.getArr()[1];
             v.arrList.GoToBegin();   
@@ -317,6 +325,7 @@ double t;
 double *m=new double[dyn.getLength()];  //=dyn.getCheat().getArr();
  memset(m,0, dyn.getLength()*sizeof(double)); 
  memcpy(m, dyn.getCheat().getArr(), dyn.getLength()*sizeof(double));
+ cout<<"\n";
  for(int k=0;k<dyn.getLength();k++)
   {
   cout<<m[k]<<" ";} cout<<"\n";
@@ -335,6 +344,7 @@ double *m=new double[dyn.getLength()];  //=dyn.getCheat().getArr();
 for(int k=0;k<dyn.getLength();k++)
 {cout<<m[k]<<" ";} cout<<"\n";
 cout<<"\nSorted!\n";
+delete [] m;
 }
 
 int Check(CDynamic& dyn)
@@ -348,19 +358,38 @@ int BinSearch(CDynamic &v, int leftBound, int rightBound)
     int left = 0;
     int right = v.getLength();
     int mid = 0;
-
+    //проверим на плохие границы
+    if((leftBound>v.getCheat().getArr()[right-1])||(rightBound<v.getCheat().getArr()[0])
+||(leftBound>rightBound)) {cout<<"bad bounds...\n";return -1;}
+    
     while (!(left >= right))
     {
         mid = left + (right - left) / 2;
 //cout<<v.getCheat().getArr()[mid]<<endl;
         if ((v.getCheat().getArr()[mid] >= leftBound)&&(v.getCheat().getArr()[mid] <= rightBound))
-            {cout<<"\nFOUND!\nindex: "<<mid<<"\nvalue: "<<v.getCheat().getArr()[mid]<<endl;return mid;}
-
+            {cout<<"\nFOUND!\nindex: "<<mid<<"\nvalue: "<<v.getCheat().getArr()[mid]<<endl;return mid;}           
+        if ((v.getCheat().getArr()[left] >= leftBound)&&(v.getCheat().getArr()[right-1] <= rightBound))
+          //SUPER! 
+          {right=left;}
+        /*if ((v.getCheat().getArr()[left] >= leftBound)&&(v.getCheat().getArr()[right-1] >= rightBound))
+        //move left
+        {right=left+right/2;}
+        if ((v.getCheat().getArr()[left] >= leftBound)&&(v.getCheat().getArr()[right-1] <= rightBound))
+        {right=left+right/2; left=left + (right - left) / 2;} 
+        //suzhaem vsyo
+        if ((v.getCheat().getArr()[left] <= leftBound)&&(v.getCheat().getArr()[right-1] <= rightBound))
+        {left=left + (right - left) / 2;}
+        //
+        if ((v.getCheat().getArr()[mid] >= leftBound)&&(v.getCheat().getArr()[mid] <= rightBound))
+        //
+        if ((v.getCheat().getArr()[mid] >= leftBound)&&(v.getCheat().getArr()[mid] <= rightBound))*/
+        //
         if (v.getCheat().getArr()[mid] > rightBound)
             right = mid;
-        else
-            left = mid + 1;
+        if (v.getCheat().getArr()[mid] < rightBound)
+            left = mid+1;  // + 1;
     }
+    cout<<"not found...\n";
     return -(1 + left);
 } 
 

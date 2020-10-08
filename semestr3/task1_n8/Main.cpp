@@ -5,7 +5,7 @@
 #include "CDynamic.h"
 
 using namespace std;
-
+//TODO: add key EHA to catch all exceptions
 void test1() 
 {
 try{
@@ -106,7 +106,7 @@ try{
    dyn.AutoSet();
    g=dyn;
   cout << g;
-    } catch(int err) {cout << "error=" <<err<<endl;}
+    } catch(...) {cout << "error" <<endl;}
 }
 void test7()
 {
