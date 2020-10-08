@@ -16,7 +16,7 @@ https://ru.stackoverflow.com/questions/149/%D0%92-%D1%87%D0%B5%D0%BC-%D1%80%D0%B
 https://www.cyberforum.ru/pascal/thread951542.html
 
 5.    Двунаправленные списки. Описание типов, необходимых для реализации (два типа). Определение одной из функции списка.  
-опишем два класса (две структуры) и например функцию AddAter(const T&x)  
+опишем два класса (две структуры) и например функцию AddAfter(const T&x)  
 http://lectures.stargeo.ru/video/List2.bmp  
 https://learnc.info/adt/double_linked_list.html  
 https://www.intuit.ru/studies/courses/648/504/lecture/11456?page=3
@@ -304,7 +304,7 @@ printf("My text is: \"my text\"\n");
 https://ru.stackoverflow.com/questions/275741/include-%D0%B2-%D0%B7%D0%B0%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D0%BE%D1%87%D0%BD%D1%8B%D1%85-%D1%84%D0%B0%D0%B9%D0%BB%D0%B0%D1%85
 
 82.    Однонаправленные списки. Описание типов, необходимых для реализации (два типа). Определение одной из функций списка.  
-опишем два класса (две структуры) и например функцию AddAter(const T&x)  
+опишем два класса (две структуры) и например функцию AddAfter(const T&x)  
 http://lectures.stargeo.ru/video/List1.bmp  
 https://learnc.info/adt/linked_list.html  
 https://www.cyberforum.ru/cpp-beginners/thread2446035.html
