@@ -5,6 +5,7 @@ https://spravochnick.ru/informatika/algebra_logiki_logika_kak_nauka/logicheskie_
 short. но это модификатор! квалификаторы это только const, volatile, restrict
 
 83 Операторы перехода (break, continue, goto). Описать случаи, когда использование оператора goto является дурным тоном и когда оно необходимо.  
+выйти из нескольких циклов сразу (или выйти из цикла и пропустить операцию) - необходимо, дурной тон - когда можно заменить на for.  
 http://cppprosto.blogspot.com/2017/09/break-continue-return-goto.html  
 https://habr.com/ru/post/114211/
 
