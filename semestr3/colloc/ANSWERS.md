@@ -322,6 +322,8 @@ http://cppstudio.com/post/6458/
 http://www.c-cpp.ru/books/operator-zapyataya
 
 86.    Операция ? : . Рекурсивное использование данного оператора.  
+имеется в виду использование несколько раз, например:  
+return x<0?0:x<10?1:x<100?2:3  
 https://purecodecpp.com/archives/554  
 https://inf5.ru/cpp_lections/lection_5.htm
 
