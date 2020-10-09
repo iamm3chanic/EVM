@@ -95,7 +95,6 @@ try{
     cout << dyn;
     SortUp(dyn);
     Check(dyn);
-
     } catch(int err) {cout << "error=" <<err<<endl;}
 }
 void test6()

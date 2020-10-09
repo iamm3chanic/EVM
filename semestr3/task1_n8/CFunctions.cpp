@@ -22,6 +22,8 @@ void Arr::InputTo(int pos, double d)  {
        }    
  
 void Arr::DelPos(int pos) {
+     if(pos>n){cout<<"Слишком большой номер!\n"; return;}
+     if(pos<0){cout<<"Слишком маленький номер!\n"; return ;}
      v[pos]=0;
      }      
 void Arr::CopyOnly(const Arr &b) {
@@ -59,6 +61,8 @@ void CDynamic::AddToEnd(double d)
 double CDynamic::GetNumByIndex(int index) 
     {
     //for cheat
+     if(index>n_real){cout<<"Слишком большой номер!\n"; return -1000;}
+     if(index<0){cout<<"Слишком маленький номер!\n"; return -1001;}
      return cheatArr.getArr()[index];   
     //for list
     Arr a;
@@ -71,6 +75,8 @@ double CDynamic::GetNumByIndex(int index)
 void CDynamic::DelNumByIndex(int index)
     {
     //for cheat
+    if(index>n_real){cout<<"Слишком большой номер!\n"; return ;}
+    if(index<0){cout<<"Слишком маленький номер!\n"; return ;}
     int y=getLength()-1;
     double *t=new double[getLength()-1];
     for(int i=0;i<index;i++)
@@ -108,7 +114,8 @@ void CDynamic::SetCheat(double* a)
 void CDynamic::InputTo(int pos, double d)      
     {
       //for cheat
-      
+      if(pos>n_real){cout<<"Слишком большой номер!\n"; return ;}
+      if(pos<0){cout<<"Слишком маленький номер!\n"; return ;}
       cheatArr[pos-1]=d;
       //for list
       Arr a;
@@ -122,7 +129,8 @@ void CDynamic::InputTo(int pos, double d)
 void CDynamic::InputInto(int pos, double d)      
     {
     //for cheat
-    if(pos>=getLength()) {cout<<"too huge position!\n"; return ;}
+    if(pos>n_real){cout<<"Слишком большой номер!\n"; return ;}
+    if(pos<0){cout<<"Слишком маленький номер!\n"; return ;}
      int y=getLength()+1;
     double *t=new double[getLength()+1];
     for(int i=0;i<pos-1;i++)
@@ -342,15 +350,22 @@ double *m=new double[dyn.getLength()];  //=dyn.getCheat().getArr();
    } while (f && i>1);
 //output
 for(int k=0;k<dyn.getLength();k++)
-{cout<<m[k]<<" ";} cout<<"\n";
+{
+dyn.getCheat().getArr()[k]=m[k];
+cout<<m[k]<<" ";
+} cout<<"\n";
 cout<<"\nSorted!\n";
 delete [] m;
 }
 
 int Check(CDynamic& dyn)
 {
-if(dyn.getList().IsEmpty()){return 0;}
-else return -1;
+if(dyn.getList().IsEmpty()){cout<<"Список пуст!\n";return -2;}
+else 
+for (int i=0;i<dyn.getLength()-1;i++)
+{if(dyn.getCheat()[i]>dyn.getCheat()[i+1]) {cout<<"Список не отсортирован!\n";return -1;}}
+cout<<"Список отсортирован!\n";
+return 0;
 }
 
 int BinSearch(CDynamic &v, int leftBound, int rightBound)
@@ -358,10 +373,16 @@ int BinSearch(CDynamic &v, int leftBound, int rightBound)
     int left = 0;
     int right = v.getLength();
     int mid = 0;
+    //проверим на отсортированность
+    if(Check(v)<0){return -2;}
     //проверим на плохие границы
-    if((leftBound>v.getCheat().getArr()[right-1])||(rightBound<v.getCheat().getArr()[0])
-||(leftBound>rightBound)) {cout<<"bad bounds...\n";return -1;}
-    
+    if((leftBound>v.getCheat()[right-1])||(rightBound<v.getCheat()[0])||(leftBound>rightBound)) {cout<<"bad bounds...\n";return -1;}
+    //проверим на вырожденный простой случай
+    if((leftBound>v.getCheat().getArr()[0])&&(rightBound>v.getCheat().getArr()[right-1])&&(leftBound<v.getCheat().getArr()[right-1]))
+    {cout<<"\nFOUND!\nindex: "<<right-1<<"\nvalue: "<<v.getCheat().getArr()[right-1]<<endl;return right-1;} 
+    if((leftBound<v.getCheat().getArr()[0])&&(rightBound<v.getCheat().getArr()[right-1])&&(rightBound>v.getCheat().getArr()[0]))
+    {cout<<"\nFOUND!\nindex: "<<0<<"\nvalue: "<<v.getCheat().getArr()[0]<<endl;return 0;} 
+    //бинарный поиск
     while (!(left >= right))
     {
         mid = left + (right - left) / 2;
@@ -371,23 +392,10 @@ int BinSearch(CDynamic &v, int leftBound, int rightBound)
         if ((v.getCheat().getArr()[left] >= leftBound)&&(v.getCheat().getArr()[right-1] <= rightBound))
           //SUPER! 
           {right=left;}
-        /*if ((v.getCheat().getArr()[left] >= leftBound)&&(v.getCheat().getArr()[right-1] >= rightBound))
-        //move left
-        {right=left+right/2;}
-        if ((v.getCheat().getArr()[left] >= leftBound)&&(v.getCheat().getArr()[right-1] <= rightBound))
-        {right=left+right/2; left=left + (right - left) / 2;} 
-        //suzhaem vsyo
-        if ((v.getCheat().getArr()[left] <= leftBound)&&(v.getCheat().getArr()[right-1] <= rightBound))
-        {left=left + (right - left) / 2;}
-        //
-        if ((v.getCheat().getArr()[mid] >= leftBound)&&(v.getCheat().getArr()[mid] <= rightBound))
-        //
-        if ((v.getCheat().getArr()[mid] >= leftBound)&&(v.getCheat().getArr()[mid] <= rightBound))*/
-        //
         if (v.getCheat().getArr()[mid] > rightBound)
             right = mid;
-        if (v.getCheat().getArr()[mid] < rightBound)
-            left = mid+1;  // + 1;
+        else //if (v.getCheat().getArr()[mid] < rightBound)
+            left = mid+1;  
     }
     cout<<"not found...\n";
     return -(1 + left);
