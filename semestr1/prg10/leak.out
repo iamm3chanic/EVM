@@ -1,7 +1,0 @@
-D   0x4015ef             # delete non alloc or twice pointer   0xb742ec
-# LeakReport
-# from new @ |      size  # Pointer Addr
-L   0x401829           8  # 0xb742e0
-# total allocation requests:      1 ; max. mem used 0 kBytes
-# leak      8 Bytes	:-(
-WORK TIME - 00:00:00.00
