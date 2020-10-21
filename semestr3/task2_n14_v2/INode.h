@@ -5,7 +5,7 @@
  *    блоков с древовидным хранением номеров файловых блоков.
  *
  *    Created on: 15.10.2020
- *    Author: Anfisa
+ *    Author: iamm3chanic
  */
  
 #pragma once
@@ -17,11 +17,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <string>
-
-
-#define NNODES 100
-#define NBLOCKS 1000*10
-#define BLOCK_SIZE 512
 
 enum nodeType {File, Folder};
 
@@ -41,9 +36,8 @@ public:
     
     node()   { SetZero(); }
     ~node()  { Clean();   }
-    void SetZero(){ name=NULL; content=NULL; numberOfItems=0;size=0; type=Folder;}
-    void Clean() {if(name!=NULL)free (name); 
-        if(content!=NULL){free (content);} SetZero();}
+    void SetZero(){ name=NULL; content=NULL; numberOfItems=0;size=0;}
+    void Clean() {delete[] name; delete[] content; SetZero();}
     //void CopyOnly(const node &n) { if(this!=&n){SetZero();numberOfItems=n.numberOfItems;size=n.size;} //мы ей не пользуемся
     
     node* getNode(node *currentFolder, char* name, enum nodeType type);
@@ -71,10 +65,6 @@ public:
  void mov(node *currentFolder, char *command);
  char *getString();
  char *user_input();
- void initialize(node **inodes, char **blocks);
- node **init_n(node **inodes);
- char **init_b(char **blocks);
- void clean(node **inodes, char **blocks);
 
 #define RED "\033[1;31m"
 #define GREEN "\033[1;32m"

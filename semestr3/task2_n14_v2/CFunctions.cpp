@@ -5,50 +5,10 @@
  *    блоков с древовидным хранением номеров файловых блоков.
  *
  *    Created on: 15.10.2020
- *    Author: Anfisa
+ *    Author: iamm3chanic
  */
  
 #include "INode.h"
-////////////// common //////////////
-
-void initialize(node **inodes, char **blocks) {
-/*inodes = new node[NNODES];*/
-inodes = (node**) malloc(sizeof(node*)*NNODES);
-for (int i=0; i<NNODES; i++)
-{inodes[i] = (node*) malloc(sizeof(node));}
-//inodes[0]=node();
-// *blocks = new char[NBLOCKS];
-blocks = new char*[NBLOCKS];
-for (int i=0; i<NBLOCKS; i++)
-  {blocks[i] = new char[BLOCK_SIZE]; memcpy(blocks[i],"",512);}
-  /* inodes = (node*)malloc(sizeof(node)*NNODES);
-  blocks = (char**)malloc(sizeof(char*)*NBLOCKS);
-  (blocks)[0]=(char*)((*blocks)+(NBLOCKS));
-  inodes[0]=node();*/
-}
-
-node **init_n(node **inodes){
-    inodes = (node**) malloc(sizeof(node*)*NNODES);
-for (int i=0; i<NNODES; i++)
-{inodes[i] = (node*) malloc(sizeof(node));}
-return inodes;
-}
-
-char **init_b(char **blocks){
-    blocks = (char**) malloc(sizeof(char*)*NBLOCKS);
-for (int i=0; i<NBLOCKS; i++)
-  {blocks[i] = (char*) malloc(sizeof(char));}
-return blocks;
-}
-
-void clean(node **inodes, char **blocks) {
-for (int i=0; i<NBLOCKS; i++)
-  {free (blocks [i]);} 
-free ( blocks);
-for (int i=0; i<NNODES; i++)
-  { inodes[i]->SetZero(); free(inodes[i]);/*inodes[i]->Clean();*/}
-free (inodes);
-}
 ////////////// node ////////////////
 
 node* node::getNode(node *currentFolder, char* name, enum nodeType type) {
@@ -120,9 +80,8 @@ void node::mkdir(node *currentFolder, char *command) {
 
                 char* newFolderName = (char*) malloc(sizeof(char)*(strlen(folderName)+1));
                 strcpy(newFolderName, folderName);
-               
+
                 newFolder->name = newFolderName;
-                //newFolder->name = folderName;
                 newFolder->type = Folder;
                 newFolder->numberOfItems = 0;
                 newFolder->size = 0;
@@ -132,7 +91,6 @@ void node::mkdir(node *currentFolder, char *command) {
                 newFolder->child = NULL;
 
                 printf("Folder '%s' added\n", newFolder->name);
-                 //free(newFolderName);
             } else {
                 fprintf(stderr, "\033[1;31m'%s' is already exist in current directory!\n\033[0m",  folderName);
             }
@@ -180,8 +138,6 @@ void node::touch(node *currentFolder, char *command) {
                 newFile->child = NULL;
 
                 printf("File '%s' added\n", newFile->name);
-                  //free(newFileName);
-                //freeNode(newFile);
             } else {
                 fprintf(stderr, "\033[1;31m'%s' is already exist in current directory!\n\033[0m", fileName);
             }
@@ -297,10 +253,8 @@ void node::edit(node *currentFolder, char *command) {
                     editingNode->size = strlen(editingNode->content);
                     editingNode->date = time(NULL);
                 }
-                //free(content);
             }
         }
-        //free(fileName);
     }
 }
 
@@ -334,7 +288,7 @@ node* node::cd(node *currentFolder, char *command, char **path) {
 }
 
 node* node::cdup(node *currentFolder, char **path) {
-    if (currentFolder->parent == NULL ) {return currentFolder;}
+
     size_t newPathLength = strlen(*path) - strlen(currentFolder->name);
 
     while (currentFolder->previous != NULL) {
