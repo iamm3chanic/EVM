@@ -2,7 +2,7 @@
 Задание 2.14. По аналогии с файловой системой EXT(UNIX), т.е. на основе
 множеств блоков с древовидным хранением номеров файловых блоков.
      Created on: 11.10.2020
-     Author: Anfisa
+     Author: iamm3chanic
  */
 #pragma once
 #include <stdio.h>
