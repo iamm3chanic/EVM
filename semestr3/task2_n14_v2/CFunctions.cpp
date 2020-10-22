@@ -4,11 +4,37 @@
  *    с файловой системой EXT(UNIX), т.е. на основе множеств 
  *    блоков с древовидным хранением номеров файловых блоков.
  *
- *    Created on: 15.10.2020
+ *    Created on: 20.10.2020
  *    Author: iamm3chanic
  */
  
 #include "INode.h"
+
+
+////////////// common //////////////
+
+node **init_n(node **inodes){
+    inodes = (node**) malloc(sizeof(node*)*NNODES);
+for (int i=0; i<NNODES; i++)
+{inodes[i] = (node*) malloc(sizeof(node));}
+return inodes;
+}
+
+char **init_b(char **blocks){
+    blocks = (char**) malloc(sizeof(char*)*NBLOCKS);
+for (int i=0; i<NBLOCKS; i++)
+  {blocks[i] = (char*) malloc(sizeof(char)*BLOCK_SIZE);}
+return blocks;
+}
+
+void clean(node **inodes, char **blocks) {
+for (int i=0; i<NBLOCKS; i++)
+  {if(blocks [i])free (blocks [i]);} 
+free ( blocks);
+for (int i=0; i<NNODES; i++)
+  { inodes[i]->SetZero(); free(inodes[i]);/*inodes[i]->Clean();*/}
+free (inodes);
+}
 ////////////// node ////////////////
 
 node* node::getNode(node *currentFolder, char* name, enum nodeType type) {
@@ -60,7 +86,8 @@ void node::mkdir(node *currentFolder, char *command) {
             if (getNodeTypeless(currentFolder, folderName) == NULL) {
 
                 currentFolder->numberOfItems++;
-                node *newFolder = (node*) malloc(sizeof(node));
+                //node *newFolder = (node*) malloc(sizeof(node));
+                node *newFolder = inodes[NODE_FLAG++];
 
                 if (currentFolder->child == NULL) {
                     currentFolder->child = newFolder;
@@ -78,10 +105,12 @@ void node::mkdir(node *currentFolder, char *command) {
                     newFolder->parent = NULL;
                 }
 
-                char* newFolderName = (char*) malloc(sizeof(char)*(strlen(folderName)+1));
+                //char* newFolderName = (char*) malloc(sizeof(char)*(strlen(folderName)+1));
+                char* newFolderName = blocks[CHAR_FLAG++];
                 strcpy(newFolderName, folderName);
-
+               
                 newFolder->name = newFolderName;
+                //newFolder->name = folderName;
                 newFolder->type = Folder;
                 newFolder->numberOfItems = 0;
                 newFolder->size = 0;
@@ -91,6 +120,7 @@ void node::mkdir(node *currentFolder, char *command) {
                 newFolder->child = NULL;
 
                 printf("Folder '%s' added\n", newFolder->name);
+                 //free(newFolderName);
             } else {
                 fprintf(stderr, "\033[1;31m'%s' is already exist in current directory!\n\033[0m",  folderName);
             }
@@ -107,7 +137,8 @@ void node::touch(node *currentFolder, char *command) {
 
                 currentFolder->numberOfItems++;
 
-                node *newFile = (node *) malloc(sizeof(node));
+                //node *newFile = (node *) malloc(sizeof(node));
+                node *newFile = inodes[NODE_FLAG++];
 
                 if (currentFolder->child == NULL) {
                     currentFolder->child = newFile;
@@ -125,7 +156,8 @@ void node::touch(node *currentFolder, char *command) {
                     newFile->parent = NULL;
                 }
 
-                char* newFileName = (char*) malloc(sizeof(char)*(strlen(fileName)+1));
+                //char* newFileName = (char*) malloc(sizeof(char)*(strlen(fileName)+1));
+                char* newFileName = blocks[CHAR_FLAG++];
                 strcpy(newFileName, fileName);
 
                 newFile->name = newFileName;
@@ -138,6 +170,8 @@ void node::touch(node *currentFolder, char *command) {
                 newFile->child = NULL;
 
                 printf("File '%s' added\n", newFile->name);
+                  //free(newFileName);
+                //freeNode(newFile);
             } else {
                 fprintf(stderr, "\033[1;31m'%s' is already exist in current directory!\n\033[0m", fileName);
             }
@@ -253,8 +287,10 @@ void node::edit(node *currentFolder, char *command) {
                     editingNode->size = strlen(editingNode->content);
                     editingNode->date = time(NULL);
                 }
+                //free(content);
             }
         }
+        //free(fileName);
     }
 }
 
@@ -267,10 +303,6 @@ node* node::cd(node *currentFolder, char *command, char **path) {
             node *destinationFolder = getNode(currentFolder, folderName, Folder);
 
             if ( destinationFolder != NULL) {
-
-                size_t newPathLength = strlen(*path) + strlen(destinationFolder->name) + 2;
-
-                *path = (char *) realloc(*path, sizeof(char)* newPathLength);
 
                 strcat(strcat(*path, destinationFolder->name), "/");
 
@@ -288,7 +320,7 @@ node* node::cd(node *currentFolder, char *command, char **path) {
 }
 
 node* node::cdup(node *currentFolder, char **path) {
-
+    if (currentFolder->parent == NULL ) {return currentFolder;}
     size_t newPathLength = strlen(*path) - strlen(currentFolder->name);
 
     while (currentFolder->previous != NULL) {
@@ -296,7 +328,6 @@ node* node::cdup(node *currentFolder, char **path) {
     }
     if (currentFolder->parent != NULL ) {
 
-        *path = (char *) realloc(*path, sizeof(char)* newPathLength);
         (*path)[newPathLength-1] = '\0';
 
         currentFolder = currentFolder->parent;
@@ -319,9 +350,9 @@ void node::freeNode(node *freeingNode) {
         }
         freeNode(currentNode);
     }
-    free(freeingNode->name);
-    free(freeingNode->content);
-    free(freeingNode);
+    //free(freeingNode->name);
+    //free(freeingNode->content);
+    //free(freeingNode);
 
 }
 
@@ -392,6 +423,24 @@ void node::moveNode(node *movingNode, node *destinationFolder) {
     destinationFolder->numberOfItems++;
 }
 
+void node::cat(node *currentFolder, char *command) {
+
+    if (strtok(command, " ") != NULL) {
+        char *fileName = strtok(NULL, " ");
+        if (fileName != NULL) {
+            node * editingNode = getNode(currentFolder, fileName, File);
+            if (editingNode != NULL) {
+                if(editingNode->type==Folder) 
+		        {printf("\033[1;31mYou cannot view a folder by \'cat\',try \'ls\'.\n\033[0m");}
+	            else if(editingNode->type==File)
+	            {
+	          	 if (editingNode->content != NULL) 
+                   { printf("%s\n", editingNode->content);}
+                }
+            }
+        }
+    }
+}
 ////////////// friend functions ////////////////
 
 void help() {
@@ -403,6 +452,7 @@ printf("edit        - write something to file\n");
 printf("pwd         - print working directory\n"); 
 printf("cd          - change directory\n"); 
 printf("cdup        - move one directory up\n"); 
+printf("cat         - show file content\n"); 
 printf("mov         - move something somewhere\n"); 
 printf("rm          - remove something\n"); 
 printf("help        - help\n\033[0m"); 
@@ -474,36 +524,45 @@ char *getString(){
     return str;
 }
 
+char *getS(){
+	//size_t size = 10;
+    char *str;
+    int ch;
+    size_t len = 0;
+    str=blocks[CHAR_FLAG++];
+    //str = new char[size];
+    if(!str)return str;
+    while(EOF!=(ch=fgetc(stdin)) && ch != '\n'){
+        str[len++]=ch;
+        if(len==BLOCK_SIZE){
+            strcat(str, blocks[CHAR_FLAG++]);
+            if(!str)return str;
+        }
+    }
+    str[len++]='\0';
+    //str=(char*)realloc(str, sizeof(char)*len);
+    //delete [] str;
+    return str;
+}
 char *user_input()
 {
     printf("Enter file content : \n");    
     char *s, *tmp_s;
     //s=new char[1000];
-    s=(char*)realloc(NULL, sizeof(char)*1024);       //max input size
+    //s=(char*)realloc(NULL, sizeof(char)*1024);       //max input sizeH
+    s=blocks[CHAR_FLAG++];
     //tmp_s=(char*)realloc(NULL, sizeof(char)*100);  //max string size
     strcpy(s,"");
     do
     {  
-        tmp_s=getString();
+    	if(sizeof(s)<512){
+        tmp_s=getS();
         strcat(s, tmp_s);
         strcat(s, "\n");
+        }
+        else strcat(s, blocks[CHAR_FLAG++]);
     } while(strcmp(tmp_s, ":wq")); // while (tmp_s!=":wq"); 
     //free (tmp_s); delete tmp_s;
     return s;
 }
-/*
-std::string user_input()
-{
-    printf("Enter file content : \n");
-    
-    std::string s, tmp_s;
-    do
-    {
-       // string tmp_s;
-        tmp_s=getString();
-        s += (tmp_s + "\n");
-    } while (tmp_s!=":wq");   //(!cin.eof());
-    s.pop_back();
-    s.pop_back();
-    return s;
-}*/
+
