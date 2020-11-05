@@ -3,7 +3,7 @@
 #include <math.h>
 #include "fun.h"
 
-int Input(const char *filename, int **array, int *size) 
+int Input(const char *filename, float **array, int *size) 
 {
   int i;
   FILE *file;
@@ -15,14 +15,14 @@ int Input(const char *filename, int **array, int *size)
     fclose(file);
     return -2;
   }
-  *array = (int*) malloc(*size * sizeof(int));
+  *array = (float*) malloc(*size * sizeof(float));
   if (*array == NULL) 
   {
     fclose(file);
     return -3;
   }
   for (i = 0; i < *size; i++)
-    if (fscanf(file, "%d", (*array) + i) != 1) 
+    if (fscanf(file, "%f", (*array) + i) != 1) 
     {
       free(*array);
       fclose(file);
