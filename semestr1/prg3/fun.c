@@ -36,11 +36,13 @@ int Find(const char *filename, int *res)
      if (flag==1) 
      {
        *res=1;
+       fclose(file);
        return 0;
      } 
      else 
      {
        *res=0;
+       fclose(file);
        return 0;
      }
     }
