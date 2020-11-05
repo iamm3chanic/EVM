@@ -5,7 +5,7 @@
 
 int Input(const char *filename, int **array, int *n) 
 {
-  int nmax=2;
+  int nmax=10;
   FILE *file;
   file = fopen(filename, "r");
   if (file == NULL)
@@ -16,9 +16,10 @@ int Input(const char *filename, int **array, int *n)
     return -1;
   }
   *array = (int*) malloc(nmax*sizeof(int));
-  for (*n = 0; fscanf(file, "%d", (*array)+*n)==1; (*array)++)
+  //fscanf(file, "%d", (*array));
+  for (*n = 0; fscanf(file, "%d", (*array)+(*n))==1;(*n)++/*(*array)++*/)
     if (*n>=nmax-1) 
-    *array=(int*)realloc(*array,(nmax*=2)*sizeof(int));
+    {*array=(int*)realloc(*array,(nmax+=1)*sizeof(int)); printf("realloc...\n");}
   fclose(file);
   return 0;
 }

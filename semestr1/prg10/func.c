@@ -7,7 +7,7 @@ int Func(int *array, int *size)
 {
   int i, l, N, sum = 0, k = (int) *size;
   if (size == 0)
-    return -1;
+    { free(array);array=NULL;return -1;}
   N=array[0];
   for (i = 1; i < k; i++)
    for (l = 1; l < k; l++) 
