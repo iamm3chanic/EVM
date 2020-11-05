@@ -1,12 +1,22 @@
-main: mainosn.o sort.o read.o check.o Makefile
-	gcc -o main mainosn.o sort.o read.o check.o
-maionosn.o: mainosn.c fun.h Makefile
-	gcc -c mainosn.c
+CC = gcc
+CFLAGS =  -W -Wall -Wfloat-equal -Wpointer-arith -Wwrite-strings -Wcast-align \
+-Wformat-security -Wmissing-format-attribute -Wformat=1 \
+-Wno-long-long -Wcast-align -Winline -Werror -pedantic -pedantic-errors \
+-std=gnu99 -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
+-Wold-style-definition -Wdeclaration-after-statement -Wbad-function-cast -Wnested-externs \
+-Wunused -Wuninitialized -fPIC 
+
+
+m: main.o sort.o read.o check.o Makefile
+	$(CC) $(CFLAGS) -o m main.o sort.o read.o check.o
+main.o: main.c fun.h Makefile
+	$(CC) $(CFLAGS) -c -g main.c
 sort.o: sort.c fun.h Makefile
-	gcc -c sort.c
+	$(CC) $(CFLAGS) -c sort.c
 read.o: read.c fun.h Makefile
-	gcc -c read.c
+	$(CC) $(CFLAGS) -c read.c
 check.o: check.c fun.h Makefile
-	gcc -c check.c	
+	$(CC) $(CFLAGS) -c check.c
 clean:
-	rm main mainosn.o sort.o read.o check.o
+	rm m *.o
+
