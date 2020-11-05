@@ -1,8 +1,17 @@
-main: mainosn.o fun.o Makefile
-	gcc -o main mainosn.o fun.o
-maionosn.o: mainosn.c fun.h Makefile
-	gcc -c mainosn.c
+CC = gcc
+CFLAGS =  -W -Wall -Wfloat-equal -Wpointer-arith -Wwrite-strings -Wcast-align \
+-Wformat-security -Wmissing-format-attribute -Wformat=1 \
+-Wno-long-long -Wcast-align -Winline -Werror -pedantic -pedantic-errors \
+-std=gnu99 -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
+-Wold-style-definition -Wdeclaration-after-statement -Wbad-function-cast -Wnested-externs \
+-Wunused -Wuninitialized -fPIC 
+
+
+m: main.o fun.o Makefile
+	$(CC) $(CFLAGS) -o m main.o fun.o
+main.o: main.c fun.h Makefile
+	$(CC) $(CFLAGS) -c -g main.c
 fun.o: fun.c fun.h Makefile
-	gcc -c fun.c
+	$(CC) $(CFLAGS) -c -g fun.c
 clean:
-	rm main mainosn.o fun.o
+	rm m main.o fun.o
