@@ -67,7 +67,9 @@ try{
    CString str,g;
    str.fileRead("config.txt");
    g=str;
-  cout << g;
+   for(int i=0;i<100;i++){if(g.GetA()[i])printf("%s", g.GetA()[i]);}
+
+  //cout << g;
     } catch(...) {cout << "error" <<endl;}
 }
 void test5()
@@ -83,6 +85,28 @@ try{
    cout << "\n";
     } catch(...) {cout << "error" <<endl;}
 }
+void test6() {
+try{
+  cout << "\ntest6. Quiet read from file & parse\n";
+   CString str;
+   str.fileReadQ("config.txt");
+    cout << str;
+    } catch(int err) {cout << "error=" <<err<<endl;}
+}
+
+void test7()
+{
+try{
+  cout << "\ntest7. Read from file & change strings\n";
+   CString str;
+  // cout<<str;
+   str.fileRead("config.txt");
+   cout<<"CHANGING\n\n";
+   str.changeStrings("config.txt");
+    cout << "\nText of file:\n";
+    for(int i=0;i<100;i++){if(str.GetA()[i])printf("%s", str.GetA()[i]);}
+    } catch(int err) {cout << "error=" <<err<<endl;}
+}
 /////////////////no user input//////////////
 
 
@@ -91,16 +115,14 @@ try{
 //////////////////////////////////////////
 int main()
 { 
- /*cout<<"Список тестов:\n";
- cout << "\ntest1. Create strings of fix dimensions";
- cout << "\ntest2. Create tokens of any dimensions";
- cout << "\ntest3. Initialize tokenizer";
- cout << "\ntest4. AutoSet + operator=";
- cout << "\ntest5. GetTokByIndex(int index) ";
- cout << "\ntest6. Get quantity of tokens";
- cout << "\ntest7. Change tokens";
- cout << "\ntest8. Iterator-watcher";
- cout << "\ntest9. GetTokByIndex(int index) + Autoset"; 
+ cout<<"Список тестов:\n";
+ cout << "\ntest1. Read from file & parse";
+ cout << "\ntest2. Read from file & get strings";
+ cout << "\ntest3. Get value by key";
+ cout << "\ntest4. operator=";
+ cout << "\ntest5. Get value by index ";
+ cout << "\ntest6. Quiet read from file & parse";
+ cout << "\ntest7. Read from file & change strings";
  cout << "\ntest12. Все сразу \n";
  cout << "\ntest13. Выйти \n";
  cout<<"Введите номер теста:";
@@ -114,14 +136,11 @@ int main()
  case 5: test5(); break;
  case 6: test6(); break;
  case 7: test7(); break;
- case 8: test8(); break;
- case 12: test1();test2();test3();test4();test5();test6();test7();test8();test9();test10(); break;
+ case 12: test1();test2();test3();test4();test5();test6();test7(); break;
  case 13: break;
    default: break;
  }    
- test1();test2();test3();test4();test5();test6();test7();test8();test9();
- test10();test11();test12();test13();test14();test15();test16();*/
- test1();test2();test3();test4();
+ //test6();test1();test2();test3();test4();test7();
  clean(blocks);  
  delete [] tok_global;
  return 0;
