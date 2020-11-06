@@ -79,7 +79,7 @@ public:
 
 		void Clean(){GoToBegin(); while(DelCur()); SetZero();}
 		void SetZero(){cur=first=last=NULL;}
-		void CopyOnly(const CList2 &rhs){if(IsEmpty()){for(iterator it=rhs.first;it!=NULL;++it){GoToEnd();AddAfter(*it);}}}
+		void CopyOnly(const CList2 &rhs){if(!IsEmpty()){for(iterator it=rhs.first;it!=NULL;++it){GoToEnd();AddAfter(*it);}}}
 
 		void GoToBegin(){cur=first;}
 		void GoToEnd(){cur=last;}
