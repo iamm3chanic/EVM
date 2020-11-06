@@ -1,3 +1,4 @@
+/* Author: iamm3chanic */
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio.h>
