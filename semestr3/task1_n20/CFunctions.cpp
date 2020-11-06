@@ -38,10 +38,9 @@ void CString::CopyOnly(const CString &v)
     { SetZero(); //Clean();//
     n=v.n; m=v.m;
     if(v.str){str=new char[v.n]; strncpy(str,v.str,n);}
-    if(v.all){all = new char*[100]; for (int i=0; i<100; i++) {all[i] = new char[256];     
-     strncpy(all[i],v.all[i],256);} 
-     }
-     strList=v.strList;
+    if(v.all){all = new char*[100]; 
+      for (int i=0; i<100; i++) {all[i] = new char[256];   strncpy(all[i],v.all[i],256);} }
+     strList=(v.strList);
      tokList=(v.tokList);}
     }
    
@@ -113,6 +112,66 @@ void CString::fileRead(const char *fn)
         delete [] h;
 }
 
+void CString::fileReadQ(const char *fn)
+{
+    //CString s;
+    setlocale(LC_ALL, "rus"); // корректное отображение Кириллицы
+    char tmp[256];
+    char **h=new char*[100];
+    for (int i = 0; i < 100; i++) 
+     {h[i] = new char [256]; memset(h[i],0,256);}
+     FILE* in;
+     in = fopen(fn, "r");
+      delete[]str;
+    size_t len = 0; //char t[100][256];
+
+	for(int i=0;(fgets(tmp, 256, in) != NULL /* && ch != '\n'*/); i++){
+		str=tmp;
+		len=strlen(str);
+                //s.str[len++]='\0';
+		//getline(file, currline);
+		memcpy(h[i], str, len);
+		str=NULL; len=0;
+	}
+	//file.close();
+	fclose(in);
+        SetA(h);
+   //char *eq=new char[4];   memcpy(eq," = ",3);
+   char eq[]=" = ";
+   char tm[100][256];  for(int i=0;(i<100);i++){memset(tm[i],0, 256*sizeof(char) );} 
+   CToken par;
+   int j;
+   tokList.GoToBegin();
+   //int flag=0;
+   tokList.AddAfter(par);
+ for(j=0;(j<100)&&(all[j]);j++) 
+ {
+   memcpy(tm[j], all[j] ,strlen(all[j]));
+   if( strstr(tm[j],eq) )
+   {  
+    char *token, *last, *u, *key;
+   // printf ("Splitting string \"%s\" into tokens:\n", all[j]);
+    token = strtok_r(all[j], " = ", &last);
+    key=token;
+    //printf("! %s\n! %s\n",key,token);
+    while(token != NULL) {
+     //   printf ("%s\n", token);
+        u=token;
+        token = strtok_r(NULL, " = ", &last);
+       }
+      par.SetKs(strlen(key)+1);
+      par.SetN(strlen(u)+1);
+      par.SetK(key);
+      par.SetS(u);
+      tokList.AddAfter(par);
+      tokList.GoToNext();
+   }
+  }
+               
+        for (int i = 0; i < 100; i++) { delete [] h[i];}
+        delete [] h;
+}
+
 void CString::fileReadStrings(const char *fn)
 {
     //CString s;
@@ -144,15 +203,76 @@ void CString::fileReadStrings(const char *fn)
  for(j=0;(j<100)&&(all[j]);j++) 
  {
    //memcpy(tm[j], all[j] ,strlen(all[j]));
-      
       par.SetN(strlen(all[j]));
       par.SetS(all[j]);
       strList.AddAfter(par);
-      strList.GoToNext();
-  
-  }
-        
-        
+      strList.GoToNext(); 
+  }      
+        for (int i = 0; i < 100; i++) { delete [] h[i];}
+        delete [] h;
+}
+
+void CString::changeStrings(const char *fn)
+{
+    //CString s;
+    setlocale(LC_ALL, "rus"); // корректное отображение Кириллицы
+    char tmp[256], needle[1000]="", /**needle1=NULL,  beg, *end,*/ *mid=NULL,b[2]="$"; 
+    char **h=new char*[100];
+    for (int i = 0; i < 100; i++) 
+     {h[i] = new char [256]; memset(h[i],0,256);}
+     FILE* in;
+     in = fopen(fn, "r");
+      delete[]str;
+    size_t len = 0; //char t[100][256];
+    int i=0;
+	for( i=0;(fgets(tmp, 256, in) != NULL ); i++){
+		str=tmp;
+		
+		len=strlen(str);
+		memcpy(h[i], str, len);
+		str=NULL; len=0;
+	}
+	fclose(in);
+	//changing...
+	tokList.GoToBegin(); 
+         for(;tokList.GoToNext();) {
+         
+         for(int k=0;k<i;k++) {
+         
+          strncpy(needle,b,strlen(b));
+          strcat(needle, tokList.GetCur().GetK() );  //$i
+          strcat(needle, b ); 
+         
+         // printf(" here is needle: %s\n",needle);
+         
+          size_t ssl = strlen(tokList.GetCur().GetK())+2;
+          size_t rpl = strlen(tokList.GetCur().GetS());
+          size_t l = rpl < ssl ? rpl : ssl;
+         //проверка на сходство с параметрами
+          mid = strstr(h[k], needle);
+          if (mid)
+          {memcpy(mid, tokList.GetCur().GetS(), l); cout<<"replacing...\n";}
+         //strncpy(needle,"",1);
+          memset(needle,0,1000);
+
+         }
+        // strcpy(needle,b);
+	}
+	
+        SetA(h); //here is set all!
+   CToken par;
+   int j;
+   strList.GoToBegin();
+   //int flag=0;
+   strList.AddAfter(par);
+ for(j=0;(j<100)&&(all[j]);j++) 
+ {
+   //memcpy(tm[j], all[j] ,strlen(all[j]));
+      par.SetN(strlen(all[j]));
+      par.SetS(all[j]);
+      strList.AddAfter(par);
+      strList.GoToNext(); 
+  }      
         for (int i = 0; i < 100; i++) { delete [] h[i];}
         delete [] h;
 }
