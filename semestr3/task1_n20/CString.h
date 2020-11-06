@@ -23,7 +23,6 @@
  *
  * Author: iamm3chanic
  */
-//TODO: $имя$ заменить на значение
 #pragma once
 #include <iostream>
 #include <math.h>
@@ -61,14 +60,14 @@ class CString
     void SetS(char* s/*, int len*/)/*{if(str!=NULL)*/ {delete[]str; str=new char[n];
     /*memcpy(str,s,5);*/ strncpy(str,s,n);}
     void SetTok(CToken *y){t=y;}
-    void SetA(char **a) {/*for (int i=0; i<100; i++)  {if(all[i]) delete[](all[i]);}
-     if(all){delete[]all;} all=new char*[100];for (int i=0; i<100; i++) 
-    {all[i] = new char[256];*/ for (int i=0; i<100; i++) {if(a[i])memcpy(all[i],a[i],strlen(a[i]));}}
+    void SetA(char **a) {for (int i=0; i<100; i++) {if(a[i])memcpy(all[i],a[i],strlen(a[i]));}}
     CList2<CToken> &getList() { return tokList; }
     CList2<CToken> &getListS() { return strList; }
     void fileRead(const char *fn);
+    void fileReadQ(const char *fn);
     void fileReadStrings(const char *fn);
     void initialize();
+    void changeStrings(const char *fn);
     
     void SetZero(){ tokList.SetZero();strList.SetZero(); str=NULL; all=NULL; n=0;m=0;}
     void Clean() {for (int i=0; i<100; i++) 
