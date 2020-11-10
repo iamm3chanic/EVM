@@ -2,9 +2,9 @@ CC = g++
 CFLAGS =  -W -Wall -Wfloat-equal -Wpointer-arith -Wwrite-strings -Wcast-align \
 -Wformat-security -Wmissing-format-attribute -Wformat=1 \
 -Wno-long-long -Wcast-align -Winline -Werror -pedantic -pedantic-errors \
--std=gnu99 -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations \
--Wold-style-definition -Wdeclaration-after-statement -Wbad-function-cast -Wnested-externs \
--Wunused -Wuninitialized -fPIC 
+-Wunused -Wuninitialized \
+--param inline-unit-growth=1000000 --param max-inline-insns-single=10000000 \
+--param large-function-growth=10000000 -fPIC
 
 
 m: CFunctions.o main_test.o Makefile
