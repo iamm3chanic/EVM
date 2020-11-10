@@ -1,3 +1,4 @@
+
 #include<iostream>
 #include"CClass.h"
 using namespace std;
@@ -25,7 +26,7 @@ void TestComplexVector(){
 		a3[i]=n2*((i+1)^2);
 	CComplexVector v3(a3);
 	cout << v2 << " " << v3 << " " << v2+v3 << " " << v2-v3 << " " << v2*v3 << endl;
-	//Òîëüêî ïðè LENGHT=3;
+	//Ã’Ã®Ã«Ã¼ÃªÃ® Ã¯Ã°Ã¨ LENGHT=3;
 	ComplexNumber a4[3] {n1,n2,n5}, a5[3] {n2,n1,n3};
 	CComplexVector v4(a4), v5(a5);
 	cout << v4 << " " << v5 << " " << v4*v5 << endl;
@@ -38,4 +39,3 @@ int main() {
 	TestComplexVector();
 	return 0;
 }
-

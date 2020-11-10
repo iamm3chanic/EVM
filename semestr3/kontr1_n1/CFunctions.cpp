@@ -1,19 +1,20 @@
 #include<iostream>
 #include"CClass.h"
+using namespace std;
 
-ostream &operator<<(ostream &stream, const ComplexNumber &number){
+ostream &operator<<(ostream &cout, const ComplexNumber &number){
 	double Im=number.GetIm(), Re=number.GetRe();
-	if(Im==0 && Re==0)
-		stream << 0;
-	else if(Re==0)
-		stream << Im << "i";
+	if(!(Im<0)&&!(Im>0) && !(Re<0)&&!(Re>0))
+		cout << "0";
+	else if(!(Re<0)&&!(Re>0))
+		cout << Im << "i";
 	else if(Im>0)
-		stream << Re << "+" << Im << "i";
+		cout << Re << "+" << Im << "i";
 	else if(Im<0)
-		stream << Re << Im << "i";
+		cout << Re << Im << "i";
 	else
-		stream << Re;
-	return stream;
+		cout << Re;
+	return cout;
 }
 ComplexNumber operator+(const int &lhs, const ComplexNumber &rhs) {
 	ComplexNumber result(lhs+rhs.GetRe(),rhs.GetIm());
@@ -40,16 +41,16 @@ ComplexNumber operator*(const double &lhs, const ComplexNumber &rhs) {
 	return result;
 }
 
-ostream &operator<<(ostream &stream, const CComplexVector &vector){
-	stream << "(";
+ostream &operator<<(ostream &cout, const CComplexVector &vector){
+	cout << "(";
 	for(int i=0; i<LENGHT; i++){
 		if(i==LENGHT-1)
-			stream << vector.v[i];
+			cout << vector.v[i];
 		else
-			stream << vector.v[i] << " ";
+			cout << vector.v[i] << " ";
 	}
-	stream << ")";
-	return stream;
+	cout << ")";
+	return cout;
 }
 
 ComplexNumber CComplexVector::operator*(const CComplexVector &rhs){
@@ -64,4 +65,3 @@ ComplexNumber CComplexVector::operator*(const CComplexVector &rhs){
 	}
 	return result;
 }
-
