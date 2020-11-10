@@ -1,6 +1,8 @@
-m: cl.o Makefile
-	wg++ -o t cl.o
-cl.o: cl.cpp cl.h cd.h Makefile
-	wg++ -c cl.cpp     
+m: CFunctions.o Main.o Makefile
+	g++ -o m CFunctions.o Main.o
+CFunctions.o: CFunctions.cpp CDynamic.h CList2.h Makefile
+	wg++ -c -g -std=c++11 CFunctions.cpp
+Main.o: Main.cpp CDynamic.h CList2.h Makefile
+	wg++ -c -g -std=c++11 Main.cpp
 clean:
-	rm m *.o
+	rm m CFunctions.o Main.o vgcore*
