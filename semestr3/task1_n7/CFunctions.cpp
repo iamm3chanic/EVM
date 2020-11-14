@@ -62,42 +62,7 @@ void CDynamic::AddToEnd(double d)
     delete[] t;
     //for list
     rewrite();
-     /*Arr tmpArr=Arr(5); double cur[5]; bool cb[5];
-    int i,j,k;
-  memset(cur,0,5*sizeof(double));
-  memset(cb,1,5*sizeof(bool));
-  int m_tmp=getLength()/5;
-  arrList.Clean();
-  arrList.AddAfter(tmpArr); 
-  for (i=0,k=0; i < m_tmp; i++ ) 
-        {
-           for (j=0; (j < 5) && (k<cheatArr.GetN()-(cheatArr.GetN()%5)); j++,k++ )
-            {
-               cur[j]= cheatArr.getArr()[k];
-               //cout<<"i'm in huge part\n";
-            } 
-             for (j=0; j < i; j++ )          
-            arrList.GoToNext();         
-            tmpArr.SetN(5);
-            tmpArr.setArr(cur);
-            tmpArr.setB(cb);
-            //cout<<tmpArr;
-            arrList.AddAfter(tmpArr);
-        }
-        memset(cb,0,5*sizeof(bool));
-   for (j=0; (j < (cheatArr.GetN()%5)); j++,k++ )
-            {
-               cur[j]= cheatArr.getArr()[k]; //cout<<j<<" "<<cur[j]<<"j!\n";
-               cb[j]=1;
-               //cout<<"i'm in small part\n";
-            }
-             for (j=0; j < i; j++ )          
-            {arrList.GoToNext();}
-            tmpArr.SetN(cheatArr.GetN()%5);
-            tmpArr.setArr(cur);
-            tmpArr.setB(cb);
-            //cout<<tmpArr<<endl;
-            arrList.AddAfter(tmpArr);*/
+    
    }
 
 double CDynamic::GetNumByIndex(int index) 
@@ -130,48 +95,7 @@ void CDynamic::DelNumByIndex(int index)
     delete[] t;
     //for list
     rewrite();
-      /*for(int i=0;i<index/5;i++) {arrList.GoToNext();}
-      //a.SetN(5);
-      //a.setArr( arrList.GetCur().getArr() );   //memcpy(a, arrList.GetCur(), sizeof(Arr));
-      a= arrList.GetCur(); 
-      a.DelPos(index%5);
-      arrList.AddToPos(a,(index/5));
-     Arr tmpArr=Arr(5); double cur[5]; bool cb[5];
-    int i,j,k;
-  memset(cur,0,5*sizeof(double));
-  memset(cb,1,5*sizeof(bool));
-  int m_tmp=getLength()/5;
-  arrList.Clean();
-  arrList.AddAfter(tmpArr); 
-  for (i=0,k=0; i < m_tmp; i++ ) 
-        {
-           for (j=0; (j < 5) && (k<cheatArr.GetN()-(cheatArr.GetN()%5)); j++,k++ )
-            {
-               cur[j]= cheatArr.getArr()[k];
-               //cout<<"i'm in huge part\n";
-            } 
-             for (j=0; j < i; j++ )          
-            arrList.GoToNext();         
-            tmpArr.SetN(5);
-            tmpArr.setArr(cur);
-            tmpArr.setB(cb);
-            //cout<<tmpArr;
-            arrList.AddAfter(tmpArr);
-        }
-        memset(cb,0,5*sizeof(bool));
-   for (j=0; (j < (cheatArr.GetN()%5)); j++,k++ )
-            {
-               cur[j]= cheatArr.getArr()[k]; //cout<<j<<" "<<cur[j]<<"j!\n";
-               cb[j]=1;
-               //cout<<"i'm in small part\n";
-            }
-             for (j=0; j < i; j++ )          
-            {arrList.GoToNext();}
-            tmpArr.SetN(cheatArr.GetN()%5);
-            tmpArr.setArr(cur);
-            tmpArr.setB(cb);
-            //cout<<tmpArr<<endl;
-            arrList.AddAfter(tmpArr);*/
+    
     }
 void CDynamic::CopyOnly(const CDynamic &v)    
     {
@@ -198,52 +122,7 @@ void CDynamic::InputTo(int pos, double d)
       cheatArr[pos-1]=d;
       //for list
       rewrite();
-      /*Arr a(5);
-      for(int i=0;i<pos/5;i++) {arrList.GoToNext();}
-      a.SetN(5);
-      //a.setArr( arrList.GetCur().getArr() );   //memcpy(a, arrList.GetCur(), sizeof(Arr)); 
-      a=arrList.GetCur();
-      a.setB( arrList.GetCur().getB());
-      a.InputTo(pos%5, d);
-      cout<<a<<endl;
-      //arrList.AddToPos(a,(pos/5));
-      arrList.AddAfter(a);
-      Arr tmpArr=Arr(5); double cur[5]; bool cb[5];
-    int i,j,k;
-  memset(cur,0,5*sizeof(double));
-  memset(cb,1,5*sizeof(bool));
-  int m_tmp=getLength()/5;
-  arrList.Clean();
-  arrList.AddAfter(tmpArr); 
-  for (i=0,k=0; i < m_tmp; i++ ) 
-        {
-           for (j=0; (j < 5) && (k<cheatArr.GetN()-(cheatArr.GetN()%5)); j++,k++ )
-            {
-               cur[j]= cheatArr.getArr()[k];
-               //cout<<"i'm in huge part\n";
-            } 
-             for (j=0; j < i; j++ )          
-            arrList.GoToNext();         
-            tmpArr.SetN(5);
-            tmpArr.setArr(cur);
-            tmpArr.setB(cb);
-            //cout<<tmpArr;
-            arrList.AddAfter(tmpArr);
-        }
-        memset(cb,0,5*sizeof(bool));
-   for (j=0; (j < (cheatArr.GetN()%5)); j++,k++ )
-            {
-               cur[j]= cheatArr.getArr()[k]; //cout<<j<<" "<<cur[j]<<"j!\n";
-               cb[j]=1;
-               //cout<<"i'm in small part\n";
-            }
-             for (j=0; j < i; j++ )          
-            {arrList.GoToNext();}
-            tmpArr.SetN(cheatArr.GetN()%5);
-            tmpArr.setArr(cur);
-            tmpArr.setB(cb);
-            //cout<<tmpArr<<endl;
-            arrList.AddAfter(tmpArr);*/
+      
   }
     
 void CDynamic::InputInto(int pos, double d)      
@@ -264,51 +143,7 @@ void CDynamic::InputInto(int pos, double d)
     delete[] t;
      //for list 
     rewrite();
-     /*Arr a;
-      for(int i=0;i<pos/5;i++) {arrList.GoToNext();}
-      a= arrList.GetCur();
-      //a.SetN(5);
-      //a.setArr( arrList.GetCur().getArr() );  
-      //memcpy(&a, &arrList.GetCur(), 1); 
-      
-      a.InputTo(pos%5, d);
-      arrList.AddToPos(a,(pos/5));
-        Arr tmpArr=Arr(5); double cur[5]; bool cb[5];
-    int i,j,k;
-  memset(cur,0,5*sizeof(double));
-  memset(cb,1,5*sizeof(bool));
-  int m_tmp=getLength()/5;
-  arrList.Clean();
-  arrList.AddAfter(tmpArr); 
-  for (i=0,k=0; i < m_tmp; i++ ) 
-        {
-           for (j=0; (j < 5) && (k<cheatArr.GetN()-(cheatArr.GetN()%5)); j++,k++ )
-            {
-               cur[j]= cheatArr.getArr()[k];
-               //cout<<"i'm in huge part\n";
-            } 
-             for (j=0; j < i; j++ )          
-            arrList.GoToNext();         
-            tmpArr.SetN(5);
-            tmpArr.setArr(cur);
-            tmpArr.setB(cb);
-            //cout<<tmpArr;
-            arrList.AddAfter(tmpArr);
-        }
-        memset(cb,0,5*sizeof(bool));
-   for (j=0; (j < (cheatArr.GetN()%5)); j++,k++ )
-            {
-               cur[j]= cheatArr.getArr()[k]; //cout<<j<<" "<<cur[j]<<"j!\n";
-               cb[j]=1;
-               //cout<<"i'm in small part\n";
-            }
-             for (j=0; j < i; j++ )          
-            {arrList.GoToNext();}
-            tmpArr.SetN(cheatArr.GetN()%5);
-            tmpArr.setArr(cur);
-            tmpArr.setB(cb);
-            //cout<<tmpArr<<endl;
-            arrList.AddAfter(tmpArr);*/
+   
     }
     
 
@@ -584,8 +419,8 @@ void SortUp(CDynamic& dyn)
 {
 if(dyn.getList().IsEmpty()){cout << "empty list\n";}
 
-int i=dyn.getLength(); // Длина неотсортированной части массива
-int f; //flag
+int size=dyn.getLength(); // Длина неотсортированной части массива
+
 double t;
 double *m=new double[dyn.getLength()];  //=dyn.getCheat().getArr();
  memset(m,0, dyn.getLength()*sizeof(double)); 
@@ -593,17 +428,18 @@ double *m=new double[dyn.getLength()];  //=dyn.getCheat().getArr();
  cout<<"\n";
  /*for(int k=0;k<dyn.getLength();k++)
   {cout<<m[k]<<" ";} cout<<"\n";*/
-  cout<<"\nHere we go sorting...\n";
-  do {
-   f=0; //Предположим, что массив является отсортированным
-   for (int k=0;k<i-1;k++)
-   if (m[k]>m[k+1])
-    {
-    t=m[k]; m[k]=m[k+1]; m[k+1]=t; // Обмен
-    f=1; // Массив был неотсортированным
+  cout<<"\nHere we go sorting...\n";  
+    // Сортировка массива пузырьком
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (m[j] > m[j + 1]) {
+                // меняем элементы местами
+                t = m[j];
+                m[j] = m[j + 1];
+                m[j + 1] = t;
+            }
+        }
     }
-   i--;
-   } while (f && i>1);
 //output
 for(int k=0;k<dyn.getLength();k++)
 {
