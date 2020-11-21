@@ -1,11 +1,8 @@
 #include<iostream>
-#include<fstream>
 #include"CTree.h"
-//#include"walloc.h"
 using namespace std;
 int main(){
-	if(0){// Constructor and destructor check
-		cout<<"\ntest1\n";
+	if(1){// Constructor and destructor check
 		CTree<int> l;
 		l.Add("d", 4);
 		l.Add("b", 2);
@@ -14,7 +11,6 @@ int main(){
 
 	}
 	if(1){// Simple check
-		cout<<"\ntest2\n";
 		CTree<int> l;
 		l.Add("d", 4);
 		CTree<int>::CNode *n;
@@ -31,8 +27,7 @@ int main(){
 		cout << n->GetV() << endl;
 
 	}
-	if(0){// Add check
-		cout<<"\ntest3\n";
+	if(1){// Add check
 		CTree<int> l;
 		l.Add("d", 4); l.Add("b", 2); l.Add("a", 1); l.Add("c", 3); CTree<int>::CNode *n;
 		n=l.GetRoot();
@@ -46,10 +41,9 @@ int main(){
 		n=n->right;
 		cout << n->GetV() << endl;
 	}
-	if(0){// CNode operators < * check
-		cout<<"\ntest4\n";
+	if(1){// CNode operators < * check
 		CTree<int>::CNode a("c"),b("b");
-		if(*a<*b)
+		if(a<b)
 			cout << "<";
 		else
 			cout << "!!";
@@ -58,8 +52,7 @@ int main(){
 		else
 			cout << "!!";
 	}
-	if(0){// Next check
-		cout<<"\ntest5\n";
+	if(1){// Next check
 		CTree<int> l;
 		l.Add("d", 4); l.Add("b", 2); l.Add("a", 1); l.Add("c", 3); CTree<int>::CNode *n;
 		n=l.FindMin();
@@ -71,8 +64,7 @@ int main(){
 		else
 			cout << n->GetV() << endl;
 	}
-	if(0){// iterator test
-		cout<<"\ntest6\n";
+	if(1){// iterator test
 		CTree<int> l;
 		l.Add("d", 4); l.Add("b", 2); l.Add("a", 1); l.Add("c", 3);
 		for(auto it=l.begin(); it!=l.end(); ++it){
@@ -81,7 +73,6 @@ int main(){
 		cout << endl;
 	}
 	if(1){// Find check
-		cout<<"\ntest7\n";
 		CTree<int> l;
 		l.Add("d", 4); l.Add("b", 2); l.Add("a", 1); l.Add("c", 3); CTree<int>::CNode *n;
 		n=l.Find("a");
@@ -92,10 +83,8 @@ int main(){
 		cout << n->GetV() << endl;
 		n=l.Find("d");
 		cout << n->GetV() << endl;
-		//for files
 	}
-	if(0){// Delete check
-		cout<<"\ntest8\n";
+	if(1){// Delete check
 		CTree<int> l;
 		l.Add("d", 4); l.Add("b", 2); l.Add("a", 1); l.Add("c", 3); CTree<int>::CNode *n;
 		for(auto it=l.begin(); it!=l.end(); ++it){
@@ -112,7 +101,6 @@ int main(){
 		cout << l.GetLen() << endl;
 	}
 	if(1){//Find Delete check
-		cout<<"\ntest9\n";
 		CTree<int> l;
 		l.Add("d", 4); l.Add("b", 2); l.Add("a", 1); l.Add("c", 3);
 		for(auto it=l.begin(); it!=l.end(); ++it){
@@ -128,29 +116,95 @@ int main(){
 		cout << l.GetLen() << endl;
 	}
 	if(1){// Length check
-		cout<<"\ntest10\n";
 		CTree<int> l;
 		l.Add("d", 4); l.Add("b", 2); l.Add("a", 1); l.Add("c", 3);
 		cout << l.GetLen() << endl;
 	}
-	if(1){// Merging check
-		cout<<"\ntest11\n";
+	if(1){// Delete check
+		CTree<int> q;
+		q.Add("g", 10);
+		q.Add("w", 23);q.Add("x", 24); q.Add("y", 25); q.Add("z", 26);
+		q.Add("d", 4); q.Add("b", 2); q.Add("a", 1); q.Add("c", 3);
+	}
+	if(1){// Merging check 1
+
+		CTree<int> q;
+		q.Add("w", 23);q.Add("x", 24); q.Add("y", 25); q.Add("z", 26);
 		CTree<int> l;
 		l.Add("d", 4); l.Add("b", 2); l.Add("a", 1); l.Add("c", 3);
+		CTree<int>::CNode* n=new typename CTree<int>::CNode("g",10,NULL);
+		for(auto it=l.begin(); it!=l.end(); ++it){
+			cout << *it << " ";
+		}
+		cout << endl;
+		for(auto it=q.begin(); it!=q.end(); ++it){
+			cout << *it << " ";
+		}
+		cout << endl;
+
+		cout << "MergingTree"<< endl;
+
+		l.MergingTree(q,n);
+
+		for(auto it=l.begin(); it!=l.end(); ++it){
+			cout << *it << " ";
+		}
+		cout << endl;
+		for(auto it=q.begin(); it!=q.end(); ++it){
+			cout << *it << " ";
+		}
+		cout << endl;
+	}
+	if(1){// Merging check 2
+
 		CTree<int> q;
-		q.Add("x", 24); q.Add("y", 25); q.Add("z", 26);
-		CTree<int>::CNode n("g",10,NULL);
+		q.Add("w", 23);q.Add("x", 24); q.Add("y", 25); q.Add("z", 26);
+		CTree<int> l;
+		l.Add("d", 4); l.Add("b", 2); l.Add("a", 1); l.Add("c", 3);
+		for(auto it=l.begin(); it!=l.end(); ++it){
+			cout << *it << " ";
+		}
+		cout << endl;
 		for(auto it=q.begin(); it!=q.end(); ++it){
 			cout << *it << " ";
 		}
 		cout << endl;
 
-		q.MergingTree(l, n);
+		cout << "MergingTree"<< endl;
+
+		l.MergingTree(q);
+
+		for(auto it=l.begin(); it!=l.end(); ++it){
+			cout << *it << " ";
+		}
+		cout << endl;
+		for(auto it=q.begin(); it!=q.end(); ++it){
+			cout << *it << " ";
+		}
+		cout << endl;
+	}
+	if(1){// Spliting check
+		CTree<int> q;
+		q.Add("g",10);
+		q.Add("w", 23);q.Add("x", 24); q.Add("y", 25); q.Add("z", 26);
+		q.Add("d", 4); q.Add("b", 2); q.Add("a", 1); q.Add("c", 3);
 
 		for(auto it=q.begin(); it!=q.end(); ++it){
 			cout << *it << " ";
 		}
 		cout << endl;
+		CTree<int>::CNode* n=new typename CTree<int>::CNode("b",2,NULL);
+
+		CTree<int> s(q,n);
+		for(auto it=s.begin(); it!=s.end(); ++it){
+			cout << *it << " ";
+		}
+		cout << endl;
+		for(auto it=q.begin(); it!=q.end(); ++it){
+			cout << *it << " ";
+		}
+		cout << endl;
+		delete n;
 	}
 	return 0;
 }
