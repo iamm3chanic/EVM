@@ -1,5 +1,8 @@
 /*
-Написать программу на языке С, которая в изображении, заданном в файле http://lectures.stargeo.ru/l.bmp (изображение с палитрой) заменяет все пиксели с красным цветом, имеющие синих соседей, на пиксели с зеленым цветом. Предполагается, что указанные цвета в палитре есть. Результат вывести в файл ./l.bmp. Заголовок BMP-файла можно взять из файла http://lectures.stargeo.ru/header/bmp.h 
+Написать программу на языке С, которая в изображении, заданном в файле http://lectures.stargeo.ru/l.bmp 
+(изображение с палитрой) заменяет все пиксели с красным цветом, имеющие синих соседей, на пиксели с зеленым цветом. 
+Предполагается, что указанные цвета в палитре есть. Результат вывести в файл ./l.bmp. 
+Заголовок BMP-файла можно взять из файла http://lectures.stargeo.ru/header/bmp.h 
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -167,27 +170,9 @@ int main(void)
 {
  BMPHEAD *h;
  int i,j;
- h=Input("ball1.bmp");
+ h=Input("ball.bmp");
  Edit(h);
  Output("lin2.bmp",h);
- /*//doing grey
- for(i=0;i<h->Height;i++)
- {
-  for(j=0;i<h->Width;j++){
-  h->v[i][j][0]=h->v[i][j][1]=h->v[i][j][2]=(unsigned char)
-  ((ui(h->v[i][j][0])+ui(h->v[i][j][1])+ui(h->v[i][j][2]))/3);
-  }
- }
- Output("lin3.bmp",h);*/
- /*//doing red
- for(i=0;i<h->Height;i++)
- {
-  for(j=0;i<h->Width;j++){
-  h->v[i][j][0]=((ui(h->v[i][j][0])+ui(h->v[i][j][1])+ui(h->v[i][j][2]))/3);
-  h->v[i][j][1]=h->v[i][j][2]=0;
-  }
- }
- Output("lin4.bmp",h);*/
  printf("done\n");
  free(h); h=NULL;
  return 0;
