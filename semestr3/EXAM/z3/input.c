@@ -8,7 +8,7 @@ int Input(const char *fn, char ***s, int *n)
  FILE *f;
  int i,err;//,t;//,i,err,r,m=0,c=0,t;
  //float sh;
- char str[256],u[256];//,*ss,sss[512],k[256],*p,*o,u[512],*uu,*oo,*pp;
+ char str[256];//,u[256];//,*ss,sss[512],k[256],*p,*o,u[512],*uu,*oo,*pp;
  f=fopen(fn,"r");
  if(f==NULL){err=-1;goto lm;}//not found
  else{
@@ -19,13 +19,13 @@ int Input(const char *fn, char ***s, int *n)
  
  //else
  //{
-  rewind(f);
-  for(*n=0;fgets(str,256,f)!=NULL&&sscanf(str,"%s",u)==1;(*n)++)
-  {}printf("n=%d\n",*n);
+  //rewind(f);
+  for(*n=0;fscanf(f,"%s",str)!=-1/*&&sscanf(str,"%s",u)==1*/;(*n)++)
+  {}//printf("n=%d\n",*n);
   *s=(char**)malloc((*n+1)*sizeof(char**));
   for(i=0;i<(*n);i++) (*s)[i]=(char*)malloc(256*sizeof(char));
   rewind(f);
-  for(*n=0;fgets(str,256,f)!=NULL&&sscanf(str,"%s",(*s)[*n])==1;(*n)++)
+  for(*n=0;fscanf(f,"%s",str)!=-1&&sscanf(str,"%s",(*s)[*n])==1;(*n)++)
   {
    //printf("name=%s\n",(*s)[*n]);
   }
