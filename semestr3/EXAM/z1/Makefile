@@ -10,7 +10,7 @@ CFLAGS =  -W -Wall -Wfloat-equal -Wpointer-arith -Wwrite-strings -Wcast-align \
 m: main.o Makefile
 	$(CC) $(CFLAGS) -o m main.o 
 main.o: main.cpp Makefile
-	$(CC) $(CFLAGS) -c -g main.cpp
+	$(CC) $(CFLAGS) -c -g -O2 main.cpp
 clean:
 	rm m *.o vgcore*
 
