@@ -2101,5 +2101,6 @@ directory[last,first] = number
 //Мы могли бы использовать присваивание кортежей в цикле 
 for last, first in directory:  
  print first, last, directory[last, first]   
-ссылка: https://webformyself.com/kortezhi-python-upakovka-raspakovka-sravnenie/
- 
+ссылка: https://webformyself.com/kortezhi-python-upakovka-raspakovka-sravnenie/  
+Мой пример с Гауссом: 
+ https://github.com/iamm3chanic/EVM/blob/master/semestr3/EXAM/z5/gauss.py
