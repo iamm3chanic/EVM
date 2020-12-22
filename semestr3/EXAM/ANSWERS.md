@@ -2065,159 +2065,210 @@ printf("My text is: \"my text\"\n");
 %.15s
 
 83.   Что может содержаться в include-файлах и что в C-файлах.  
+
 Цитата: в include-файле на одну функцию отводится только одна строка. Посему, либо функция короткая и ее определение в строку вмещается на экране, либо ее надо безжалостно выносить в с/cpp-файл.  
 https://ru.stackoverflow.com/questions/275741/include-%D0%B2-%D0%B7%D0%B0%D0%B3%D0%BE%D0%BB%D0%BE%D0%B2%D0%BE%D1%87%D0%BD%D1%8B%D1%85-%D1%84%D0%B0%D0%B9%D0%BB%D0%B0%D1%85
 
 84.   Операторы перехода (break, continue, goto).    
+
 http://cppprosto.blogspot.com/2017/09/break-continue-return-goto.html  
 
 85.   Описать случаи, когда использование оператора goto является дурным тоном и когда оно необходимо.  
+
 выйти из нескольких циклов сразу (или выйти из цикла и пропустить операцию) - необходимо, дурной тон - когда можно заменить на for.  
 http://cppprosto.blogspot.com/2017/09/break-continue-return-goto.html  
 https://habr.com/ru/post/114211/
 
 86.   Операторы условия и выбора (if, switch). Синтаксис.  
+
 https://prog-cpp.ru/c-if/  
 https://habr.com/ru/post/347132/
 
 87.   Оператор цикла for. Синтаксис.  
+
 https://prog-cpp.ru/c-cycles/
 
 88.   Оператор цикла  while. Синтаксис.  
+
 https://prog-cpp.ru/c-cycles/
 
 89.   Оператор цикла  do-while. Синтаксис.  
+
 https://prog-cpp.ru/c-cycles/
 
 90.   Операция ? : . Рекурсивное использование данного оператора.  
+
 имеется в виду использование несколько раз, например:  
 return x<0?0:x<10?1:x<100?2:3  
 https://purecodecpp.com/archives/554  
 https://inf5.ru/cpp_lections/lection_5.htm
 
 91.   Опишите ситуацию, в которой sizeof(x) возвращает значение, отличное от 10, в случае если x описывается как char x[10].  
-размер указателя, а не массива https://ru.stackoverflow.com/questions/8574/%D0%9F%D0%BE%D1%87%D0%B5%D0%BC%D1%83-sizeof-%D0%B2%D0%BE%D0%B7%D0%B2%D1%80%D0%B0%D1%89%D0%B0%D0%B5%D1%82-%D0%BD%D0%B5-%D1%82%D0%BE-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5
+
+размер указателя, а не массива при передаче в функцию - он будет 8.  
+https://ru.stackoverflow.com/questions/8574/%D0%9F%D0%BE%D1%87%D0%B5%D0%BC%D1%83-sizeof-%D0%B2%D0%BE%D0%B7%D0%B2%D1%80%D0%B0%D1%89%D0%B0%D0%B5%D1%82-%D0%BD%D0%B5-%D1%82%D0%BE-%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5
 
 92.   Основные скалярные типы (различные целые, вещественные).  
+
 https://prog-cpp.ru/c-data-types/  
 
 93.   Формат представления констант (различных целых, различных вещественных, символьных, строковых).  
+
 https://prog-cpp.ru/c-data-types/  
 https://rtfm.co.ua/books-translations/kurs-c-s-nulya/kurs-c-s-nulya-chast-5-konstanty/  
 https://cpp.com.ru/shildt_spr_po_c/02/0209.html
 
 94.   Почему при выполнении функции printf(“1”) на экране может ничего не появиться. Как исправить эту ситуацию?  
-в си надо указать формат и подключить stdio  
+
+в си надо указать формат и подключить stdio. Также возможно не хватает fflush(stdout);    
 http://citforum.ru/security/articles/printf/
 
 95.   Работа с бинарными файлами. fopen/fclose/fread/fwrite.  
+
 https://learnc.info/c/binary_files.html
 
 96.   Работа с бинарными файлами. Использование функций fseek()/ftell()  
+
 https://learnc.info/c/binary_files.html
 
 97.   Работа с текстовыми файлами. Правила использования функции fgets().  
+
 https://www.cyberforum.ru/cpp-beginners/thread389914.html  
 https://learnc.info/c/text_files.html 
 
-98.   Основные идеи считывание строк неограниченной длины с помощью функции fgets().  
+98.   Основные идеи считывание строк неограниченной длины с помощью функции fgets(). 
+
 http://www.cplusplus.com/reference/cstdio/fgets/
 
 99.   Стандартная библиотека ввода-вывода: семейство функций printf().  
+
 https://cpp.com.ru/shildt_spr_po_c/08/0804.html   
 
 100.    Основные спецификации формата в функциях типа printf().  
+
 https://cpp.com.ru/shildt_spr_po_c/08/0804.html   
 
 101.    Стандартная библиотека ввода-вывода: семейство функций scanf().Основные спецификации формата.  
+
 https://cpp.com.ru/shildt_spr_po_c/13/scanf.html
 
 102.     Стандартная библиотека ввода-вывода: семейство функций scanf(). Форматы %n и [] с примерами использования.  
+
 https://cpp.com.ru/shildt_spr_po_c/13/scanf.html
 
 103.    Строки в языке С, принципы организации.  
+
 https://lektsii.org/9-33975.html
 
 104.    Функции strlen, strcat, strcpy. В том числе, что они возвращают?  
+
 https://lektsii.org/9-33975.html  
 http://all-ht.ru/inf/prog/c/func
 
 105.    Функции strdup,strcmp, strstr, strchr. В том числе, что они возвращают?  
+
 https://lektsii.org/9-33975.html  
 http://all-ht.ru/inf/prog/c/func
 
 106.    Указатели и массивы. Указать в каких случаях их использование дает различный результат.  
+
 под массив придется выделять память. Фиксированный массив знает свою длину, а указатель на массив — нет.
 Еще различие возникает при использовании оператора адреса &. Используя адрес указателя, мы получаем адрес памяти переменной указателя. Используя адрес массива, возвращается указатель на целый массив.  
 https://ravesli.com/urok-82-ukazateli-i-massivy/  
 https://cpp.com.ru/kr_cbook/ch5kr.html
 
 107.    Функции и прототипы, оператор return.  
+
 https://cpp.com.ru/shildt_spr_po_c/06/0608.html 
 
 108.    Объяснить логику компилятора, не позволяющего без описания определять функции перед использованием.  
+
 препроцессор должен найти описание в include-файле (или в начале программы после других include) и вставить его содержимое на место include-файла. поэтому компилятор ищет в этом месте описание функции.
 требование компилятора скорее не к описанию, а к существованию include-файла.
 https://cpp.com.ru/shildt_spr_po_c/06/0608.html  
 https://server.179.ru/tasks/cpp/total/105.html
 
 109.    Чем отличается предназначение конструкции if-else от конструкции #if-#else-#endif?  
+
 https://alexgyver.ru/lessons/conditions/#%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%BD%D1%8B%D0%B5-%D0%B4%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%B8%D0%B2%D1%8B-if-else
 
 110.    Чем отличается функция printf от функции fprintf.  
+
 fprintf записывает форматированный текст в указанный поток вывода.  
 printf эквивалентно записи fprintf(stdout, ...) и записывает форматированный текст туда,куда указывает стандартный выходной поток.
 
 111.    Как осуществить вывод на экран с помощью функции fprintf?  
+
 fprintf( stdout, const char * format, ... );
 
 112.    Чем является а в выражении double *a;?  
+
 указателем https://learnc.info/c/pointers.html
 
 113.    Что может являться прототипом функции func?:  
+
 а) func(x); б) void func(double); в) double func(double x); г) int fun(double x);  
 б,в. статья https://cpp.com.ru/shildt_spr_po_c/06/0608.html
 
 114.    Что появится на экране при выполнении функции printf(“%d\n”,~-2);  
+
 1
 
 ## Вопросы по языку Python.
 
 1.    Как запустить программу на Python?
+
 python3 prog.py
 
 2.    Модель памяти Python  
+
+Каждая переменная в Python действует как объект. Объекты могут быть простыми (содержащими числа, строки и т. д.) Или контейнерами (словарями, списками или пользовательскими классами). Важно: переменная в Python не хранит значение напрямую – она хранит лишь ссылку на объект.  
 http://onreader.mdl.ru/MasteringConcurrencyInPython/content/Ch17.html  
 https://webdevblog.ru/osnovy-upravleniya-pamyatju-v-python/
 
 3.    Что хранится в памяти для каждой переменной в Python?  
-Каждая переменная в Python действует как объект. Объекты могут быть простыми (содержащими числа, строки и т. д.) Или контейнерами (словарями, списками или пользовательскими классами). Важно: переменная в Python не хранит значение напрямую – она хранит лишь ссылку на объект.
+
+Ссылку на объект. Каждая переменная в Python действует как объект. Объекты могут быть простыми (содержащими числа, строки и т. д.) Или контейнерами (словарями, списками или пользовательскими классами). Переменная в Python не хранит значение напрямую – она хранит лишь ссылку на объект.
 
 4.    Что значит фраза a=b в Python?  
+
 В данном примере Python не создает новый объект – он просто создает переменную a, которая ссылается на тот же объект, что и переменная b.
 
 5.    Арифметические операции в Python.  
+
++ - * / % а также целочсленое деление // и возведение в степень **
 http://pythonicway.com/python-operators
 
 6.    Логические операции в Python  
+
+словами and, or, not, in и битовые операции & | ^ ~ >> <<
 http://pythonicway.com/python-operators
 
 7.    Определение функций в Python  
+
+def function(type1 a, type2 b, ...):  
 https://pythonru.com/osnovy/funkcii-v-python
 
 8.    Как задаются блоки в Python?  
-табуляциями
+
+табуляциями или одинаковым количеством пробелов
 
 9.    Вывод на экран в Python. В том числе задание разделителей и вида завершения вывода функцией вывода.  
+
+Примеры:  
+print("A", "B", "C", sep="#")  
+print("[1: " + str(1) + "]", end=" -- ")  
 https://devpractice.ru/python-lesson-12-input-output-work-with-files/
 
 10.   Открытие/закрытие файла  
+
 myfile = open(имя-файла [, режим-доступа] [, буферизация])  
-например, my_file = open("some.txt", "w") 
+например, my_file = open("some.txt", "w")  
 myfile.close();  
 статья: http://pythonicway.com/python-fileio
 
 11.   Вид оператора if…  
+
 if test1:  
     state1  
 elif test2:  
@@ -2226,15 +2277,19 @@ else:
     state3  
 
 12.   Аналог оператора ?:  (из С) в Python.  
-https://skobki.com/python-ternarnyj-uslovnyj-operator-if-or-else/  
+
+https://skobki.com/python-ternarnyj-uslovnyj-operator-if-or-else/   
 пример:  
 x, y = 25, 50  
 big = x if x < y else y
 
 13.   Исключения в Python. Пример.  
+
+Обрабатываются конструкциями try, except, finally, raise.  
 https://pythonru.com/osnovy/obrabotka-iskljuchenij-python-blok-try-except-blok-finally
 
-14.   Подключение модулей на примере математического модуля.  
+14.   Подключение модулей на примере математического модуля. 
+
 import math as m  
 print(m.e)  
 или так:  
@@ -2244,21 +2299,36 @@ print(e)
 https://pythonworld.ru/osnovy/rabota-s-modulyami-sozdanie-podklyuchenie-instrukciyami-import-i-from.html
 
 15.   Оператор for  на примере разбиение строки на слова  
-with open(fn, 'r') as f:
- for word in [s for s1 in f for s2 in s1.split('\n') for s3 in s2.split('\t') for s4 in s3.split(',') for s in s4.split(' ') if s!='']:
-  try: ...
-  except ValueError: ...
+
+with open(fn, 'r') as f:  
+ for word in [s for s1 in f for s2 in s1.split('\n') for s3 in s2.split('\t') for s4 in s3.split(',') for s in s4.split(' ') if s!='']:  
+  try: ...  
+  except ValueError: ...  
 
 16.   Списки в Python. Функции добавления элемента в список/удаления элемента из списка.  
+
 []  
+имеются функции list.append(x) 
+list.extend(L) 
+list.insert(i, x) 
+list.remove(x) 
+list.pop([i]) 
+list.index(x, [start [, end]])
+list.count(x) 
+list.sort([key=функция]) 
+list.reverse() 
+list.copy() 
+list.clear()  
 https://pythonworld.ru/tipy-dannyx-v-python/spiski-list-funkcii-i-metody-spiskov.html
 
-17.   Перебор элементов списка в Python  	
+17.   Перебор элементов списка в Python  
+
 for elem in list:
  print(elem)  
 на всякий случай: https://webformyself.com/spiski-python-primery-comprehension-apend-sort-length-reverse/
 
-18.   Сортировка в Python. Пример.  	
+18.   Сортировка в Python. Пример.  
+
 values = [2, 10, 7, 14, 50]
 //Чтобы отсортировать значения в порядке убывания:
 values.sort(reverse = True)  
@@ -2269,18 +2339,40 @@ print(values)
 обычные сортировки (алгоритмы): https://webdevblog.ru/algoritmy-sortirovki-v-python/
 
 19.   Лямбда-функции. Пример.  
+
+Работают как шаблоны в С++. Хороший пример:  
+f = lambda x: x * x  
+print(f(5))  
 https://pythonru.com/osnovy/vse-chto-nuzhno-znat-o-lambda-funkcijah-v-python  
 https://pythonru.com/uroki/lambda-funcija-uroki-po-python-dlja-nachinajushhih
 
 20.   Кортежи.  
+
 ()  
+имеются функции как у списка, только без изменения элементов   
+tuple.index(x, [start [, end]])
+tuple.count(x) 
+tuple.copy()  
 https://pythonworld.ru/tipy-dannyx-v-python/kortezhi-tuple.html
 
 21.   Словари  
+
 {}  
+имеют функции dict.clear() 
+dict.copy() 
+dict.fromkeys(seq[, value]) 
+dict.get(key[, default]) 
+dict.items() 
+dict.keys() 
+dict.pop(key[, default]) 
+dict.popitem() 
+dict.setdefault(key[, default]) 
+dict.update([other]) 
+dict.values() 
 https://pythonru.com/osnovy/python-dict
 
-22.   Использование кортежей в качестве индексов для словарей  
+22.   Использование кортежей в качестве индексов для словарей 
+
 directory[last,first] = number  
 //Внутри скобок выражение является кортежем.  
 //Мы могли бы использовать присваивание кортежей в цикле 
