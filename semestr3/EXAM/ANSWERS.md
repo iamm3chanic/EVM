@@ -2011,7 +2011,7 @@ double pow(      double basis,         int exponent );
 https://www.cyberforum.ru/cpp-beginners/thread1442053.html
 
 30.   Что будет выведено на экран: {int x[5]; printf(”%d”,(int)sizeof(x));}  
-8 - он же размер указателя
+20 для этого случая, но если бы мы передавали в функцию, то получили бы 8 - он же размер указателя (частый доп.)
 
 31.   Что будет выведено на экран при вызове функции: void f(int x[5]){ printf(”%d”,(int)sizeof(x));}  
 20 = 4*5 
