@@ -1,25 +1,29 @@
 /*
-Написать программу на языке С, которая транспонирует матрицу изображения. Заголовок BMP-файла можно взять из файла http://lectures.stargeo.ru/header/bmp.h 
+Написать программу на языке С, которая транспонирует изображение. Заголовок BMP-файла можно взять из файла bmp.h 
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "bmp.h"
 
+//предопределили функции
 BMPHEAD *Input(const char *sf);
 int Output(const char *sf, BMPHEAD *h);
 unsigned int ui(unsigned int c);
 BMPHEAD *Edit(BMPHEAD *h);
 
+//ввод
 BMPHEAD *Input(const char *sf)
 {
  FILE *f;
  BMPHEAD *h=NULL;
  int lb=102,j,ls; long unsigned int i;
  char c,*s=NULL;
+ //метка lb
  lb=(int)(((char*)&(h->pal)) - ((char*)&(h->Signature)));
  printf("lb=%d (==54)\n", lb);
  f=fopen(sf,"rb"); if(f==NULL)return NULL;
+ //мссив пикселей
  h=(BMPHEAD*)malloc(sizeof(*h));
  if(fread(h, 102,1,f)!=1)
  {free(h); return NULL;}
@@ -28,6 +32,7 @@ BMPHEAD *Input(const char *sf)
  h->v=NULL;
  h->g=NULL;
  printf("BitsForPixel=%d \n", h->BitsPerPixel);
+ //2 случая с разным количеством бит/пикс
  if(h->BitsPerPixel==24)
  {
  ls=h->SizeImage/h->Height;
@@ -124,6 +129,7 @@ int Output(const char *sf, BMPHEAD *h)
 BMPHEAD *Edit(BMPHEAD *h)
 {
 //TODO: add header for *b
+//создаем такую же стпуктуру по размеру
  int lb=102,ls,t;  long unsigned int i,j;
  char *s=NULL;
  lb=(int)(((char*)&(h->pal)) - ((char*)&(h->Signature)));
@@ -138,7 +144,7 @@ b->Width=h->Width; b->Height=h->Height;
  printf("BitsForPixel for second Image=%d \n", b->BitsPerPixel);
 if(h->BitsPerPixel==24)
  {
- ls=(b->SizeImage+2*b->Height+2*b->Width)/(b->Height);
+ ls=(b->SizeImage*b->Height*b->Width)/(b->Height);
  s=(char*)malloc(ls);
  b->v=(unsigned char(**)[4])malloc(b->Height*sizeof(void*)+b->Height+b->Width*4);
  b->v[0]=(unsigned char (*)[4])(b->v+b->Height);
@@ -151,17 +157,13 @@ for(i=0;i<b->Height;i++)
   b->v[i][j][1]=s[j*3+1];
   b->v[i][j][2]=s[j*3+0];}
  }
- //рамочка:
- for(i=0;i<b->Height;i++){
-  b->v[i][0][0]=0;b->v[i][0][1]=0;b->v[i][0][2]=0;
-  b->v[i][1][0]=0;b->v[i][1][1]=0;b->v[i][1][2]=0;
-  b->v[i][2][0]=0;b->v[i][2][1]=0;b->v[i][2][2]=0;
- }
+ //транспонируем h
  for(j=0;j<b->Width;j++){
-  b->v[0][j][0]=0;b->v[0][j][1]=0;b->v[0][j][2]=0;
-  b->v[1][j][0]=0;b->v[1][j][1]=0;b->v[1][j][2]=0;
-  b->v[2][j][0]=0;b->v[2][j][1]=0;b->v[2][j][2]=0;
- }
+ for(i=0;i<b->Height;i++){
+  b->v[i][j][0]=h->v[j][i][0];
+  b->v[i][j][0]=h->v[j][i][0];
+  b->v[i][j][0]=h->v[j][i][0];
+ }}
  for(int m=0;m<2;m++){
  for(int i = 0; i < 5; ++i)
     {
@@ -196,15 +198,16 @@ for(i=0;i<h->Height;i++)
 }
 
 unsigned int ui(unsigned int c) {return (unsigned int)c;}
+int main(int argc, char** argv)
 
-int main(void)
 {
+ argc=argc;
  BMPHEAD *h,*b;
- //int i,j;
- h=Input("ball1.bmp");
+ //h=Input("ball1.bmp");
+ h=Input(argv[0]);
  b = Edit(h);
- Output("lin2.bmp",b);
-
+ //Output("lin2.bmp",b);
+ Output(argv[1],b);
  printf("done\n");
  free(h); h=NULL;
  free(b); b=NULL;
