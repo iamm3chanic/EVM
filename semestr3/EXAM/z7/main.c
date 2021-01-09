@@ -16,7 +16,7 @@ union LDC {
 void showDouble(double d);
 double Deg2N(double d,int n);
 void print_bin( union LDC ldc );
-
+//показываем
 void showDouble(double d)
 {
     int i =0;
@@ -28,7 +28,7 @@ void showDouble(double d)
     printf("\nmantissa in 10ic sys= %f\n", d);
     printf("poriadok in 10ic sys= %d\n", i);
 }
-        
+//умножаем        
 double Deg2N(double d,int n)
 {
  int i =0; //double k;
@@ -44,7 +44,7 @@ double Deg2N(double d,int n)
  return d;
 }
 
- 
+//показываем еще лучше
 void print_bin( union LDC ldc )
 {
     unsigned char c;
