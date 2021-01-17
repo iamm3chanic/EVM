@@ -1,0 +1,4 @@
+2 1 2 -1 -2 -3 4 5  6 -3 -7 
+one two three
+hi hii hello	world
+word1	word2
