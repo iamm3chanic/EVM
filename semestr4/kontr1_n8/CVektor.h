@@ -19,9 +19,12 @@ using namespace std;
 //----------- Определение класса -------------------------------
 //--------------------------------------------------------------
 /*
-TODO: operator[]; deal w operator =; КАК ПЕРЕЙТИ НА СЛЕДУЮЩУЮ СТРОКУ?
-ГДЕ ОПЕДЕЛИТЬ ГЛОБАЛЬНУЮ ПЕРЕМЕННУЮ?
-DONE: const & in Kommutativ/Netativ; define Clear, SetZero, CopyOnly; changed operator =; dealed with uninitialized vars; dealed with mismatched free/delete [BY NOT USING SETN() AND REALLOC, IT'S TOO BAD]; did normal default constructor; all tests
+TODO: operator[]; КАК ПЕРЕЙТИ НА СЛЕДУЮЩУЮ СТРОКУ?; переместить классы в мэйн
+
+DONE: const & in Kommutativ/Netativ; define Clear, SetZero, CopyOnly; changed operator =; 
+dealed with uninitialized vars; dealed with mismatched free/delete [BY NOT USING SETN() AND REALLOC, IT'S TOO BAD]; 
+did normal default constructor; вставлена глобальная переменная extern; 
+dealed w operator =; 
 */
 class CVektor
 {
