@@ -12,6 +12,7 @@
  
 #include<iostream>
 #include<fstream>
+#include <sstream>
 #include"CVektor.h"
 //size_t glob_n;
 //////////////////CLASS METHODS///////////////////////////
@@ -24,7 +25,7 @@ void CVektor::CopyOnly(const CVektor &v)
 void CVektor::GetVektor()        //Задать вектор
     {
         //cout << "Введите размерность вектора: "; cin >> n;
-        for (int i=0; i < n; i++ )
+        for (size_t i=0; i < n; i++ )
         {
             cout << "Введите элемент вектора № " << i << ": ";
             cin >> ptrArr[i];
@@ -33,7 +34,7 @@ void CVektor::GetVektor()        //Задать вектор
 void CVektor::ShowVektor()       //Показать вектор
     {
         cout << "Вектор {";
-        for (int i=0; i < n; i++)
+        for (size_t i=0; i < n; i++)
         {  
          if(i<n-1)
             cout << ptrArr[i] << ", ";
@@ -56,10 +57,12 @@ if(this!=&b )
 {memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN();} 
 return *this;
 }*/
-/*static */CVektor** CVektor::Input(const char *fn)
+/*static */
+CVektor** CVektor::Input(const char *fn)
 {
 
 CVektor **v=new CVektor*[11]; 
+memset(v,0,sizeof(CVektor));
 //CVektor **v=NULL;
 std::ifstream finput; 
 //char mystring[100];
@@ -70,31 +73,33 @@ std::ifstream finput;
    }
    
        bool b; float k=0; int n=0;
-       char s[15];
+       char s[15]; string str;
      //for(int i=0;!(finput.eof());i++)
      //if ((fgets(mystring[i], 100, f) != NULL) ) // считать символы из файла
       size_t i=0;
       //LC:
-      while(1)
-      {
+      while(getline(finput,str))
+      {stringstream ss(str);
       //finput.getline(mystring, 100);
        //вырезать имя файла и присвоить его
-      finput >> b;
+      ss >> b;
       //if(b==1) {goto lk;}
-      finput >> s;
-      cout<<"s="<<s<<endl;
-      finput >> n;
+      ss >> s;
+      cout<<"\ns="<<s<<endl;
+      ss >> n;
       cout<<"n="<<n<<endl;
       if(b==0) {CVektor0 vec=CVektor0(n);
                  vec.setText(s);
-                 cout<<vec<<endl; //ПОЧЕМУ БЕЗ ЭТОЙ СТРОЧКИ НЕ РАБОТАЕТ?
-                 (v[i])=&vec;}
+                 cout<<vec; //ПОЧЕМУ БЕЗ ЭТОЙ СТРОЧКИ НЕ РАБОТАЕТ?
+                 (v[i])=&vec; //maybe need to kill vec
+                 }
       else if(b==1) {CVektor1 vec=CVektor1(n);
                  vec.setText(s);
-                 cout<<vec<<endl;  //ПОЧЕМУ БЕЗ ЭТОЙ СТРОЧКИ НЕ РАБОТАЕТ?
-                 (v[i])=&vec;}
+                 cout<<vec;  //ПОЧЕМУ БЕЗ ЭТОЙ СТРОЧКИ НЕ РАБОТАЕТ?
+                 (v[i])=&vec; //maybe need to kill vec
+                 }
       //cout<<"xxx";
-      for(int j=0;(finput>>k)&&(j<n);j++)
+      for(int j=0;(ss>>k)&&(j<n);j++)
       {//(*v[i])[j]=k; 
       (*v[i]).setPos(j,k);
       cout<<(*v[i])[j]<<" ";
@@ -102,8 +107,8 @@ std::ifstream finput;
       cout<<endl;
     //cout<<"xxx";
       //i++;
-      finput.getline(s,30); //КАК ПЕРЕЙТИ НА СЛЕДУЮЩУЮ СТРОКУ?
-      if(finput.eof()){break;}
+      //finput.getline(s,30); //КАК ПЕРЕЙТИ НА СЛЕДУЮЩУЮ СТРОКУ?
+      //if(finput.eof()){break;}
       i++;
        }   
        //REMEMBER IT!
@@ -118,110 +123,78 @@ return v;
 //////CVektor0    
 int CVektor0::output(const char *FileName)
 {
- //FILE *f = fopen(FileName , "r");
-  // char mystring[100];
- 
-   //if (f == NULL) perror("Ошибка открытия файла");
-   //else
-   std::ifstream finput;
-   finput.open(FileName, ios::in);
-   {
-     //for(int i=0;i<10;i++)
-     //if ((fgets(mystring[i], 100, f) != NULL) ) // считать символы из файла
-      {
-      //finput.getline(mystring, 100);
-       //вырезать имя файла и присвоить его
-       bool b; float k; int n=0;
-       char s[15];
-      finput >> b;
-      if(b==1) {goto lk;}
-      finput >> s;
-      cout<<"s="<<s<<endl;
-      finput >> n;
-      cout<<n<<endl;
-      CVektor0 vek=CVektor0(n);
-      //cout<<"xxx";
-      for(int j=0;(finput>>k)&&(j<n);j++)
-      {cout<<k<<" ";vek[j]=k;}
-    //cout<<"xxx";
-    //cout << b << " " << s << "\n";
-      strncpy(OutFile,s,15);
-    //cout<<"777";
-       }   
-       lk:
-    finput.close();
-     //fclose (f);
+   
+   if(FileName){
+   std::ofstream foutput;
+   if (!foutput) {
+    cout << "File error - can't open to write data!";
+    cin.sync(); cin.get(); throw -1;
    }
-if(FileName)
-{for(int k=0;k<n;k++){cout<<ptrArr[k]<<" ";}} return 0;
-
+   foutput.open(OutFile, ios::out | ios::app);
+       for(size_t i=0;i<n;i++){foutput<<ptrArr[i]<<" ";} 
+       cout<<*this;
+         //cout<<"xxx";
+    //cout << b << " " << s << "\n";
+     // strncpy(OutFile,s,15);
+    //cout<<"777";
+          
+     //  lk:
+    foutput.close();
+  }
+     return 0;
 
 }
     
 /////CVektor1
 int CVektor1::output(const char *FileName)
 {
- //FILE *f = fopen(FileName , "r");
   // char mystring[100];
  
    //if (f == NULL) perror("Ошибка открытия файла");
    //else
-   std::ifstream finput;
-   finput.open(FileName, ios::in);
-   {
-     //for(int i=0;i<10;i++)
-     //if ((fgets(mystring[i], 100, f) != NULL) ) // считать символы из файла
-      {
-      //finput.getline(mystring, 100);
-       //вырезать имя файла и присвоить его
-       bool b; float k; int n=0;
-       char s[15];
-      finput >> b;
-      if(b==1) {goto lk;}
-      finput >> s;
-      cout<<"s="<<s<<endl;
-      finput >> n;
-      cout<<n<<endl;
-      CVektor1 vek=CVektor1(n);
-      //cout<<"xxx";
-      for(int j=0;(finput>>k)&&(j<n);j++)
-      {cout<<k<<" ";vek[j]=k;}
-    //cout<<"xxx";
-    //cout << b << " " << s << "\n";
-      strncpy(OutFile,s,15);
-    //cout<<"777";
-       }   
-       lk:
-    finput.close();
-     //fclose (f);
+   if(FileName){
+  std::ofstream foutput;
+   if (!foutput) {
+    cout << "File error - can't open to write data!";
+    cin.sync(); cin.get(); throw -1;
    }
-if(FileName)
-{for(int k=0;k<n;k++){cout<<ptrArr[k]<<" ";}} return 0;
-
-
+ /* cout<<"CHECKING...\n";
+  cout<<"OutFile = "<<OutFile;
+  cout<<"\nn = "<<n<<endl;
+  cout<<*ptrArr;*/
+  
+   foutput.open(OutFile, ios::out | ios::app);
+   {
+       for(size_t i=0;i<n;i++){foutput<<i+1<<") "<<ptrArr[i]<<endl;} 
+        // cout<<this;
+         //foutput<<this;
+  
+          
+    foutput.close();
+  }
+}
+return 0;
 }
     
     
     
-    
+/////////OPERATORS///////////////
+   
 /*CVektor& CVektor::operator=(const CVektor&& v)
     {
         if(this!=&&v) 
         {Clean(); CopyOnly(v);}
         return *this;
-    }
+    }*/
 CVektor& CVektor::operator+(const CVektor &v) 
     {
-     CVektor &r;
     // r.SetZero();
      if(n==v.n)
      {
-     //r.n=v.n;
-     r=CVektor(v.n);
-     for (int i=0; i < r.n; i++ ) {
-        r.ptrArr[i]= v.ptrArr[i]+ptrArr[i];
+     for (size_t i=0; i < n; i++ ) {
+        ptrArr[i]= v.ptrArr[i]+ptrArr[i];
         }
-     return r;
+     return *this;
      }
     else 
     {
@@ -231,15 +204,12 @@ CVektor& CVektor::operator+(const CVektor &v)
     }
 CVektor& CVektor::operator-(const CVektor &v) 
     {
-     CVektor& r;
-     //r.SetZero();
-     if(n==v.n)
+      if(n==v.n)
      {
-     r=CVektor(v.n);
-     for (int i=0; i < r.n; i++ ) {
-        r.ptrArr[i]= ptrArr[i]- v.ptrArr[i];
+     for (size_t i=0; i < n; i++ ) {
+        ptrArr[i]= ptrArr[i]-v.ptrArr[i];
         }
-     return r;
+     return *this;
      }
     else 
     {
@@ -253,7 +223,7 @@ float CVektor::operator *(const CVektor &v)
      //n=v.n;
      if(n==v.n)
      {
-     for (int i=0; i < v.n; i++ ) {
+     for (size_t i=0; i < v.n; i++ ) {
         r += v.ptrArr[i]*ptrArr[i];
         }
      return r;
@@ -264,7 +234,7 @@ float CVektor::operator *(const CVektor &v)
      throw -1;
     }
     }
-*/
+
 //////////////////FRIEND FUNCTIONS////////////////////////
 /*CVektor& Kommutativ(const CVektor& vector1, const CVektor& vector2)
 {
@@ -335,7 +305,7 @@ float Skalar ( CVektor& vector1, CVektor& vector2)
 ostream &operator<<(ostream& cout, CVektor &v) 
 {
    cout << "Вектор {";
-     for (int i=0; i < v.n; i++)
+     for (size_t i=0; i < v.n; i++)
      { 
      if(i<v.getN()-1)
  //        cout << v.getPtrArr()[i]  << ", ";
@@ -350,7 +320,7 @@ return cout;
 }
 istream &operator>>(istream& cin , CVektor &v) 
 {
- for (int i=0,p; i < v.getN(); i++ )
+ for (size_t i=0,p; i < v.getN(); i++ )
         {
             cout << "Введите элемент вектора № " << i << ": ";
             cin >> p;      //v.ptrArr[i];
