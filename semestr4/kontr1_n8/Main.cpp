@@ -102,8 +102,8 @@ int main()
     v3.setPos(0,111); v3.setPos(1,222); v3.setPos(2,333);
     v4.setPos(0,1); v4.setPos(1,2); v4.setPos(2,3);
 
-    cout << v1;
-    cout << v2;
+    cout << v3;
+    cout << v4;
     
     cout << "Скалярное произведение = " << v3*v4 << endl;
     cout << "Сумма    = " << v3+v4 ;
