@@ -31,12 +31,13 @@ int main()
    glob_v= (CVektor::Input("input.txt"));
    //glob_v=(**glob_v).Input("input.txt");
    cout<<"global Number = "<<glob_n<<endl;
-   for(size_t i=0;(i<glob_n)&&(*glob_v!=NULL);i++)  
+   for(size_t i=0;(i<glob_n)/*&&(*glob_v!=NULL)*/;i++)  
    {
     //cout<<"OutFile = "<<(*glob_v[i]).getF()<<endl;
-    cout<<"n = "<<(glob_v[i])->getN()<<"="<<(*glob_v[i]).getN()<<endl;
+    //cout<<"n = "<<(glob_v[i])->getN()<<"="<<(*glob_v[i]).getN()<<endl;
     //(glob_v[i])->ShowVektor();
-    //(glob_v[i])->output("input.txt");
+    (glob_v[i])->output("input.txt");
+    delete glob_v[i];
    }
    //cout<<(*glob_v[i]);//(*glob_v[i]).ShowVektor();
    delete[] glob_v;
@@ -98,15 +99,17 @@ int main()
     cout << "Разность = " << v1-v2 ;
     
     cout<<"For CVektor1:\n";
-     CVektor1 v3(n), v4(n);
+     CVektor1 v3(n), v4(n),sum1(n),dif1(n);
     v3.setPos(0,111); v3.setPos(1,222); v3.setPos(2,333);
     v4.setPos(0,1); v4.setPos(1,2); v4.setPos(2,3);
 
     cout << v3;
     cout << v4;
     
+    sum1=v3+v4;
+    dif1=v3-v4;
     cout << "Скалярное произведение = " << v3*v4 << endl;
-    cout << "Сумма    = " << v3+v4 ;
+    cout << "Сумма    = " << sum1 ;
     cout << "Разность = " << v3-v4 ;
 
     } catch(int err) {cout << "error=" <<err<<endl;}
