@@ -62,7 +62,7 @@ CVektor** CVektor::Input(const char *fn)
 {
 
 CVektor **v=new CVektor*[11]; 
-memset(v,0,sizeof(CVektor));
+memset(v,0,sizeof(CVektor*)*11);
 //CVektor **v=NULL;
 std::ifstream finput; 
 //char mystring[100];
@@ -85,29 +85,22 @@ std::ifstream finput;
       ss >> b;
       //if(b==1) {goto lk;}
       ss >> s;
-      cout<<"\ns="<<s<<endl;
+      //cout<<"\ns="<<s<<endl;
       ss >> n;
-      cout<<"n="<<n<<endl;
-      if(b==0) {CVektor0 vec=CVektor0(n);
-                 vec.setText(s);
-                 cout<<vec; //ПОЧЕМУ БЕЗ ЭТОЙ СТРОЧКИ НЕ РАБОТАЕТ?
-                 (v[i])=&vec; //maybe need to kill vec
+      //cout<<"n="<<n<<endl;
+      if(b==0) { v[i]=new CVektor0(n); //maybe need to kill vec
+                 v[i]->setText(s);
                  }
-      else if(b==1) {CVektor1 vec=CVektor1(n);
-                 vec.setText(s);
-                 cout<<vec;  //ПОЧЕМУ БЕЗ ЭТОЙ СТРОЧКИ НЕ РАБОТАЕТ?
-                 (v[i])=&vec; //maybe need to kill vec
-                 }
+      else if(b==1) {v[i]=new CVektor1(n); //maybe need to kill vec
+                     v[i]->setText(s);
+                    }
       //cout<<"xxx";
       for(int j=0;(ss>>k)&&(j<n);j++)
       {//(*v[i])[j]=k; 
       (*v[i]).setPos(j,k);
-      cout<<(*v[i])[j]<<" ";
-      }//{cout<<k<<" ";*v[i]=k;}
-      cout<<endl;
-    //cout<<"xxx";
-      //i++;
-      //finput.getline(s,30); //КАК ПЕРЕЙТИ НА СЛЕДУЮЩУЮ СТРОКУ?
+      //cout<<(*v[i])[j]<<" ";
+      }
+      //cout<<endl;
       //if(finput.eof()){break;}
       i++;
        }   
@@ -132,11 +125,8 @@ int CVektor0::output(const char *FileName)
    }
    foutput.open(OutFile, ios::out | ios::app);
        for(size_t i=0;i<n;i++){foutput<<ptrArr[i]<<" ";} 
-       cout<<*this;
-         //cout<<"xxx";
-    //cout << b << " " << s << "\n";
-     // strncpy(OutFile,s,15);
-    //cout<<"777";
+       foutput<<endl;
+       //cout<<*this;
           
      //  lk:
     foutput.close();
@@ -158,15 +148,12 @@ int CVektor1::output(const char *FileName)
     cout << "File error - can't open to write data!";
     cin.sync(); cin.get(); throw -1;
    }
- /* cout<<"CHECKING...\n";
-  cout<<"OutFile = "<<OutFile;
-  cout<<"\nn = "<<n<<endl;
-  cout<<*ptrArr;*/
   
    foutput.open(OutFile, ios::out | ios::app);
    {
-       for(size_t i=0;i<n;i++){foutput<<i+1<<") "<<ptrArr[i]<<endl;} 
-        // cout<<this;
+       for(size_t i=0;i<n;i++){foutput<<"{"<<ptrArr[i]<<endl;} 
+       foutput<<"}\n";
+        // cout<<*this;
          //foutput<<this;
   
           
@@ -236,71 +223,6 @@ float CVektor::operator *(const CVektor &v)
     }
 
 //////////////////FRIEND FUNCTIONS////////////////////////
-/*CVektor& Kommutativ(const CVektor& vector1, const CVektor& vector2)
-{
-    CVektor temp;
-    temp.SetZero();
-    // *(temp.ptrArr)=0;
-    if(vector1.n == vector2.n)
-    {
-    //temp.setN(vector1.n);
-    temp=CVektor(vector1.n);
-    for (int i=0; i < vector1.n; i++ ) {
-      (temp.ptrArr[i]) = (vector1.ptrArr[i]) + (vector2.ptrArr[i]);
-      }
-      cout << "Сумма    - ";
-     // cout << vector1->n << endl;
-      temp.ShowVektor();
-    return temp;
-    }
-    else 
-    {
-    cout << "Вектора должны быть одинаковой длины!\n";
-    throw -1;
-    }
-}
-CVektor& Netativ(const CVektor& vector1, const CVektor& vector2)
-{
-    CVektor temp;
-    temp.SetZero();
-    // *(temp.ptrArr)=0;
-     if(vector1.n == vector2.n)
-    {
-    //temp.n=vector1.getN();
-    temp=CVektor(vector1.n);
-    for (int i=0; i < temp.n; i++ ) {
-        *(temp.ptrArr+i) = (vector1.ptrArr[i]) - (vector2.ptrArr[i]);
-        }
-        cout << "Разность - ";
-        temp.ShowVektor();
-    return temp;
-    }
-    else 
-    {
-     cout << "Вектора должны быть одинаковой длины!\n";
-    throw -1;
-    }
-}
-float Skalar ( CVektor& vector1, CVektor& vector2)
-{
-    //static float temp;
-    float temp;
-    temp = 0;
-    if(vector1.getN() == vector2.getN())
-    {
-    for (int i=0; i < (vector1).getN(); i++ ) {
-       // temp += (vector1.getPtrArr()[i]) * (vector2.getPtrArr()[i]);
-       temp += (vector1.ptrArr[i]) * (vector2.ptrArr[i]);
-        }
-    cout << "Скалярное произведение: " << temp << endl;
-    return temp;
-    }
-    else 
-    {
-    cout << "Вектора должны быть одинаковой длины!\n";
-    throw -1;
-    }
-}*/
 
 ostream &operator<<(ostream& cout, CVektor &v) 
 {
