@@ -51,8 +51,8 @@ public:
     ptrArr[i]=f;}
     /*const*/ CVektor& operator=(const CVektor& v);
     //CVektor &operator=( CVektor0 &b);
-    /*const*/ CVektor& operator+(const CVektor &v);
-    /*const*/ CVektor& operator-(const CVektor &v);
+    /*const */ //CVektor& operator+(const CVektor &v);
+    /*const  CVektor& operator-(const CVektor &v);*/
     float operator *(const CVektor &v);
     float &operator[](size_t i){if(/*i<0||*/i>n-1) throw -1; return (this->ptrArr)[i];}
     //float &operator[](int i){if(i<0||i>n-1) throw -1; return ptrArr[i];}
@@ -71,6 +71,9 @@ public:
     friend istream &operator>>(istream& /*&cin*/, CVektor& ); 
 };
 
+CVektor& operator+(const CVektor &lhs, const CVektor &rhs);
+CVektor& operator-(const CVektor &lhs, const CVektor &rhs);
+
 class CVektor0: public CVektor {
    private:
       char OutFile[15];
@@ -82,7 +85,7 @@ class CVektor0: public CVektor {
       ~CVektor0()    {delete [] ptrArr; ptrArr=NULL;n=0;}
       void CopyOnly(const CVektor0 &v) {if(this!=&v){memcpy(ptrArr=new float[n=v.getN()], v.ptrArr, v.getN()*sizeof(float)); strncpy(OutFile,v.getF(),15);}}
       //~CVektor0() : ~CVektor() {}
-      CVektor0 &operator=( CVektor0&b){if(this!=&b){memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN();} return *this;}
+      CVektor0 &operator=( CVektor0&b){if(this!=&b){memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN(); strcpy(OutFile,b.getF());} return *this;}
       CVektor0 &operator=( CVektor &b){if(this!=&b){memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN();} return *this;}
       CVektor0 &operator+( CVektor &v){if(n==v.getN()){for (size_t i=0; i < n; i++ ) {ptrArr[i]= v.getPtrArr()[i]+ptrArr[i];} return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
       CVektor0 &operator-( CVektor &v){if(n==v.getN()){for (size_t i=0; i < n; i++ ) {ptrArr[i]= ptrArr[i]-v.getPtrArr()[i];} return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
@@ -93,10 +96,15 @@ class CVektor0: public CVektor {
       int output(const char *FileName); //в строку
 };
 
+//иначе имеем ambiguating
+//CVektor0& operator+(const CVektor0 &lhs, const CVektor0 &rhs);
+//CVektor0& operator-(const CVektor0 &lhs, const CVektor0 &rhs);
+
 class CVektor1: public CVektor {
    private:
       char OutFile[15];
    public:
+      CVektor1 (const CVektor1 &v):CVektor(v){if(this!=&v){ strncpy(OutFile,v.OutFile,15);}}
       CVektor1() {ptrArr=NULL;n=0;}
       CVektor1(int num) : CVektor(num){memset(OutFile,0,15);/* n = num;   ptrArr = new float [num]; memset(ptrArr,0,n*sizeof(float));*/}
       //CVektor0(int num)   { n = num;   ptrArr = new float [num];  }
@@ -104,8 +112,9 @@ class CVektor1: public CVektor {
       //~CVektor0() : ~CVektor() {}
       CVektor1 &operator=( CVektor1&b){if(this!=&b){memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN();} return *this;}
       CVektor1 &operator=( CVektor&b){if(this!=&b){memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN();} return *this;}
-      CVektor1 &operator+( CVektor &v){if(n==v.getN()){CVektor1 w(n);for (size_t i=0; i < n; i++ ) {w.setPos(i,ptrArr[i]+v.getPtrArr()[i]);} *this=w;return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
-      CVektor1 &operator-(CVektor &v){if(n==v.getN()){CVektor1 w(n);for (size_t i=0; i < n; i++ ) {w.setPos(i,ptrArr[i]-v.getPtrArr()[i]);} *this=w;return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
+      //CVektor1& operator+(const CVektor1 &v);
+      //{if(n==v.getN()){CVektor1 w(n);for (size_t i=0; i < n; i++ ) {w.setPos(i,ptrArr[i]+v.getPtrArr()[i]);} *this=w;return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
+      //CVektor1& operator-(const CVektor1 &v);//{if(n==v.getN()){CVektor1 w(n);for (size_t i=0; i < n; i++ ) {w.setPos(i,ptrArr[i]-v.getPtrArr()[i]);} *this=w;return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
       void SetZero(){ptrArr=NULL;n=0;}
       void Clean() {delete [] ptrArr; SetZero();}
       const char* getF() const{return OutFile;}
@@ -113,5 +122,8 @@ class CVektor1: public CVektor {
       int output(const char *FileName); //в столбец
 };
 
-extern CVektor **glob_v; 
+//иначе имеем ambiguating
+CVektor1& operator+(const CVektor1 &lhs, const CVektor1 &rhs);
+CVektor1& operator-(const CVektor1 &lhs, const CVektor1 &rhs);
+//extern CVektor **glob_v; 
 extern size_t glob_n;

@@ -166,22 +166,147 @@ return 0;
     
     
 /////////OPERATORS///////////////
-   
+CVektor& operator+(const CVektor &lhs, const CVektor &rhs)
+{
+ if(lhs.getN()==rhs.getN())
+     {
+     //const CVektor& w=rhs; const CVektor& u=lhs; 
+     const CVektor& tmpl=lhs; const CVektor& tmpr=rhs;
+     CVektor& l=const_cast<CVektor&>(tmpl);//=const_cast<CVektor&>(w);
+     CVektor& r=const_cast<CVektor&>(tmpr);
+     CVektor& res=r;
+     for (size_t i=0; i < lhs.getN(); i++ ) {
+        (res)[i]= (l).getPtrArr()[i]+(r).getPtrArr()[i];
+        //r[i]=lhs[i]+rhs[i];
+        }
+     return (res);
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+}
+//поменять? это не похоже на правду... мняются исходники либо отбрасывается квалификатор...
+CVektor& operator-(const CVektor &lhs, const CVektor &rhs) 
+{
+ if(lhs.getN()==rhs.getN())
+     {
+     const CVektor& tmpl=lhs; const CVektor& tmpr=rhs;
+     CVektor& l=const_cast<CVektor&>(tmpl);//=const_cast<CVektor&>(w);
+     CVektor& r=const_cast<CVektor&>(tmpr);
+     CVektor& res=r;
+     for (size_t i=0; i < lhs.getN(); i++ ) {
+        (res)[i]= (l).getPtrArr()[i]+(r).getPtrArr()[i];
+        }
+     return (res);
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+} 
+/*CVektor0& operator+(const CVektor0 &lhs, const CVektor0 &rhs)
+{
+ if(lhs.getN()==rhs.getN())
+     {
+     //const CVektor& w=rhs; const CVektor& u=lhs; 
+     const CVektor0& tmpl=lhs; const CVektor0& tmpr=rhs;
+     CVektor0& l=const_cast<CVektor0&>(tmpl);//=const_cast<CVektor&>(w);
+     CVektor0& r=const_cast<CVektor0&>(tmpr);
+     CVektor0& res=r;
+     for (size_t i=0; i < lhs.getN(); i++ ) {
+        (res)[i]= (l).getPtrArr()[i]+(r).getPtrArr()[i];
+        //r[i]=lhs[i]+rhs[i];
+        }
+     return (res);
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+}
+//поменять
+CVektor0& operator-(const CVektor0 &lhs, const CVektor0 &rhs) 
+{
+ if(lhs.getN()==rhs.getN())
+     {
+     const CVektor0& tmpl=lhs; const CVektor0& tmpr=rhs;
+     CVektor0& l=const_cast<CVektor0&>(tmpl);//=const_cast<CVektor&>(w);
+     CVektor0& r=const_cast<CVektor0&>(tmpr);
+     CVektor0& res=r;
+     for (size_t i=0; i < lhs.getN(); i++ ) {
+        (res)[i]= (l).getPtrArr()[i]+(r).getPtrArr()[i];
+        }
+     return (res);
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+} */
+CVektor1& operator+(const CVektor1 &lhs, const CVektor1 &rhs)
+{
+ if(lhs.getN()==rhs.getN())
+     {
+      const CVektor1& tmpl=lhs; const CVektor1& tmpr=rhs;
+     CVektor1& l=const_cast<CVektor1&>(tmpl);//=const_cast<CVektor&>(w);
+     CVektor1& r=const_cast<CVektor1&>(tmpr);
+     CVektor1& res=r;
+     for (size_t i=0; i < lhs.getN(); i++ ) {
+        (res)[i]= (l).getPtrArr()[i]+(r).getPtrArr()[i];
+        }
+     return (res);
+     /*const CVektor1& res=rhs;
+     for (size_t i=0; i < lhs.getN(); i++ ) {
+        const_cast<CVektor1&>(res)[i]= const_cast<CVektor1&>(lhs).getPtrArr()[i]+const_cast<CVektor1&>(rhs).getPtrArr()[i];
+        //r[i]=lhs[i]+rhs[i];
+        }
+     return const_cast<CVektor1&>(res);*/
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+}
+CVektor1& operator-(const CVektor1 &lhs, const CVektor1 &rhs)
+{
+ if(lhs.getN()==rhs.getN())
+     {
+      const CVektor1& tmpl=lhs; const CVektor1& tmpr=rhs;
+     CVektor1& l=const_cast<CVektor1&>(tmpl);//=const_cast<CVektor&>(w);
+     CVektor1& r=const_cast<CVektor1&>(tmpr);
+     CVektor1& res=l;
+     for (size_t i=0; i < lhs.getN(); i++ ) {
+        (res)[i]= (l).getPtrArr()[i]-(r).getPtrArr()[i];
+        }
+     return (res);
+     }
+    else 
+    {
+     cout << "Вектора должны быть одинаковой длины!\n"; 
+     throw -1;
+    }
+}
 /*CVektor& CVektor::operator=(const CVektor&& v)
     {
         if(this!=&&v) 
         {Clean(); CopyOnly(v);}
         return *this;
     }*/
-CVektor& CVektor::operator+(const CVektor &v) 
+/*CVektor& CVektor::operator+(const CVektor &v) 
     {
-    // r.SetZero();
+     CVektor& r=const_cast<CVektor&>(v);r.SetZero();
      if(n==v.n)
      {
      for (size_t i=0; i < n; i++ ) {
-        ptrArr[i]= v.ptrArr[i]+ptrArr[i];
+        r[i]= v.ptrArr[i]+ptrArr[i];
         }
-     return *this;
+     return r;
      }
     else 
     {
@@ -189,21 +314,40 @@ CVektor& CVektor::operator+(const CVektor &v)
      throw -1;
     }
     }
+CVektor1& CVektor1::operator+(const CVektor1 &v) 
+    {
+     //size_t m=v.n; //CVektor1 const_cast<CVektor1&>(w)=v;
+     CVektor1& r=const_cast<CVektor1&>(v);//r.SetZero();
+     if(n==v.n)
+     {for (size_t i=0; i < n; i++ ) { r[i]= v.ptrArr[i]+ptrArr[i];} return r;}
+     else {cout << "n="<<n<<"; v.n="<<v.n<<"; Вектора должны быть одинаковой длины!\n"; throw -1;}
+    }*//*
 CVektor& CVektor::operator-(const CVektor &v) 
     {
+     CVektor& r=const_cast<CVektor&>(v);r.SetZero();
       if(n==v.n)
      {
      for (size_t i=0; i < n; i++ ) {
-        ptrArr[i]= ptrArr[i]-v.ptrArr[i];
+        r[i]= ptrArr[i]-v.ptrArr[i];
         }
-     return *this;
+     return r;
      }
     else 
     {
      cout << "Вектора должны быть одинаковой длины!\n"; 
      throw -1;
     }
-    }
+    }*/
+/*CVektor1& CVektor1::operator-(const CVektor1 &v) 
+    {
+     //size_t m=v.n; //CVektor1 const_cast<CVektor1&>(w)=v;
+     const CVektor1 &w=v;
+     CVektor1& r=const_cast<CVektor1&>(v);//r.SetZero();
+     if(n==v.n)
+     {for (size_t i=0; i < n; i++ ) { r.setPos(i, ptrArr[i]-v.ptrArr[i]);} 
+     const_cast<CVektor1&>(v)=const_cast<CVektor1&>(w);return r;}
+     else {cout << "n="<<n<<"; v.n="<<v.n<<"; Вектора должны быть одинаковой длины!\n"; throw -1;}
+    }*/
 float CVektor::operator *(const CVektor &v)
     {
       float r=0;
