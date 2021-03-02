@@ -151,7 +151,7 @@ int CVektor1::output(const char *FileName)
   
    foutput.open(OutFile, ios::out | ios::app);
    {
-       foutput<<"{\n"
+       foutput<<"{\n";
        for(size_t i=0;i<n;i++){foutput<<pointer[i]<<endl;} 
        foutput<<"}\n";
         // cout<<*this;
