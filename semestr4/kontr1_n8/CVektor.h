@@ -19,9 +19,9 @@ using namespace std;
 //----------- Определение класса -------------------------------
 //--------------------------------------------------------------
 /*
-TODO:  operator -; move constructor
+TODO:  move constructor
 
-DONE: ГДЕ ОПЕДЕЛИТЬ ГЛОБАЛЬНУЮ ПЕРЕМЕННУЮ?, const & in Kommutativ/Netativ; define Clear, SetZero, CopyOnly; changed operator =; dealed with uninitialized vars; dealed with mismatched free/delete [BY NOT USING SETN() AND REALLOC, IT'S TOO BAD]; did normal default constructor; 2 tests; operator[]; deal w operator =; КАК ПЕРЕЙТИ НА СЛЕДУЮЩУЮ СТРОКУ finput?; что не так с передачей glob_v? ; copy constructor for children; 
+DONE: operator +-; ГДЕ ОПЕДЕЛИТЬ ГЛОБАЛЬНУЮ ПЕРЕМЕННУЮ?, const & in Kommutativ/Netativ; define Clear, SetZero, CopyOnly; changed operator =; dealed with uninitialized vars; dealed with mismatched free/delete [BY NOT USING SETN() AND REALLOC, IT'S TOO BAD]; did normal default constructor; 2 tests; operator[]; deal w operator =; КАК ПЕРЕЙТИ НА СЛЕДУЮЩУЮ СТРОКУ finput?; что не так с передачей glob_v? ; copy constructor for children; 
 */
 class CVektor
 {
@@ -39,7 +39,7 @@ public:
     //CVektor&  operator= ( CVektor&& );  //move assignment
     size_t getN() const{ return n; }                      //getter
     //void setN(int dimension) { n = dimension; ptrArr =(float*)realloc(ptrArr, n*sizeof(float));}   //setter
-    float* getPtrArr() { return ptrArr; }
+    float* getPtrArr() const{ return ptrArr; }
     void SetZero(){ptrArr=NULL;n=0;}
     void Clean() {if(ptrArr!=NULL)delete [] ptrArr; SetZero();}
     void setPtrArr(float* arr)  { for (size_t i=0; i < n; i++ ) {ptrArr[i] = arr[i]; } } 
