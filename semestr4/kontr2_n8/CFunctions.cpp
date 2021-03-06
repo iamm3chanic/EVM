@@ -9,7 +9,7 @@
 void CVektor::CopyOnly(const CVektor &v)
     {
      if(this!=&v)
-     {memcpy(ptrArr=new float[n=v.n], v.ptrArr, v.n*sizeof(float)); }
+     {ptrArr=v.ptrArr; n=v.n; }
     }
 void CVektor::GetVektor()        //Задать вектор
     {
@@ -36,7 +36,7 @@ void CVektor::ShowVektor()       //Показать вектор
 CVektor& CVektor::operator=(const CVektor& v)
     {
         if(this!=&v) 
-        {if(ptrArr!=NULL)delete [] ptrArr;
+        {//if(ptrArr!=NULL) //delete [] ptrArr;
          CopyOnly(v);}
         return *this;
     }

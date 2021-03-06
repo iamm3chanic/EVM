@@ -33,28 +33,28 @@ class CVektor
 {
 protected:
     size_t n;                 //Размер вектора
-    float *ptrArr;     //Указатель на массив элементов
+    vector<float> ptrArr;     //Указатель на массив элементов
     //char* OutFile;
 public:
     CVektor (const CVektor&v) {CopyOnly(v);}
     CVektor()      { SetZero(); /*n=0; ptrArr = new float[n];*/ /*ptrArr = (float*)realloc(ptrArr, n*sizeof(float));*/ }
-    CVektor(size_t num)   { n = num;   ptrArr = new float [num]; memset(ptrArr,0,n*sizeof(float)); }
+    CVektor(size_t num)   { n = num;  for(size_t i=0;i<num;i++) ptrArr.push_back(0); }
     virtual ~CVektor()    { Clean(); }
     
     CVektor ( CVektor && ) = default; 	//move constructor
     //CVektor&  operator= ( CVektor&& );  //move assignment
     size_t getN() const{ return n; }                      //getter
     //void setN(int dimension) { n = dimension; ptrArr =(float*)realloc(ptrArr, n*sizeof(float));}   //setter
-    float* getPtrArr() const{ return ptrArr; }
-    void SetZero(){ptrArr=NULL;n=0;}
-    void Clean() {if(ptrArr!=NULL)delete [] ptrArr; SetZero();}
-    void setPtrArr(float* arr)  { for (size_t i=0; i < n; i++ ) {ptrArr[i] = arr[i]; } } 
+    vector<float> getPtrArr() const{ return ptrArr; }
+    void SetZero(){n=0;}
+    void Clean() {ptrArr.clear();/*if(ptrArr!=NULL)delete [] ptrArr;*/ SetZero();}
+    void setPtrArr(vector<float> arr)  { for (size_t i=0; i < n; i++ ) {ptrArr[i] = arr[i]; } } 
     void GetVektor();
     void ShowVektor();
     void CopyOnly(const CVektor &v);
     void setPos(size_t i, float f) {if(/*i<0||*/i>=n) 
-     {float *tmp=new float[i+1]; for(size_t j=0;j<n;j++){tmp[j]=ptrArr[j];} 
-     for(size_t j=n+1;j<i;j++){tmp[j]=0;} tmp[i]=f; delete[]ptrArr;ptrArr=tmp;n=i+1; }//memmove(ptrArr,tmp,(i+1)*sizeof(float));} //ptrArr=tmp; if(tmp)delete[]tmp;}
+     {vector<float> tmp; for(size_t j=0;j<n;j++){tmp.push_back(ptrArr[j]);} 
+     for(size_t j=n+1;j<i;j++){tmp.push_back(0);} tmp.push_back(f); ptrArr=tmp;n=i+1; }//memmove(ptrArr,tmp,(i+1)*sizeof(float));} //ptrArr=tmp; if(tmp)delete[]tmp;}
      //delete[]ptrArr; ptrArr=new float[i]; n=i; memcpy(ptrArr,tmp,i*sizeof(float));} 
      else ptrArr[i]=f;}
     /*const*/ CVektor& operator=(const CVektor& v);
@@ -66,8 +66,8 @@ public:
     //float &operator[](int i){if(i<0||i>n-1) throw -1; return ptrArr[i];}
 
     virtual int output(const char *FileName=NULL)=0;
-    virtual const char* getF()const=0;
-    virtual void setText(char* c)=0;
+    virtual const string getF()const=0;
+    virtual void setText(string c)=0;
     static int Input(const char *fn, vector<CVektor*> &v, vector<CFabricVektor*> &fabric);
     
  
@@ -80,23 +80,23 @@ CVektor& operator-(const CVektor &lhs, const CVektor &rhs);
 
 class CVektor0: public CVektor {
    private:
-      char OutFile[15];
+      string OutFile;
    public:
-      CVektor0 (const CVektor0 &v):CVektor(v){if(this!=&v){ strncpy(OutFile,v.OutFile,15);}}
-      CVektor0() {ptrArr=NULL;n=0;}
-      CVektor0(int num) : CVektor(num){memset(OutFile,0,15);/* n = num;   ptrArr = new float [num]; memset(ptrArr,0,n*sizeof(float));*/}
+      CVektor0 (const CVektor0 &v):CVektor(v){if(this!=&v){ OutFile=v.OutFile;}}//strncpy(OutFile,v.OutFile,sizeof(OutFile));OutFile[sizeof(OutFile)-1]='\0';}}
+      CVektor0() {n=0;}
+      CVektor0(int num) : CVektor(num){}//OutFile[sizeof(OutFile)-1]='\0';}
       //CVektor0(int num)   { n = num;   ptrArr = new float [num];  }
-      ~CVektor0()    {if(ptrArr)delete [] ptrArr; ptrArr=NULL;n=0;}
-      void CopyOnly(const CVektor0 &v) {if(this!=&v){memcpy(ptrArr=new float[n=v.getN()], v.ptrArr, v.getN()*sizeof(float)); strncpy(OutFile,v.getF(),15);}}
+      ~CVektor0()    {/*if(ptrArr)delete [] ptrArr; ptrArr=NULL;n=0;*/}
+      void CopyOnly(const CVektor0 &v) {if(this!=&v){ptrArr= v.ptrArr;n=v.getN(); OutFile=v.getF();}}
       //~CVektor0() : ~CVektor() {}
-      CVektor0 &operator=( CVektor0&b){if(this!=&b){memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN(); strcpy(OutFile,b.getF());} return *this;}
-      CVektor0 &operator=( CVektor &b){if(this!=&b){memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN();} return *this;}
+      CVektor0 &operator=( CVektor0&b){if(this!=&b){ptrArr=b.getPtrArr(); n=b.getN(); OutFile=b.getF();} return *this;}
+      CVektor0 &operator=( CVektor &b){if(this!=&b){ptrArr=b.getPtrArr(); n=b.getN();} return *this;}
       CVektor0 &operator+( CVektor &v){if(n==v.getN()){for (size_t i=0; i < n; i++ ) {ptrArr[i]= v.getPtrArr()[i]+ptrArr[i];} return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
       CVektor0 &operator-( CVektor &v){if(n==v.getN()){for (size_t i=0; i < n; i++ ) {ptrArr[i]= ptrArr[i]-v.getPtrArr()[i];} return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
-      void SetZero(){ptrArr=NULL;n=0;}
-      void Clean() {delete [] ptrArr; SetZero();}
-      const char* getF() const{return OutFile;}
-      void setText(char* c)  { strcpy(OutFile,c); } 
+      void SetZero(){n=0;}
+      void Clean() {ptrArr.clear(); SetZero();}
+      const string getF() const{return OutFile;}
+      void setText(string c)  { OutFile=c; } 
       int output(const char *FileName); //в строку
 };
 
@@ -106,23 +106,23 @@ class CVektor0: public CVektor {
 
 class CVektor1: public CVektor {
    private:
-      char OutFile[15];
+      string OutFile;
    public:
-      CVektor1 (const CVektor1 &v):CVektor(v){if(this!=&v){ strncpy(OutFile,v.OutFile,15);}}
-      CVektor1() {ptrArr=NULL;n=0;}
-      CVektor1(int num) : CVektor(num){memset(OutFile,0,15);/* n = num;   ptrArr = new float [num]; memset(ptrArr,0,n*sizeof(float));*/}
+      CVektor1 (const CVektor1 &v):CVektor(v){if(this!=&v)OutFile=v.OutFile;} //{ strncpy(OutFile,v.OutFile,sizeof(OutFile));OutFile[sizeof(OutFile)-1]='\0';}}
+      CVektor1() {n=0;}
+      CVektor1(int num) : CVektor(num){}//OutFile[sizeof(OutFile)-1]='\0';}
       //CVektor0(int num)   { n = num;   ptrArr = new float [num];  }
-      ~CVektor1()    {delete [] ptrArr; ptrArr=NULL;n=0;}
+      ~CVektor1()    {/*delete [] ptrArr; ptrArr=NULL;n=0;*/}
       //~CVektor0() : ~CVektor() {}
-      CVektor1 &operator=( CVektor1&b){if(this!=&b){memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN();} return *this;}
-      CVektor1 &operator=( CVektor&b){if(this!=&b){memcpy(ptrArr,b.getPtrArr(),b.getN()*sizeof(float)); n=b.getN();} return *this;}
+      CVektor1 &operator=( CVektor1&b){if(this!=&b){ptrArr=b.getPtrArr(); n=b.getN(); OutFile=b.getF();} return *this;}
+      CVektor1 &operator=( CVektor&b){if(this!=&b){ptrArr=b.getPtrArr(); n=b.getN();} return *this;}
       //CVektor1& operator+(const CVektor1 &v);
       //{if(n==v.getN()){CVektor1 w(n);for (size_t i=0; i < n; i++ ) {w.setPos(i,ptrArr[i]+v.getPtrArr()[i]);} *this=w;return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
       //CVektor1& operator-(const CVektor1 &v);//{if(n==v.getN()){CVektor1 w(n);for (size_t i=0; i < n; i++ ) {w.setPos(i,ptrArr[i]-v.getPtrArr()[i]);} *this=w;return *this;} else {cout << "Вектора должны быть одинаковой длины!\n"; throw -1;}}
-      void SetZero(){ptrArr=NULL;n=0;}
-      void Clean() {delete [] ptrArr; SetZero();}
-      const char* getF() const{return OutFile;}
-      void setText(char* c)  { strcpy(OutFile,c); } 
+      void SetZero(){n=0;}
+      void Clean() {ptrArr.clear(); SetZero();}
+      const string getF() const{return OutFile;}
+      void setText(string c)  { OutFile=c; } 
       int output(const char *FileName); //в столбец
 };
 
