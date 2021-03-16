@@ -1,0 +1,9 @@
+out0.txt 3 4 5 2 4 2 2
+out1.txt 2 0 3 0 0 6 5 
+out0.txt 5 2 14 1 2 1 1 1 2 2 1 
+out0.txt 4 1 5 8 7
+out0.txt 1 2 4 4 4 4 3 2
+out1.txt 5 2 4 5 7 8
+out1.txt 4 1 23 4 3 23
+out1.txt 3 2 3 2 3 2
+out1.txt 3 6 9 8 8 8 8
