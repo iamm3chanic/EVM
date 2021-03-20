@@ -1,3 +1,4 @@
+/* In Windows please uncomment lines 7 and 568 */
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
@@ -564,6 +565,6 @@ int main()
 	mergeDisplay(tree, rtree, progress);
 	//print(count1+count2-1,output, merge(tree, rtree, progress));
 
-	system("pause");
+	//system("pause");
 	return 0;
 }
