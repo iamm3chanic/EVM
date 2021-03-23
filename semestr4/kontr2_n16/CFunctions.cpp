@@ -129,7 +129,7 @@ CVector0 operator+(const CVector&a,const CVector&b)
      cout << "Вектора должны быть одинаковой длины!\n"; 
      throw -1;
   } 	
- CVector0 w(a.getPointer(),a.getN());
+ CVector0 w(a.getPointer());
  for(size_t i=0;i<w.getN();i++)
   w.setPos(i,a.getPointer()[i]+b.getPointer()[i]);
  return w;
@@ -142,7 +142,7 @@ CVector0 operator-(const CVector&a,const CVector&b)
      cout << "Вектора должны быть одинаковой длины!\n"; 
      throw -1;
   }   	
- CVector0 w(a.getPointer(),a.getN());
+ CVector0 w(a.getPointer());
  for(size_t i=0;i<w.getN();i++)
   w.setPos(i,a.getPointer()[i]-b.getPointer()[i]);
  return w;
@@ -157,7 +157,7 @@ CVector1 operator+ (const CVector1 &a, const CVector1 &b)
     }
   else 
      {
- CVector1 w(a.getPointer(),a.getN());
+ CVector1 w(a.getPointer());
  for(size_t i=0;i<w.getN();i++)
   w.setPos(i,a.getPointer()[i]+b.getPointer()[i]);
  return w;
@@ -172,7 +172,7 @@ CVector1 operator- (const CVector1 &a, const CVector1 &b)
     }
   else 
      {
- CVector1 w(a.getPointer(),a.getN());
+ CVector1 w(a.getPointer());
  for(size_t i=0;i<w.getN();i++)
   w.setPos(i,a.getPointer()[i]-b.getPointer()[i]);
  return w;

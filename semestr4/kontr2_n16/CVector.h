@@ -25,11 +25,11 @@ protected:
     vector<double> pointer;     //Указатель на массив элементов
 public:
     CVector (const CVector&v) {CopyOnly(v);}
-    CVector(const vector<double>v,int n){CopyOnly(v,n);}
+    CVector(const vector<double>v){CopyOnly(v);}
 
     CVector()      { pointer.clear(); }
     CVector(size_t num)   { /*n = num;*/  for(size_t i=0;i<num;i++) pointer.push_back(0); }
-    virtual ~CVector()    { Clean(); }
+    virtual ~CVector()    { }
     
     CVector ( CVector &&o ) {pointer=std::move(o.getPointer());} 	//move constructor
     CVector&  operator= ( CVector&& )=default;  //move assignment
@@ -38,11 +38,11 @@ public:
     vector<double> getPointer() const{ return pointer; }
 
     void Clean() {pointer.clear();}
-    void setPointer(vector<double> arr)  { pointer=arr;/*for (size_t i=0; i < n; i++ ) {pointer[i] = arr[i]; }*/ } 
+    void setPointer(vector<double> arr)  { pointer=std::move(arr); } 
     void GetVector();
     void ShowVector();
     void CopyOnly(const CVector &v);
-    void CopyOnly(const vector<double>v,int num){this->pointer=v; num=num;}
+    void CopyOnly(const vector<double>v){this->pointer=v;}
     void setPos(size_t i, double f) {if(i>=pointer.size()) 
      {vector<double> tmp; for(size_t j=0;j<pointer.size();j++){tmp.push_back(pointer[j]);} 
      for(size_t j=pointer.size()+1;j<i;j++){tmp.push_back(0);} tmp.push_back(f); pointer=tmp;/*pointer.size()=i+1; */}
@@ -72,7 +72,7 @@ class CVector0: public CVector {
       string OutFile;
    public:
       CVector0 (const CVector0 &v):CVector(v){if(this!=&v){ OutFile=v.OutFile;}}
-      CVector0 (const vector<double>v,int num): CVector(v,num){}
+      CVector0 (const vector<double>v): CVector(v){}
       CVector0() {pointer.clear();}
       CVector0(int num) : CVector(num){}
       CVector0 ( CVector0 &&v ):CVector(v){OutFile=v.OutFile;v.OutFile="";}
@@ -95,7 +95,7 @@ class CVector1: public CVector {
       string OutFile;
    public:
       CVector1 (const CVector1 &v):CVector(v){if(this!=&v)OutFile=v.OutFile;} 
-      CVector1 (const vector<double>v,int num): CVector(v,num){}
+      CVector1 (const vector<double>v): CVector(v){}
       CVector1() {pointer.clear();}
       CVector1(int num) : CVector(num){}//OutFile[sizeof(OutFile)-1]='\0';}
       CVector1 ( CVector1 &&o ) 
