@@ -26,7 +26,7 @@ protected:
     vector<double> pointer;     //Указатель на массив элементов
 public:
     CVector (const CVector&v) {CopyOnly(v);}
-    CVector(const vector<double>v){CopyOnly(v);}
+    CVector(const vector<double> &v){CopyOnly(v);}
 
     CVector()      { pointer.clear(); }
     CVector(size_t num)   {  pointer.resize(num); }
@@ -43,7 +43,7 @@ public:
     void GetVector();
     void ShowVector();
     void CopyOnly(const CVector &v);
-    void CopyOnly(const vector<double>v){if(pointer!=v) copy(v.begin(),v.end(),back_inserter(pointer));}
+    void CopyOnly(const vector<double> &v){if(pointer!=v) copy(v.begin(),v.end(),back_inserter(pointer));}
     void setPos(size_t i, double f) {if(i>=pointer.size()) 
      {vector<double> tmp; for(size_t j=0;j<pointer.size();j++){tmp.push_back(pointer[j]);} 
      for(size_t j=pointer.size()+1;j<i;j++){tmp.push_back(0);} tmp.push_back(f); pointer=tmp;/*pointer.size()=i+1; */}
