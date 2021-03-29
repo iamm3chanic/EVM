@@ -1,3 +1,4 @@
+/*Версию без члена класса n можно найти в kontr1_n16*/
 #pragma once
 #include <iostream>
 #include <fstream>
