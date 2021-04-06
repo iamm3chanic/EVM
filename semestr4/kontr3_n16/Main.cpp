@@ -1,5 +1,6 @@
 /*
  * Main.cpp
+ * Тест можно проводить на разном количестве входных данных. 
  */
 #include <iostream>
 #include "CVector.h"
