@@ -1,0 +1,138 @@
+\documentclass{article}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{setspace,amsmath}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\begin{document}
+\begin{center}
+
+
+{\large\bf Отчёт по работе с BMP-изображениями в Python-3}
+\end{center}
+\textit{З\,а\,д\,а\,н\,и\,е.}  Программа должна загрузить изображения из графических файлов InputFile1, InputFile2 (счиатется, что файлы имеют одинаковые размеры), изменить яркость всех пикселов первого изображения так, чтобы она была бы равна яркости пикселов второго изображения и вывести получившееся изображение в графический файл  OutputFile.
+ 
+\textit{Р\,е\,ш\,е\,н\,и\,е.}  Используя библиотеку PIL, можно решить эту задачу эффективнее, чем, например, imageio:
+
+\textsf{from PIL import Image, ImageDraw }
+
+Пусть изображения заданы внутри программы (на примере - "arni.bmp", "stallone.bmp"). Выгрузим их и посчитаем длину и ширину. На всякий случай, в выходном изображении сделаем минимальную из двух длин и ширин:
+
+{\usefont{T2A}{cmss}{m}{n}
+
+image = Image.open("arni.bmp")
+ 
+image2 =  Image.open("stallone.bmp") 
+
+draw = ImageDraw.Draw(image) 
+
+width = image.size[0]  
+
+height = image.size[1]  
+
+width2 = image2.size[0]  
+
+height2 = image2.size[1]  
+
+w=min(width, width2)
+
+h=min(height, height2)	
+
+pix = image.load() 
+
+pix2 = image2.load() }
+
+
+ Теперь - логика программы. Найдем среднюю яркость пикселов второго изображения и присвоим ей значение $factor $. Затем найдем среднюю яркость пикселов первого изображения и присвоим ей значение $factor1 $.
+ 
+{\usefont{T2A}{cmss}{m}{n}
+
+factor=0
+
+factor1=0
+
+for i in range(w):
+
+\tab[1cm] for j in range(h):
+
+\tab[2cm]		a = pix2[i, j][0] 
+
+\tab[2cm]		b = pix2[i, j][1] 
+
+\tab[2cm]		c = pix2[i, j][2]
+
+\tab[2cm]		factor += (a+b+c)//3
+
+\tab[2cm]		a1 = pix[i, j][0]  
+
+\tab[2cm]		b1 = pix[i, j][1] 
+
+\tab[2cm]		c1 = pix[i, j][2] 
+
+\tab[2cm]		factor1 += (a1+b1+c1)//3
+
+print("brightness of pic1: ",factor1)
+
+print("brightness of pic2: ",factor) }
+\newpage
+Теперь перестроим первое изображение так, чтобы его средняя яркость равнялась яркости второго. 
+
+{\usefont{T2A}{cmss}{m}{n}
+for i in range(w):
+
+\tab[1cm]	for j in range(h):
+
+\tab[2cm]		a1 = pix[i, j][0] + (factor - factor1)//(w*h)
+
+\tab[2cm]		b1 = pix[i, j][1] + (factor - factor1)//(w*h)
+
+\tab[2cm]		c1 = pix[i, j][2] + (factor - factor1)//(w*h)
+
+\tab[2cm]		if (a1 < 0):
+
+\tab[3cm]			a1 = 0
+
+\tab[2cm]		if (b1 < 0):
+
+\tab[3cm]			b1 = 0
+
+\tab[2cm]		if (c1 < 0):
+
+\tab[3cm]			c1 = 0
+
+\tab[2cm]		if (a1 > 255):
+
+\tab[3cm]			a1 = 255
+
+\tab[2cm]		if (b1 > 255):
+
+\tab[3cm]			b1 = 255
+
+\tab[2cm]		if (c1 > 255):
+
+\tab[3cm]			c1 = 255
+
+draw.point((i, j), (a1, b1, c1))}
+
+Сохраним изображение и очистим память от элемента $draw$:	
+	
+{\usefont{T2A}{cmss}{m}{n}
+image.save("ans.bmp", "BMP")
+
+del draw
+ }
+ 
+Чтобы передавать картинки через командную строку, в начало добавим: 
+ 
+{\usefont{T2A}{cmss}{m}{n}
+from sys import argv
+
+InputFile1, InputFile2 = argv}
+
+И после чего используем эти аргументы в коде.
+  
+\end{document}
