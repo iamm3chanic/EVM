@@ -1,0 +1,3 @@
+1 out1.txt 23 45i i -i 34-i 42+i 22+33i 4-3i
+2 out2.txt 23 45i i -i 34-i 42+i 22+33i 4-3i
+1 out3.txt 3i 4-45i
