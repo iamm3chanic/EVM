@@ -132,41 +132,39 @@ int CVector::OMPTest(const char *fn)
   }
  }
  
- t1=clock();
+ time(&t1);//clock();
     for(size_t j=0;/*(ss>>k)&&*/(j<v.size());j++)
     {
       //v[j]=v[j]*v[j];
       var= v[j] * v[j];
       var=var;
-      for(size_t count=0;count<20;count++)
+      for(size_t count=0;count<100;count++)
       {
       v[j] = v[j] + v[j];
-      v[j] = v[j] - v[j];
       var= v[j] * v[j];
       }
     }
- t2=clock();
+ time(&t2);//t2=clock();
     //float Time=(t2-t1);
     //Time=(float)(t2-t1);
  
  cout << "NON-PARALLEL FOR: TIME = "<<t2-t1<<" nanosec"<<endl;
- t3=clock();
+ time(&t3);//t3=clock();
 #pragma omp parallel for private (var) //shared(w)
     for(size_t j=0;(j<v.size());j++)
     {
       var= v[j] * v[j];
       var=var;
-      for(size_t count=0;count<20;count++)
+      for(size_t count=0;count<100;count++)
       {
       v[j] = v[j] + v[j];
-      v[j] = v[j] - v[j];
       var= v[j] * v[j];
       }
     }
- t4=clock();//localtime(&t2);
+ time(&t4);//t4=clock();//localtime(&t2);
     //float Time=(t4-t3);
  
- cout << "PARALLEL FOR: TIME = "<<(t4-t3)/4<<" nanosec"<<endl;
+ cout << "PARALLEL FOR: TIME = "<<(t4-t3)<<" nanosec"<<endl;
 return 0;
 }
 
