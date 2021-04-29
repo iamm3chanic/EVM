@@ -1,0 +1,321 @@
+\documentclass{article}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{setspace,amsmath}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\begin{document}
+\begin{center}
+
+
+{\Large\bf Отчёт по работе с BMP-изображениями в Python-3}
+\end{center}
+
+\textit{З\,а\,д\,а\,н\,и\,е.}  Написать функции, позволяющие выводить скрытые подписи изображения, поиск подписей и их проявление. 
+
+\textit{Ф\,о\,р\,м\,а\,л\,и\,з\,у\,е\,м.} Программа должна находить "вотермарки"\ изображения (исходя из логики цвета вотермарки), и изменять яркость всех пикселов с подписью на белые либо на похожие на окружающие пикселы. После чего вывести получившееся изображение в другой графический файл.
+ 
+\textit{Р\,е\,ш\,е\,н\,и\,е.}  Используя библиотеку PIL, можно решить эту задачу довольно эффективно. 
+\begin{center}
+
+{\large\bf Часть I}
+\end{center}
+ 
+Для начала опишем логику программы, рисующую подпись ($make\textunderscore mark.py$). Подключим PIL:
+
+
+\textsf{from PIL import Image, ImageDraw, ImageFont }
+
+Открываем изображение и накладываем на него текст с помощью стандартных функций библиотеки. Рисуем подпись примерно по центру тёмно-серым цветом. Шрифты "FreeMono.ttf"\ и "20443.otf"\  приложены к отчету в архиве. 
+
+{\usefont{T2A}{cmss}{m}{n}
+
+img = Image.open('pic.bmp').convert("RGBA")
+
+txt = Image.new('RGBA', img.size, (255,255,255,0))
+
+text = "lectures.stargeo.ru"
+
+font = ImageFont.truetype("FreeMono.ttf"\ , 62)
+
+d = ImageDraw.Draw(txt)
+
+width, height = img.size 
+
+textwidth, textheight = d.textsize(text, font)
+
+x=width/2-textwidth/2
+
+y=height/2-textheight
+
+d.text((x,y), text, fill=(200,200,200,100), font=font)
+ }
+
+
+ Теперь - комбинируем изображение и текст, после чего сохраняем полученное изображение.
+ 
+{\usefont{T2A}{cmss}{m}{n}
+
+watermarked = Image.alpha\textunderscore composite(img, txt)
+
+watermarked.save('pic-mark.bmp')
+}
+\newpage
+\begin{center}
+{\large\bf Часть II}
+\end{center}
+
+Опишем логику программы, стирающую подпись ($del\textunderscore mark.py$), для начала подключив PIL и numpy:
+
+\textsf{from PIL import Image, ImageDraw, ImageFont} 
+
+\textsf{import numpy as np}
+
+Опишем две функции: select\textunderscore pixel2(r,g,b,a) и handle(imgs). Первая отвечает за поиск пиксела нужного цвета и яркости, вторая - за замену на белый цвет в случае нахождения.
+
+{\usefont{T2A}{cmss}{m}{n}
+       
+def select\textunderscore pixel2(r,g,b,a):
+
+\tab[1cm] if r > 175 and r < 255 and g > 175 and g < 255 and b > 175 and b < 255 and a>0:
+
+\tab[2cm]        return True
+ 
+\tab[1cm]    else:
+
+\tab[2cm]        return False
+        
+def handle(imgs):
+
+\tab[1cm]    for  i in range(imgs.shape[0]):
+    
+\tab[2cm]        for j in range(imgs.shape[1]):
+            
+\tab[3cm]            if select$\textunderscore $pixel2(imgs[i][j][0],imgs[i][j][1],imgs[i][j][2],imgs[i][j][3]):
+               
+\tab[4cm]                imgs[i][j][0] =  imgs[i][j][1] = imgs[i][j][2] = 255
+                
+\tab[4cm]                imgs[i][j][3] = 0
+           
+\tab[1cm]    return imgs
+
+ }
+
+
+ Теперь - откроем изображение, после чего пеобразуем его в массив numpy. В массиве с помощью handle(img) найдём и замением нужные пикселы. После чего обратно преобразуем массив в картинку и сохраним ее.
+ 
+{\usefont{T2A}{cmss}{m}{n}
+
+img = Image.open('pic-mark.bmp').convert("RGBA")
+ 
+img = np.array(img)
+ 
+iii = handle(img)
+ 
+im = Image.fromarray(np.uint8(iii))
+
+im.save('img.bmp')
+} 
+ 
+\newpage
+\begin{center}
+{\large\bf Часть III}
+\end{center}
+Улучшаем модель. Для наглядности наложим знак другим шрифтом и будем заполнять пространство внутри бывшей скрытой надписи средним значением окружающих ее пикселов.
+  
+{\usefont{T2A}{cmss}{m}{n}
+def to$\textunderscore $border(img,i,j):
+
+\tab[1cm]    i1,i2,i3,i4,j1,j2,j3,j4=i,i,i,i,j,j,j,j
+
+\tab[1cm]    r=img[i][j][0]
+
+\tab[1cm]    g=img[i][j][1]
+
+\tab[1cm]    b=img[i][j][2]
+
+\tab[1cm]    r0,g0,b0=0,0,0
+
+\tab[1cm]    k,pix=img[i][j],img[i][j]
+
+\tab[1cm]    while abs(k[0]-pix[0])<5 and abs(k[1]-pix[1])<5 and abs(k[2]-pix[2])<5 :
+
+\tab[2cm]       i1+=1
+
+\tab[2cm]        j1+=1
+
+\tab[1cm]        if i1 < img.shape[0] and j1 < img.shape[0]:
+
+\tab[2cm]            k=img[i1][j1]
+  }            
+  
+ Последнее означает, что пока цвет пиксела k не сильно отличается от pix, мы идём к границе. 
+ Таких циклов можно создать несколько, чтобы попасть на разные точки границы, после чего усреднить значение их цветов и этим значением наградить серый пиксел внутри вотермарки.
+ 
+ {\usefont{T2A}{cmss}{m}{n}
+ for count in range(5):
+
+\tab[1cm]        if i1+count < img.shape[0] and j1+count < img.shape[1]:
+
+\tab[2cm]            r0 += img[i1+count][j1+count][0] 
+
+\tab[2cm]            g0 += img[i1+count][j1+count][1]
+
+\tab[2cm]            b0 += img[i1+count][j1+count][2]
+
+\tab[1cm]        else:
+
+\tab[2cm]           r0,g0,b0 = 255*5,255*5,255*5
+
+\tab[1cm]    r0//=5
+
+\tab[1cm]    g0//=5
+
+\tab[1cm]    b0//=5
+
+\tab[1cm]    gone = i1-i,j1-j
+
+\tab[1cm]    return r0,g0,b0,gone}
+  
+  Функция возвращает показатели r0,g0,b0 и gone - количество шагов до границы (здесь код сильно упрощён).
+  
+  Но как же применять этот обход? Если так поступать с каждым пикселом, да еще и идти в разные стороны, то получим очень больше время работы (проверено!). Поэтому логично придумать функцию с обходом серой области.
+  
+  \newpage
+\begin{center}
+{\large\bf Часть IV}
+\end{center}
+ 
+Опишем 2 функции: Water(a) и recurse(px,area,i,j,x,y). Первая показывает, серый (вотермарка ли) пиксел а (анналог функции select\textunderscore pixel2). Вторая рекурсивно обходит область с найденным пикселом.
+  
+ {\usefont{T2A}{cmss}{m}{n} 
+def Water(a):
+
+\tab[1cm]	return a[0] > 175 and a[0] <= 255 and a[1] > 175 and a[1] <= 255 and a[2] > 175 and a[2] <= 255 and a[3]>=0 and a[3]<80
+	
+def recurse(px,area,i,j,x,y):
+
+\tab[1cm]	brush=1
+
+\tab[1cm]	if (i,j) not in area:
+
+\tab[2cm]		if Water(px[i,j]):
+
+\tab[3cm]			area[i,j]=px[i,j]
+
+\tab[3cm]			for i1 in range(i-brush,i+brush):
+
+\tab[4cm]				for j1 in range(j-brush,j+brush):
+
+\tab[4cm]					if i1>0 and j1>0 and i1<x and j1<y:
+
+\tab[5cm]						recurse(px,area,i1,j1,x,y)
+
+						}
+						  
+Только теперь мы будем отдельно обходить области, не заходя повторно в одну и ту же. Ниже приведен такой алгоритм. Для упрощения код немного сокращен.
+
+ {\usefont{T2A}{cmss}{m}{n} 
+
+for i in range(x):
+
+\tab[1cm]	for j in range(y):
+		
+\tab[2cm]		px2[i,j]=px[i,j]
+
+\tab[2cm]		flag=False
+
+\tab[2cm]		for k in range(count):
+
+\tab[3cm]			if (i,j) in areas[k]:
+
+\tab[4cm]				flag=True
+
+\tab[2cm]		if flag==True:
+
+\tab[3cm]			continue
+
+\tab[2cm]		else:
+
+\tab[3cm]			if Water(px[i,j]):
+
+\tab[4cm]				tmp={}
+
+\tab[4cm]				wave(px,tmp,i,j,x,y)
+
+\tab[4cm]				areas[count]=tmp
+
+\tab[4cm]				count=count+1
+ 
+ 
+ } 
+
+Далее приведен код для замены пикселов в серых областях на среднее значение в этой области:
+
+ {\usefont{T2A}{cmss}{m}{n} 
+ for tmp in areas.keys():
+
+\tab[1cm]	for tmp1 in areas[tmp].keys():
+
+\tab[2cm]		brush1=(x*y)//(100000)
+
+\tab[2cm]		for ii in range(tmp1[0]-brush1,tmp1[0]+brush1):
+
+\tab[3cm]			for jj in range(tmp1[1]-brush1,tmp1[1]+brush1):
+
+\tab[4cm]				if ii>0 and jj>0 and ii<x and jj<y:
+					
+\tab[5cm]					px2[ii,jj]=px[ii,jj][0]//2,px[ii,jj][1]//2,px[ii,jj][2]//2
+ 
+ 
+ }
+ 
+  \newpage
+\begin{center}
+{\large\bf Часть V}
+\end{center}
+ 
+Таким образом программа работает. Можно немного ее ускорить и просто заменять серые пикселы на среднее значение всех в области или на всей картинке, от чего, возможно, пострадает качество, но время работы очень порадует. Здесь приведена функция для нахождения среднего значения цвета на всей картинке. Здесь подразумевается, что мы перевели картинку в формат RGBA, то есть массив img[i, j] имеет 4 компоненты.
+  
+ {\usefont{T2A}{cmss}{m}{n}
+ def middle(img):
+ 
+\tab[1cm]   for i in range(img.shape[0]):
+
+\tab[2cm]        for j in range(img.shape[1]):
+
+\tab[3cm]            a,b,c,d = img[i, j]
+
+\tab[1cm]    return a,b,c,d
+
+ }
+И напоследок напишем функцию, принимающую массив numpy и сохраняющую вотермарку в отдельный файл. 
+  
+{\usefont{T2A}{cmss}{m}{n}  
+def save$\textunderscore $mark(imgs):
+
+\tab[1cm]    print("saving mark...")
+
+\tab[1cm]    im2=Image.new("RGBA", (imgs.shape[1], imgs.shape[0]), (255, 255, 255, -100))
+
+\tab[1cm]    im2 = np.array(im2)
+
+\tab[1cm]    for i in range(imgs.shape[0]):
+
+\tab[2cm]        for j in range(imgs.shape[1]):
+
+\tab[3cm] if select$\textunderscore $pixel2(imgs[i][j][0],imgs[i][j][1],imgs[i][j][2],imgs[i][j][3]):
+
+\tab[4cm]                im2[i][j]= imgs[i][j]
+
+\tab[1cm]    im = Image.fromarray(np.uint8(im2))
+
+\tab[1cm]    im.save('mark.bmp')
+
+    }  
+  
+\end{document}
