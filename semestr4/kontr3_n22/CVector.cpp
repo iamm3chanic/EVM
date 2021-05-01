@@ -47,7 +47,10 @@ double CVector::operator*(const CVector& b) {
 		return res;
 	}
 }
-
+CVector& CVector::operator*(const double b) {
+		for (int i = 0; i < length(); i++) v[i]*=b;
+		return *this;
+}
 
 Temp CVector::operator[](int i) {
 	if (i < 0) {
@@ -107,8 +110,9 @@ int CVector::OMPTest(const char *fn)
 {
  cout << "Starting Parallel Test."<<endl;
  float  var; time_t t1,t2,t3,t4;
- vector<CVectorHori> v; vector<double> p;
+ vector<CVectorHori> v; vector<double> p; vector<double> control;
  ifstream f(fn); string str;
+ ofstream f1("log.txt");//,f2("2.txt");
  while(getline(f,str))
  {
  //cout<<str<<endl;
@@ -132,17 +136,20 @@ int CVector::OMPTest(const char *fn)
   }
  }
  
+ control.resize(v.size());
+ 
  time(&t1);//clock();
-    for(size_t j=0;/*(ss>>k)&&*/(j<v.size());j++)
+    for(size_t j=0;(j<v.size());j++)
     {
-      //v[j]=v[j]*v[j];
-      var= v[j] * v[j];
-      var=var;
-      for(size_t count=0;count<100;count++)
-      {
+      //for(size_t count=0;count<100;count++)
+      //{
       v[j] = v[j] + v[j];
       var= v[j] * v[j];
-      }
+      v[j] = v[j] * 0.5;
+      control[j] = var;
+     // }
+     // for (auto i = v[j].v.begin(); i != v[j].v.end(); ++i) f1 << *i <<' ';
+	//f1 << " var="<<var<< endl; // output in file to check 
     }
  time(&t2);//t2=clock();
     //float Time=(t2-t1);
@@ -153,18 +160,26 @@ int CVector::OMPTest(const char *fn)
 #pragma omp parallel for private (var) //shared(w)
     for(size_t j=0;(j<v.size());j++)
     {
-      var= v[j] * v[j];
-      var=var;
-      for(size_t count=0;count<100;count++)
-      {
+     // for(size_t count=0;count<100;count++)
+     // {
       v[j] = v[j] + v[j];
       var= v[j] * v[j];
-      }
+      v[j] = v[j] * 0.5;
+      control[j] -= var;
+      //}
+      //for (auto i = v[j].v.begin(); i != v[j].v.end(); ++i) f2 << *i << ' ';
+	//f2 << " var="<<var<< endl; // output in file to check //f2<<v[j]; - break because of OMP
     }
  time(&t4);//t4=clock();//localtime(&t2);
     //float Time=(t4-t3);
  
  cout << "PARALLEL FOR: TIME = "<<(t4-t3)<<" nanosec"<<endl;
+ 
+ bool check=0;
+ for(size_t k=0; k<control.size(); k++) {if(control[k]>0 || control[k]<0) {f1<<"error on number "<<k;check=1;}}
+ if(!check) f1<<"TEST PASSED!";
+ 
+ f1.close();  f.close(); //f2.close();
 return 0;
 }
 

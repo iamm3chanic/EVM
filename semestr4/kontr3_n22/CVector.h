@@ -38,6 +38,7 @@ public:
 	vector<double> Vector()const;
 	const double& operator[](int i) const;
 	double operator*(const CVector& b);
+	CVector& operator*(const double b);
 	Temp operator[](int i);
 	friend class Temp;
 	friend CVectorHori operator+(const CVector& a, const CVector& b);
