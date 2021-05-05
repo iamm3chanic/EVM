@@ -6,6 +6,7 @@ https://lectures.stargeo.ru/
 Лучшие задачи:
 - файловая система, основанная на В-дереве (версия с динамической памятью) : https://github.com/iamm3chanic/EVM/tree/master/semestr3/task2_n14_v1
 - файловая система, основанная на В-дереве (версия со статической памятью) : https://github.com/iamm3chanic/EVM/tree/master/semestr3/task2_n14_v2
+- проект по рисованию и удалению водяного знака : https://github.com/iamm3chanic/EVM/tree/master/semestr4/kontr5_n8
 
 Все задачи в репозитории проверены.
 Чтобы пополнить список решенных задач, сделайте **pull request** или пишите сюда:  
