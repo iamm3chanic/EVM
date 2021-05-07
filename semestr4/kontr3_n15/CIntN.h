@@ -16,6 +16,8 @@
 #include <algorithm>
 #include <math.h>
 #include <omp.h>
+#include <time.h>
+#include <ctime>
 #include <string.h>
 #include <string>
 #include <vector>
