@@ -226,6 +226,7 @@ CIntN1 operator+ (const CIntN1 &a, const CIntN1 &b)
  return w;
   }
 }
+
 CIntN1 operator- (const CIntN1 &a, const CIntN1 &b)
 {
  if(a.getN()!=b.getN())
@@ -242,6 +243,10 @@ CIntN1 operator- (const CIntN1 &a, const CIntN1 &b)
      }
 }
 
+CIntN& CIntN::operator*(const double b) {
+		for (size_t i = 0; i < this->pointer.size(); i++) pointer[i]*=b;
+		return *this;
+}
 /*unsigned short int CIntN::operator *(const CIntN &v)
     {
       unsigned short int r=0;
@@ -314,62 +319,72 @@ return cin;
 int CIntN::OMPTest(const char *fn)
 {
  cout << "Starting Parallel Test."<<endl;
- //clock_t t1,t2,t3,t4;
+ //unsigned short int var;
  time_t T1,T2;
- vector<CIntN0> v; vector<unsigned short int> p;
- ifstream f(fn); string str;
+ vector<CIntN0> v; 
+ vector<unsigned short int> p;
+ vector<unsigned short int> control, control_p; //для проверки результата
+ unordered_map<char, int>  c1;
+ unordered_map<char, int>::   hasher hfn = c1.hash_function();
+
+ ifstream f(fn); 
+ ofstream f1("check-log.txt");
+ string str;
  while(getline(f,str))
  {
- //cout<<str<<endl;
   stringstream ss(str); istream_iterator<string> it(ss);
-  //it=ss;
   if(it!=istream_iterator<string>())
   {
    
     CIntN0 w(p);
     size_t i; 
- 
     
     ++it;
     for(i=0;it!=istream_iterator<string>();++it,i++) 
      {
       (w).setPos(i,atof(it->c_str()));  
-
      }
     v.push_back(w);
    
   }
  }
+ cout<<"Size = "<<v.size()<<endl;
+ control.resize(v.size()); control_p.resize(v.size());//теперь вектора одного размера
  
- //t1=clock();
- T1 = time(NULL);
+ time(&T1);
     for(size_t j=0;(j<v.size());j++)
     {
-      for(size_t count=0;count<1000000;count++)
-      {
+      unsigned short int checker=0;
       v[j] = v[j] + v[j];
-      v[j] = v[j] - v[j];
-      }
+      for(size_t k=0;k<v[j].getN();k++) {checker+=v[j][k];}
+      control[j] = hfn(checker);
+      v[j] = v[j] * 0.5;
+      //control[j] = var;
     }
  //t2=clock();
- T2 = time(NULL);
+ time(&T2);
     //float Time=(t2-t1);
     //Time=(float)(t2-t1);
  
  cout << "NON-PARALLEL FOR: TIME = "<<T2-T1<<" sec"<<endl;
- T1 = time(NULL);
-#pragma omp parallel for 
+ time(&T1);//T1 = time(NULL);
+#pragma omp parallel for //private (var)
     for(size_t j=0;(j<v.size());j++)
     {
-      for(size_t count=0;count<1000000;count++)
-      {
+      unsigned short int checker=0;
       v[j] = v[j] + v[j];
-      v[j] = v[j] - v[j];
-      }
+      for(size_t k=0;k<v[j].getN();k++) {checker+=v[j][k];}
+      control_p[j] = hfn(checker);
+      v[j] = v[j] * 0.5;
+     // control[j] -= var;
     }
- T2 = time(NULL);
-    //float Time=(t4-t3);
+ time(&T2);//T2 = time(NULL);
+ bool check=0;
+ for(size_t k=0; k<control.size(); k++) //проверка на равенство хеш-сумм
+ {if(!(control[k]==control_p[k])) {f1<<"error on number "<<k<<endl;check=1;break;}}
+ if(!check) f1<<"TEST PASSED!"<<endl;
  
+ f1.close(); f.close();
  cout << "PARALLEL FOR: TIME = "<<T2-T1<<" sec"<<endl;
 return 0;
 }

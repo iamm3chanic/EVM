@@ -16,12 +16,13 @@
 #include <algorithm>
 #include <math.h>
 #include <omp.h>
-#include <time.h>
-#include <ctime>
 #include <string.h>
 #include <string>
+#include <ctime>
+#include <time.h>
 #include <vector>
 #include <cstdlib>
+#include <unordered_map>
 
 using namespace std;
 //--------------------------------------------------------------
@@ -43,7 +44,8 @@ public:
     virtual ~CIntN()    { }
     
     CIntN ( CIntN &&o ) {pointer=std::move(o.getPointer());} 	//move constructor
-    CIntN&  operator= ( CIntN&& )=default;  //move assignment
+    CIntN& operator= ( CIntN&& )=default;  //move assignment
+    CIntN& operator*(const double b);
     size_t getN() const{ return pointer.size(); }                      //getter
     vector<unsigned short int> getPointer() const{ return pointer; }
 
