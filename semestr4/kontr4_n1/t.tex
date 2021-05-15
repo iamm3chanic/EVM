@@ -1,0 +1,118 @@
+\documentclass{article}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{setspace,amsmath}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\begin{document}
+\begin{center}
+\Large\bf Простая задача на работу с BMP-изображениями в Python
+\end{center}
+
+{\large\bf Задание:}
+
+Формат вызова программы должен быть следующим\\
+./prog N InputFile OutputFile
+
+Программа должна загрузить изображение из графического файла InputFile, создать вокруг введенного изображения черную рамку ширины N (ширина и высота изображения, при этом, увеличиваются на 2N).
+
+{\large\bf Решение:}
+
+Установим сначала библиотеку: Pillow. Подключим также модуль Sys для работы с аргументами командной строки.
+
+{\usefont{T2A}{cmss}{m}{n}
+import sys
+
+from PIL import Image, ImageDraw}
+
+Изображение для нас - это список, индексируемый парой чисел (кортежем). Откроем его.
+
+{\usefont{T2A}{cmss}{m}{n}
+im=Image.open(sys.argv[2])
+
+x,y=im.size
+
+px=im.load()}
+
+Создадим новый список длиной и шириной на 2N больше исходного избражения. Каждый элемент этого списка - тройка чисел - интенсивность красного, зеленого и синего цветов.
+Зададим условие копирования пикселя из старого изображения в новое: пиксель старого избражения (x,y) -> (x+N, y+N) пиксель нового.
+
+{\usefont{T2A}{cmss}{m}{n}
+\#получили число пикселей в рамке
+
+n=int(sys.argv[1])
+
+\#создали новое изображение
+
+im2=Image.new("RGB", (x+2*n, y+2*n), (0, 0, 0))
+
+px2=im2.load()
+
+for i in range(x+2*n):
+
+\tab[1cm]	for j in range(y+2*n):
+
+\tab[2cm]		if i>n and i<x+n and j>n and j<y+n:
+
+\tab[3cm]			r1,g1,b1=px[i-n,j-n]
+
+\tab[3cm]			px2[i,j]=r1,g1,b1
+
+\tab[2cm]		else:
+
+\tab[3cm]			px2[i,j]=0,0,0}
+
+Остальные элементы заполним черным цветом, то есть тремя нулями.
+
+Сохраним новое изображение в OutputFile.
+
+{\usefont{T2A}{cmss}{m}{n}
+im2.save(sys.argv[3])}
+
+Программа вызывается из командной строки следующим образом:
+
+{\usefont{T2A}{cmss}{m}{n}
+python3 ramka.py 50 pic.bmp result.bmp}
+
+\newpage
+{\large\bf Код полностью:}
+
+{\usefont{T2A}{cmss}{m}{n}
+import sys
+
+from PIL import Image, ImageDraw
+
+im=Image.open(sys.argv[2])
+
+x,y=im.size
+
+px=im.load()
+
+n=int(sys.argv[1])
+
+im2=Image.new("RGB", (x+2*n, y+2*n), (0, 0, 0))
+
+px2=im2.load()
+
+for i in range(x+2*n):
+
+\tab[1cm]	for j in range(y+2*n):
+
+\tab[2cm]		if i>n and i<x+n and j>n and j<y+n:
+
+\tab[3cm]			r1,g1,b1=px[i-n,j-n]
+
+\tab[3cm]			px2[i,j]=r1,g1,b1
+
+\tab[2cm]		else:
+
+\tab[3cm]			px2[i,j]=0,0,0
+
+im2.save(sys.argv[3])
+}
+
+\end{document}
