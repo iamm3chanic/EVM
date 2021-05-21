@@ -1,0 +1,97 @@
+\documentclass{article}
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{setspace,amsmath}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\begin{document}
+\begin{center}
+{\large\bf Отчёт по работе с BMP-изображениями в Python}
+\end{center}
+
+\textit{Задача:} Программа должна загрузить изображения из графических файлов InputFile1, InputFile2, обнулить значения всех пикселов в первом изображении, для которых соответствующий пиксел во втором изображении нулевой и вывести получившееся изображение в графический файл OutputFile. Под нулевыми пикселами подразумеваются пикселы, для которых все три компоненты равны 0.
+
+ 
+\textit{Решение:}  Для решения задачи булем использовать библиотеку PIL:
+
+\textsf{from PIL import Image, ImageDraw }
+
+А также будем использовать библиотеку sys для загрузки файлов из командной строки:
+
+\textsf{import sys}
+
+Загружаем изображения, ищем их размеры, чтобы случайно не выйти за границы при перекрашивании пикселов. Для этого финальное изображение будет минимальным по ширине и длине.
+
+{\usefont{T2A}{cmss}{m}{n}
+
+image = Image.open(sys.argv[1]) 
+
+image2 = Image.open(sys.argv[2]) 
+
+draw = ImageDraw.Draw(image)  
+
+width = image.size[0]  
+
+height = image.size[1]  
+
+width2 = image2.size[0] 
+
+height2 = image2.size[1] 
+
+w=min(width, width2)
+
+h=min(height, height2)
+
+pix = image.load() 
+
+pix2 = image2.load() }
+
+
+Далее начинаем работать с этими изображениями. Наша цель - найти все нулевые пикселы второго изображения. Будем перебирать их с помощью двойного цикла совместно с пикселами первого изображения
+ 
+{\usefont{T2A}{cmss}{m}{n}
+
+for i in range(w):
+
+\tab[0.5cm] for j in range(h):
+
+\tab[1cm] a = pix2[i, j][0] 
+
+\tab[1cm] a = pix[i, j][0]
+
+\tab[1cm] b = pix[i, j][1]
+
+\tab[1cm] c = pix[i, j][2]
+
+\tab[1cm] a1 = pix2[i, j][0]
+
+\tab[1cm] b1 = pix2[i, j][1]
+
+\tab[1cm] c1 = pix2[i, j][2] }
+
+В том же цикле тут же будем менять цвет пиксела первого изображения на цвет пиксела второго, если условие (0,0,0) для цвета соблюдено. Для этого будем заново рисовать на нашем первом изображении с помощью команды $point$.
+
+\newpage
+
+{\usefont{T2A}{cmss}{m}{n}
+if a1==0 and b1==0 and c1==0:
+
+\tab[0.5cm] draw.point((i, j), (a1, b1, c1))
+	    
+else:
+		     
+\tab[0.5cm] draw.point((i, j), (a, b, c))}
+
+Сохраним изображение и очистим память от элемента $draw$:	
+	
+{\usefont{T2A}{cmss}{m}{n}
+image.save(sys.argv[3])
+
+del draw
+ }
+  
+\end{document}
