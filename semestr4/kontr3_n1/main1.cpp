@@ -1,5 +1,5 @@
 #include"class.h"
-#define NUMBER 1000000
+#define NUMBER 100000000
 #define COUNTER 5000
 
 void test1()
@@ -60,9 +60,10 @@ try {
 void test3()
 {
 try {
- CComplexVector2 a,b;
+ CComplexVector2 a,b,c;
  a.resize(NUMBER);
  b.resize(NUMBER);
+ c.resize(NUMBER);
  //#pragma omp parallel for
  cout << "Setting Random values in a vector."<<endl;
  for(int i=0;i<NUMBER;i++)
@@ -71,39 +72,50 @@ try {
   float im = -100 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(200)));
   ComplexNumber tmp(re,im);
   a[i]=tmp;
-  b[i]=tmp;
+  re = -100 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(200)));
+  im = -100 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(200)));
+  ComplexNumber tmp1(re,im);
+  b[i]=tmp1;
  }
- a.input("t.txt");
+ //a.input("t.txt");
  //cout<<a<<endl;
  cout << "Starting Parallel Test."<<endl;
- float Time=0; time_t t1,t2;
+ //float Time=0; time_t t1,t2;
  ComplexNumber var;
- time(&t1);
-    for(int count=0;count<COUNTER;count++)
+ //time(&t1);
+ chrono::time_point<chrono::system_clock> start = chrono::system_clock::now();
+    //for(int count=0;count<COUNTER;count++)
     for(size_t j=0;(j<a.Size());j++)
     {
-      a[j]=a[j]+a[j];
-      var= a[j] * a[j];
-      a[j]=a[j]-2;
+      c[j]=a[j]+b[j];
+      var= a[j] * b[j];
+      //a[j]=a[j]-2;
     }
- time(&t2);
-    Time=static_cast<float>(t2-t1);
- cout << "NON-PARALLEL FOR: TIME = "<<Time<<"sec"<<endl;
+ //time(&t2);
+ chrono::time_point<chrono::system_clock> end = chrono::system_clock::now();
+    //Time=static_cast<float>(t2-t1);
+ int elapsed_ms = static_cast<int>(chrono::duration_cast<chrono::milliseconds>(end-start).count());
+ cout << "NON-PARALLEL FOR: TIME = "<<elapsed_ms<<" millisec"<<endl;
 
  //одинаковые начальные условия
- time(&t1);
-#pragma omp parallel for private (var)
-    for(int count=0;count<COUNTER;count++)
+ //time(&t1);
+ start = chrono::system_clock::now();
+
+    //for(int count=0;count<COUNTER;count++)
+    #pragma omp parallel for private (var)
     for(size_t j=0;(j<b.Size());j++)
     {
-      b[j] = b[j] + b[j];
-      var= b[j] * b[j];
-      b[j]=b[j]-2;
+      c[j] = a[j] + b[j];
+      var= a[j] * b[j];
+      //b[j]=b[j]-2;
     }
- time(&t2);
-    Time=static_cast<float>(t2-t1);
+ end = chrono::system_clock::now();
+ elapsed_ms = static_cast<int>(chrono::duration_cast<chrono::milliseconds>(end-start).count());
+ cout << "NON-PARALLEL FOR: TIME = "<<elapsed_ms<<" millisec"<<endl;
+ //time(&t2);
+  //  Time=static_cast<float>(t2-t1);
  
- cout << "PARALLEL FOR: TIME = "<<Time<<"sec"<<endl;
+ //cout << "PARALLEL FOR: TIME = "<<Time<<"sec"<<endl;
 } catch(...) {cout << "error\n" <<endl;}
 }
 

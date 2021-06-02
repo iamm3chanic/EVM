@@ -6,6 +6,8 @@
 #include<vector>
 #include<omp.h>
 #include<ctime>
+#include<time.h>
+#include<chrono>
 #include<random>
 using namespace std;
 class CFabrics;
