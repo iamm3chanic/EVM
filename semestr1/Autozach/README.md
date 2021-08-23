@@ -5,4 +5,4 @@
 Списывать на свой страх и риск.  
 Письма благодарности присылать на почту *Callmedron@yandex.ru*  или *andreyfrendak@yandex.ru*  
 Гневные отзывы не присылать :)  
-P.S. Заметка от [@iamm3chanic](https://github.com/iamm3chanic) : замечания по работе программ пишите в issues или telegram: https://t.me/g1455_0f_p0rtw1n3
+P.S. Заметка от [@iamm3chanic](https://github.com/iamm3chanic) : замечания по работе программ пишите в [issues](https://github.com/iamm3chanic/EVM/issues) или telegram: https://t.me/g1455_0f_p0rtw1n3
